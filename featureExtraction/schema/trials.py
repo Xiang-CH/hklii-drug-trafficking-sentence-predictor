@@ -307,8 +307,8 @@ class ChargeDetail(BaseModel):
         "Conspiracy to Traffic: Conspiracy to traffic in a dangerous drug/dangerous drugs \n"
         "**Ignore other types of charges**"
     )
-    defendants: List[str] = Field(
-        description="List of defendant names associated with this charge"
+    defendant: str = Field(
+        description="Name of the defendant associated with this charge"
     )
     source: str = Field(
         description="The exact match source text from which the charge type was extracted"

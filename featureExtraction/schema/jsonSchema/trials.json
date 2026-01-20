@@ -72,13 +72,10 @@
                     "$ref": "#/$defs/ChargeType",
                     "description": "Type of charge:\nActual Trafficking: Trafficking in a dangerous drug/dangerous drugs or \nConspiracy to Traffic: Conspiracy to traffic in a dangerous drug/dangerous drugs \n**Ignore other types of charges**"
                 },
-                "defendants": {
-                    "description": "List of defendant names associated with this charge",
-                    "items": {
-                        "type": "string"
-                    },
-                    "title": "Defendants",
-                    "type": "array"
+                "defendant": {
+                    "description": "Name of the defendant associated with this charge",
+                    "title": "Defendant",
+                    "type": "string"
                 },
                 "source": {
                     "description": "The exact match source text from which the charge type was extracted",
@@ -88,7 +85,7 @@
             },
             "required": [
                 "type",
-                "defendants",
+                "defendant",
                 "source"
             ],
             "title": "ChargeDetail",
