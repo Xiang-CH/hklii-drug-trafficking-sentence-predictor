@@ -13,10 +13,10 @@ from langfuse import observe
 from schema import Judgement, Defendants, Trials
 from utils.htmlToText import html_to_text_with_tables
 
-from dotenv import load_dotenv
-load_dotenv()
-
 from langfuse import Langfuse
+from dotenv import load_dotenv
+
+load_dotenv()
 langfuse = Langfuse()
 
 RERUN_ALL = False
@@ -44,6 +44,7 @@ client = openai.OpenAI(
     base_url=os.getenv("OPENAI_BASE_URL"),
 )
 
+
 @observe(name="extract_feature.callLLM")
 def callLLM(schema_name, schema_model, case_txt, judgement_type, output_path):
     langfuse.update_current_trace(
@@ -58,7 +59,7 @@ def callLLM(schema_name, schema_model, case_txt, judgement_type, output_path):
                 error_context = f"\n\nPrevious attempt failed with error: {last_error}. Please try again carefully."
 
             response = client.responses.parse(
-                name = f"{schema_name}-feature-extraction-{attempt + 1}",
+                name=f"{schema_name}-feature-extraction-{attempt + 1}",
                 model="gpt-5-mini",
                 instructions=f"Extract {schema_name} according to the provided schema. "
                 "If a feature is not mentioned in the case, set the corresponding field to null, but check the case text thoroughly."
@@ -77,7 +78,9 @@ def callLLM(schema_name, schema_model, case_txt, judgement_type, output_path):
                 parent_trace_id = langfuse.get_current_trace_id()
 
             langfuse.update_current_trace(
-                output={"extracted_data": response.output_parsed.model_dump_json(indent=2)}
+                output={
+                    "extracted_data": response.output_parsed.model_dump_json(indent=2)
+                }
             )
 
             with open(output_path, "w") as f:
@@ -95,11 +98,12 @@ def callLLM(schema_name, schema_model, case_txt, judgement_type, output_path):
                 )
                 raise
 
+
 for judgement_type in tqdm(judgement_types, desc="Judgement Types"):
     os.makedirs(f"schema/exampleOutput/{judgement_type}", exist_ok=True)
 
     # Load case file
-    if judgement_type in  ["corrigendum", "appeal"]:
+    if judgement_type in ["corrigendum", "appeal"]:
         if judgement_type == "corrigendum":
             judgement_path_1 = os.path.join(
                 judgement_base_path, "case-with-corrigendum.htm"
@@ -113,9 +117,8 @@ for judgement_type in tqdm(judgement_types, desc="Judgement Types"):
             case_html = BeautifulSoup(f.read(), "html.parser")
         with open(judgement_path_2, "r") as f:
             case_html_2 = BeautifulSoup(f.read(), "html.parser")
-        case_txt = (
-            html_to_text_with_tables(case_html)
-            + html_to_text_with_tables(case_html_2)
+        case_txt = html_to_text_with_tables(case_html) + html_to_text_with_tables(
+            case_html_2
         )
     else:
         judgement_path = os.path.join(judgement_base_path, judgement_type + ".htm")
@@ -126,14 +129,14 @@ for judgement_type in tqdm(judgement_types, desc="Judgement Types"):
     case_txt = re.sub(r"\n\s*\n", "\n\n", case_txt)  # Remove excessive newlines
     case_txt = case_txt.strip()
     # print(case_txt)
-    
+
     # Extract features
     for schema_name, schema_model in tqdm(schemas, desc="Schemas", leave=False):
         output_path = f"schema/exampleOutput/{judgement_type}/{schema_name}.json"
 
         if not RERUN_ALL and os.path.exists(output_path):
             continue
-        
+
         callLLM(schema_name, schema_model, case_txt, judgement_type, output_path)
         langfuse.flush()
 
