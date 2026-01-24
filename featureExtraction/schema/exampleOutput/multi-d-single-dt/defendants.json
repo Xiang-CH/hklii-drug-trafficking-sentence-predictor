@@ -1,18 +1,19 @@
 {
   "defendants": [
     {
+      "defendant_id": 1,
       "defendant_name": {
-        "name": "Hui Kwai-chung, Dick",
+        "name": "Hui Kwai-chung, Dick (許貴仲) (A1)",
         "source": "Hui Kwai-chung, Dick (許貴仲) (A1)"
       },
       "nationality": null,
       "age_at_offence": {
         "age": 36,
-        "source": "The 1st defendant is 39 years of age. He was 36 years old at the time of the offence."
+        "source": "He was 36 years old at the time of the offence."
       },
       "age_at_sentencing": {
         "age": 39,
-        "source": "The 1st defendant is 39 years of age. He was 36 years old at the time of the offence."
+        "source": "The 1st defendant is 39 years of age."
       },
       "gender": {
         "gender": "Male",
@@ -20,12 +21,12 @@
       },
       "marital_status": {
         "status": "Separated/divorced",
-        "source": "He was divorced and lived together with his family members."
+        "source": "He was divorced"
       },
       "parental_status": null,
       "household_composition": {
         "composition": "Lives with family",
-        "source": "He was divorced and lived together with his family members."
+        "source": "He ... lived together with his family members."
       },
       "health_status": null,
       "drug_treatment_participation": null,
@@ -44,30 +45,30 @@
       },
       "criminal_record": {
         "record": "Other offences",
-        "source": "He has a total of three criminal convictions for the offence of gambling in a gambling establishment. He had never been imprisoned for those offences."
+        "source": "He has a total of three criminal convictions for the offence of gambling in a gambling establishment."
       },
       "positive_habits_after_arrest": {
         "habits": [
-          "Studying",
           "Participation in rehabilitation/self-improvement"
         ],
-        "source": "he had taken different courses to better equip himself whilst remanded in custody."
+        "source": "He had taken different courses to better equip himself whilst remanded in custody."
       },
-      "family_support": null
+      "family_supports": null
     },
     {
+      "defendant_id": 2,
       "defendant_name": {
-        "name": "Hong Ka-ming",
+        "name": "Hong Ka-ming (康家銘) (A2)",
         "source": "Hong Ka-ming (康家銘) (A2)"
       },
       "nationality": null,
       "age_at_offence": {
         "age": 34,
-        "source": "In respect of the 2nd defendant, he is now 36 years of age. He was 34 years old at the time of the offence."
+        "source": "He was 34 years old at the time of the offence."
       },
       "age_at_sentencing": {
         "age": 36,
-        "source": "In respect of the 2nd defendant, he is now 36 years of age. He was 34 years old at the time of the offence."
+        "source": "In respect of the 2nd defendant, he is now 36 years of age."
       },
       "gender": {
         "gender": "Male",
@@ -75,7 +76,7 @@
       },
       "marital_status": {
         "status": "Single",
-        "source": "He was single and worked as a hairdresser."
+        "source": "He was single"
       },
       "parental_status": null,
       "household_composition": null,
@@ -83,11 +84,11 @@
         "conditions": [
           {
             "type": "Mental health",
-            "source": "he has a long history of mental illness. He first received psychiatric treatment at the age of 11 and there were multiple psychiatric admissions to various hospitals between year 2009 to 2022."
+            "source": "He has a long history of mental illness. He first received psychiatric treatment at the age of 11 and there were multiple psychiatric admissions to various hospitals between year 2009 to 2022."
           },
           {
             "type": "Drug addiction",
-            "source": "I noted from various psychiatric reports that had been submitted by counsel that indeed part of the condition of the 2nd defendant was a result of his own drug abuse."
+            "source": "I noted from various psychiatric reports that indeed part of the condition of the 2nd defendant was a result of his own drug abuse."
           }
         ]
       },
@@ -98,8 +99,8 @@
       },
       "occupation": {
         "occupation_category": "Service and sales worker",
-        "occupation_name": "hairdresser",
-        "source": "He was single and worked as a hairdresser."
+        "occupation_name": "Hairdresser",
+        "source": "He ... worked as a hairdresser."
       },
       "monthly_wage": null,
       "criminal_record": {
@@ -107,13 +108,13 @@
         "source": "He has a total of five criminal convictions including two convictions for the offence of possession of dangerous drug and one conviction for possession of pipe or equipment fit and intended for the consumption of dangerous drug."
       },
       "positive_habits_after_arrest": null,
-      "family_support": {
-        "support": [
-          "Letters of support from family"
-        ],
-        "source": "A total of three mitigation letters respectively prepared by the mother, a friend of the 2nd defendant and also by a pastor were submitted to urge for leniency."
-      }
+      "family_supports": [
+        {
+          "support": "Letters of support from family",
+          "source": "A total of three mitigation letters respectively prepared by the mother, a friend of the 2nd defendant and also by a pastor were submitted to urge for leniency."
+        }
+      ]
     }
   ],
-  "tracing_id": "9cd0d9bec382d7a3ff27fb1924193439"
+  "tracing_id": "365aa83bb667339de84b212bf5e12113"
 }

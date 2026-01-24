@@ -1,6 +1,6 @@
 {
   "neutral_citation": "[2025] HKCA 943",
-  "judge_name": "Andrew Macrae",
+  "judge_name": "Hon Macrae VP in Court",
   "judgment_date_time": "2025-10-17T00:00:00+08:00",
   "representatives": [
     {
@@ -12,11 +12,11 @@
       "role": "instructed by SH Chan & Co, assigned by the Director of Legal Aid, for the Applicant"
     },
     {
-      "name": "Ms. Janice KWAN",
+      "name": "Ms Janice KWAN",
       "role": "SPP of Department of Justice for the Prosecution/ HKSAR"
     },
     {
-      "name": "Mr. Raymond YU",
+      "name": "Mr Raymond YU",
       "role": "instructed by Messrs. Chan & Chan, assigned by D.L.A., for the defendant"
     }
   ],
@@ -26,23 +26,20 @@
   ],
   "charges": [
     {
+      "charge_no": 1,
       "charge_name": "Trafficking in dangerous drugs",
       "offence_date": {
         "date": "2022-04-02",
-        "source": "the defendant on 2 April 2022, at room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon",
+        "source": "In the evening of 2 April 2022, during an anti-narcotics operation, the police... (Summary of Facts)",
         "day_of_week": 6,
         "is_hk_public_holiday": false
       },
-      "offence_time": {
-        "time": "21:20:00+08:00",
-        "source": "At around 9:20pm",
-        "time_of_day": "evening"
-      },
+      "offence_time": null,
       "place_of_offence": {
-        "address": "room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon",
+        "address": "Room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon",
         "nature": "Residential building",
         "subDistrict": "Tai Kok Tsui",
-        "source": "the defendant on 2 April 2022, at room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon",
+        "source": "Particulars of the offence ... on 2 April 2022, at room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon.",
         "district": "Yau Tsim Mong"
       },
       "cross_border": {
@@ -52,30 +49,37 @@
       },
       "defendants_of_charge": [
         {
-          "defendant_name": "Lau Kam Hung",
+          "defendant_name": "Lau Kam Hung (劉金洪)",
+          "defendant_id": 1,
           "trafficking_mode": {
             "mode": "Drug houses",
-            "source": "That people would come to the flat to consume or receive drugs was apparent from the fact that the person who opened the door had herself received drugs from the applicant, there were two glass bottles and straws found for the consumption of drugs in the premises and the applicant admitted that he would share drugs with his friends."
+            "source": "The paraphernalia of the trafficker were found inside the premises, namely two different types of dangerous drugs contained in smaller re-sealable bags of drugs, multiple empty re-sealable plastic bags and an electronic scale... That people would come to the flat to consume or receive drugs was apparent..."
           },
           "reasons_for_offence": [
             {
               "reason": "Addiction-driven",
-              "source": "At the time of sentencing, the applicant was a former drug abuser aged 68"
+              "source": "the applicant was a former drug abuser aged 68"
+            },
+            {
+              "reason": "Economic hardship",
+              "source": "At 21, he came to Hong Kong in pursuit of a better life. However, marginalised and frustrated by society, he descended into a life of crime and bad habits."
             },
             {
               "reason": "Helping other people",
-              "source": "the defendant claimed under caution that the “pork” (colloquial term for methamphetamine) and “weed” (colloquial term for cannabis) were for his own consumption, and he would sometimes share them with his friends."
+              "source": "the applicant said that the “Ice” and cannabis were for his own consumption and occasional sharing with friends."
             }
           ],
-          "benefits_received": {
-            "received": false,
-            "amount": null,
-            "source": "the street value of which was HK$9,895.60 and HK$2,621 respectively."
-          }
+          "benefits_received": null
         }
       ]
     }
   ],
   "court": "HKCA",
-  "tracing_id": "15195fb418319285d8f56f36286a05fb"
+  "defendants": [
+    [
+      1,
+      "Lau Kam Hung (劉金洪)"
+    ]
+  ],
+  "tracing_id": "b181628207e66df4cb3401780016cd9a"
 }

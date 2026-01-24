@@ -34,7 +34,7 @@
                     "title": "Enhancement"
                 },
                 "source": {
-                    "description": "The exact match source text from which the aggravating factor was extracted",
+                    "description": "The exact match source text from which the aggravating factor was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -68,24 +68,36 @@
         "ChargeDetail": {
             "additionalProperties": false,
             "properties": {
+                "charge_no": {
+                    "description": "Charge number provided in the system prompt",
+                    "title": "Charge No",
+                    "type": "integer"
+                },
                 "type": {
                     "$ref": "#/$defs/ChargeType",
                     "description": "Type of charge:\nActual Trafficking: Trafficking in a dangerous drug/dangerous drugs or \nConspiracy to Traffic: Conspiracy to traffic in a dangerous drug/dangerous drugs \n**Ignore other types of charges**"
                 },
-                "defendant": {
+                "defendant_name": {
                     "description": "Name of the defendant associated with this charge",
-                    "title": "Defendant",
+                    "title": "Defendant Name",
                     "type": "string"
                 },
+                "defendant_id": {
+                    "description": "ID of the defendant associated with this charge, as provided in the prompt",
+                    "title": "Defendant Id",
+                    "type": "integer"
+                },
                 "source": {
-                    "description": "The exact match source text from which the charge type was extracted",
+                    "description": "The exact match source text from which the charge type was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
             },
             "required": [
+                "charge_no",
                 "type",
-                "defendant",
+                "defendant_name",
+                "defendant_id",
                 "source"
             ],
             "title": "ChargeDetail",
@@ -155,10 +167,10 @@
                 "quantity": {
                     "description": "Quantity of the drug in grams",
                     "title": "Quantity",
-                    "type": "integer"
+                    "type": "number"
                 },
                 "source": {
-                    "description": "The exact match source text from which the drug type and quantity were extracted",
+                    "description": "The exact match source text from which the drug type and quantity was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -196,10 +208,28 @@
         "FinalSentenceDetail": {
             "additionalProperties": false,
             "properties": {
+                "sentence_years": {
+                    "description": "Final sentence - years component",
+                    "title": "Sentence Years",
+                    "type": "integer"
+                },
                 "sentence_months": {
-                    "description": "Final sentence in months for the charge, including any reduction from guilty plea",
+                    "description": "Final sentence - months component (0-11)",
                     "title": "Sentence Months",
                     "type": "integer"
+                },
+                "guilty_plea_reduction_years": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The reduction due to the defendant's guilty plea - years component",
+                    "title": "Guilty Plea Reduction Years"
                 },
                 "guilty_plea_reduction_months": {
                     "anyOf": [
@@ -211,16 +241,17 @@
                         }
                     ],
                     "default": null,
-                    "description": "The reduction in months specifically due to the defendant's guilty plea",
+                    "description": "The reduction due to the defendant's guilty plea - months component (0-11)",
                     "title": "Guilty Plea Reduction Months"
                 },
                 "source": {
-                    "description": "The exact match source text from which the final sentence was extracted",
+                    "description": "The exact match source text from which the final sentence was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
             },
             "required": [
+                "sentence_years",
                 "sentence_months",
                 "source"
             ],
@@ -245,7 +276,7 @@
                         }
                     ],
                     "default": null,
-                    "description": "The court where the plea was entered"
+                    "description": "The court where the plea was entered, Must have if pleaded_guilty is True"
                 },
                 "high_court_stage": {
                     "anyOf": [
@@ -257,7 +288,7 @@
                         }
                     ],
                     "default": null,
-                    "description": "Stage of guilty plea if in High Court. Unknown: Stage unknown; Up to committal: Up to committal in Magistrates' Courts; After committal: After committal and up to and until trial dates are fixed; After dates fixed: After trial dates are fixed but before the first date of trial; First day: First day of trial; During trial: During the trial."
+                    "description": "Must have if court_type is High Court. Unknown: Stage unknown; Up to committal: Up to committal in Magistrates' Courts; After committal: After committal and up to and until trial dates are fixed; After dates fixed: After trial dates are fixed but before the first date of trial; First day: First day of trial; During trial: During the trial."
                 },
                 "district_court_stage": {
                     "anyOf": [
@@ -269,10 +300,10 @@
                         }
                     ],
                     "default": null,
-                    "description": "Stage of guilty plea if in District Court. Unknown: Stage unknown; Plea day: At plea day; After dates fixed: After trial dates are fixed but before the first date of trial; First day: First day of trial; During trial: During the trial."
+                    "description": "Must have if court_type is District Court. Unknown: Stage unknown; Plea day: At plea day; After dates fixed: After trial dates are fixed but before the first date of trial; First day: First day of trial; During trial: During the trial."
                 },
                 "source": {
-                    "description": "The exact match source text from which the guilty plea information was extracted",
+                    "description": "The exact match source text from which the guilty plea information was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -330,7 +361,7 @@
                     "title": "Reduction"
                 },
                 "source": {
-                    "description": "The exact match source text from which the mitigating factor was extracted",
+                    "description": "The exact match source text from which the mitigating factor was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -371,7 +402,7 @@
                     "type": "integer"
                 },
                 "source": {
-                    "description": "The exact match source text from which the mitigation reduction was extracted",
+                    "description": "The exact match source text from which the mitigation reduction was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -386,18 +417,24 @@
         "NotionalSentenceDetail": {
             "additionalProperties": false,
             "properties": {
+                "sentence_years": {
+                    "description": "Notional sentence - years component",
+                    "title": "Sentence Years",
+                    "type": "integer"
+                },
                 "sentence_months": {
-                    "description": "Notional sentence in months (starting point plus any enhancement due to aggravating factors)",
+                    "description": "Notional sentence - months component (0-11)",
                     "title": "Sentence Months",
                     "type": "integer"
                 },
                 "source": {
-                    "description": "The exact match source text from which the notional sentence was extracted",
+                    "description": "The exact match source text from which the notional sentence was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
             },
             "required": [
+                "sentence_years",
                 "sentence_months",
                 "source"
             ],
@@ -412,7 +449,7 @@
                     "description": "Role of the defendant in the trafficking operation. Courier: Transporter of drugs; Storekeeper: Responsible for storage or warehousing; Lookout/scout: Person monitoring for law enforcement or rivals; Actual trafficker: Directly sells or distributes dangerous drugs to the public; Manager/organizer: Coordinator or planner of trafficking activities; Operator/financial controller: Making substantial gains from drug trafficking; International operator/financial controller: Organiser or controller of a large and lucrative commercial operation which transcends jurisdictional boundaries."
                 },
                 "source": {
-                    "description": "The exact match source text from which the role was extracted",
+                    "description": "The exact match source text from which the role was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -427,18 +464,24 @@
         "SentenceAfterRoleDetail": {
             "additionalProperties": false,
             "properties": {
+                "sentence_years": {
+                    "description": "Sentence after role adjustment - years component",
+                    "title": "Sentence Years",
+                    "type": "integer"
+                },
                 "sentence_months": {
-                    "description": "The sentence in months after taking into account the role of the defendant",
+                    "description": "Sentence after role adjustment - months component (0-11)",
                     "title": "Sentence Months",
                     "type": "integer"
                 },
                 "source": {
-                    "description": "The exact match source text from which this sentence was extracted",
+                    "description": "The exact match source text from which the sentence after role was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
             },
             "required": [
+                "sentence_years",
                 "sentence_months",
                 "source"
             ],
@@ -448,18 +491,24 @@
         "StartingPointDetail": {
             "additionalProperties": false,
             "properties": {
+                "sentence_years": {
+                    "description": "Starting point of sentence - years component",
+                    "title": "Sentence Years",
+                    "type": "integer"
+                },
                 "sentence_months": {
-                    "description": "Starting point of sentence in months based on drug type and quantity",
+                    "description": "Starting point of sentence - months component (0-11)",
                     "title": "Sentence Months",
                     "type": "integer"
                 },
                 "source": {
-                    "description": "The exact match source text from which the starting point was extracted",
+                    "description": "The exact match source text from which the starting point was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
             },
             "required": [
+                "sentence_years",
                 "sentence_months",
                 "source"
             ],
@@ -473,23 +522,20 @@
                     "$ref": "#/$defs/ChargeDetail"
                 },
                 "drugs": {
-                    "description": "Types and quantities of drugs involved in the offence",
+                    "description": "Types and quantities of drugs involved **in the current charge**",
                     "items": {
                         "$ref": "#/$defs/DrugDetail"
                     },
                     "title": "Drugs",
                     "type": "array"
                 },
-                "role": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/$defs/RoleDetail"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ],
-                    "default": null
+                "roles": {
+                    "description": "Roles of the defendant in the offence **in the current charge**",
+                    "items": {
+                        "$ref": "#/$defs/RoleDetail"
+                    },
+                    "title": "Roles",
+                    "type": "array"
                 },
                 "aggravating_factors": {
                     "anyOf": [
@@ -504,7 +550,7 @@
                         }
                     ],
                     "default": null,
-                    "description": "Aggravating factors explicitly addressed by the judge",
+                    "description": "Aggravating factors explicitly addressed by the judge for the current charge",
                     "title": "Aggravating Factors"
                 },
                 "mitigating_factors": {
@@ -520,7 +566,7 @@
                         }
                     ],
                     "default": null,
-                    "description": "Mitigating factors explicitly addressed by the judge (excluding guilty plea)",
+                    "description": "Mitigating factors explicitly addressed by the judge for the current charge (excluding guilty plea)",
                     "title": "Mitigating Factors"
                 },
                 "guilty_plea": {
@@ -528,7 +574,7 @@
                 },
                 "starting_point": {
                     "$ref": "#/$defs/StartingPointDetail",
-                    "description": "Starting point of sentence based on drug type and quantity"
+                    "description": "Starting point of sentence based on drug type and quantity for the current charge"
                 },
                 "sentence_after_role": {
                     "anyOf": [
@@ -540,11 +586,11 @@
                         }
                     ],
                     "default": null,
-                    "description": "The sentence taking into account the role of the defendant"
+                    "description": "The sentence taking into account the role of the defendant for the current charge"
                 },
                 "notional_sentence": {
                     "$ref": "#/$defs/NotionalSentenceDetail",
-                    "description": "Notional sentence (starting point plus enhancement due to aggravating factors)"
+                    "description": "Notional sentence (starting point plus enhancement due to aggravating factors) for the current charge"
                 },
                 "mitigation_reduction": {
                     "anyOf": [
@@ -556,16 +602,17 @@
                         }
                     ],
                     "default": null,
-                    "description": "Sentence reduction granted based on mitigating factors (excluding guilty plea)"
+                    "description": "Sentence reduction granted based on mitigating factors for the current charge (excluding guilty plea)"
                 },
                 "final_sentence": {
                     "$ref": "#/$defs/FinalSentenceDetail",
-                    "description": "Final sentence for the charge including any guilty plea reduction"
+                    "description": "Final sentence for the charge including any guilty plea reduction for the current charge"
                 }
             },
             "required": [
                 "charge_type",
                 "drugs",
+                "roles",
                 "guilty_plea",
                 "starting_point",
                 "notional_sentence",
@@ -578,6 +625,7 @@
     "additionalProperties": false,
     "properties": {
         "trials": {
+            "description": "List of trials for each charge against the defendant pairs, there could be multiple charges per defendant, one charge to multiple defendants, or multiple charges to multiple defendants.",
             "items": {
                 "$ref": "#/$defs/Trial"
             },

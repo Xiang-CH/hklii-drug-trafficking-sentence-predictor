@@ -26,14 +26,55 @@
   ],
   "charges": [
     {
+      "charge_no": 1,
       "charge_name": "Conspiracy to traffic in a dangerous drug",
-      "offence_date": null,
+      "offence_date": {
+        "date": "2021-10-01",
+        "source": "So has pleaded guilty to conspiracy to traffic in a dangerous drug, namely, cocaine with Fu, the defendant of 316/2023, and other persons unknown, between two dates, 1 and 2 October 2021 in Hong Kong.",
+        "day_of_week": 5,
+        "is_hk_public_holiday": true
+      },
+      "offence_time": null,
+      "place_of_offence": null,
+      "cross_border": {
+        "cross_border": false,
+        "type": null,
+        "source": ""
+      },
+      "defendants_of_charge": [
+        {
+          "defendant_name": "Fu Chun-wah",
+          "defendant_id": 1,
+          "trafficking_mode": null,
+          "reasons_for_offence": [
+            {
+              "reason": "Financial gain",
+              "source": "She was added to a WhatsApp group and received instructions through this group. She would receive phone calls or messages from drug suppliers to tell her where to pick up the drugs... This friend’s mother offered her a job to make easy money, delivering drugs as instructed for $1,000 a day."
+            }
+          ],
+          "benefits_received": {
+            "received": false,
+            "amount": null,
+            "source": ""
+          }
+        }
+      ]
+    },
+    {
+      "charge_no": 2,
+      "charge_name": "Trafficking in dangerous drugs",
+      "offence_date": {
+        "date": "2021-10-03",
+        "source": "Fu now pleads guilty to trafficking in dangerous drugs on 3 October 2021 in Room F, 3rd Floor, 59 Prince Edward Road West, Mongkok, Hong Kong, he unlawfully trafficked in 7.2 grammes of a solid containing 6.19 grammes of cocaine and 6.12 grammes of cannabis in herbal form.",
+        "day_of_week": 7,
+        "is_hk_public_holiday": false
+      },
       "offence_time": null,
       "place_of_offence": {
-        "address": "Hong Kong",
-        "nature": "Other",
+        "address": "Room F, 3rd Floor, 59 Prince Edward Road West, Mongkok, Hong Kong",
+        "nature": "Residential building",
         "subDistrict": "Mong Kok",
-        "source": "between two dates, 1 and 2 October 2021 in Hong Kong",
+        "source": "Fu now pleads guilty to trafficking in dangerous drugs on 3 October 2021 in Room F, 3rd Floor, 59 Prince Edward Road West, Mongkok, Hong Kong, he unlawfully trafficked in 7.2 grammes of a solid containing 6.19 grammes of cocaine and 6.12 grammes of cannabis in herbal form.",
         "district": "Yau Tsim Mong"
       },
       "cross_border": {
@@ -43,11 +84,44 @@
       },
       "defendants_of_charge": [
         {
+          "defendant_name": "Fu Chun-wah",
+          "defendant_id": 1,
+          "trafficking_mode": null,
+          "reasons_for_offence": [
+            {
+              "reason": "Financial gain",
+              "source": "He told the police that both he and Fu met this Siu Wan who offered them both a way to make easy money. He instructed them to rent the subdivided unit and provided money to buy digital scales and plastic bags."
+            }
+          ],
+          "benefits_received": {
+            "received": false,
+            "amount": null,
+            "source": ""
+          }
+        }
+      ]
+    },
+    {
+      "charge_no": 3,
+      "charge_name": "Conspiracy to traffic in a dangerous drug",
+      "offence_date": {
+        "date": "2021-10-01",
+        "source": "Count 1 against the 1st defendant, So: So has pleaded guilty to conspiracy to traffic in a dangerous drug, namely, cocaine with Fu, the defendant of 316/2023, and other persons unknown, between two dates, 1 and 2 October 2021 in Hong Kong.",
+        "day_of_week": 5,
+        "is_hk_public_holiday": true
+      },
+      "offence_time": null,
+      "place_of_offence": null,
+      "cross_border": {
+        "cross_border": false,
+        "type": null,
+        "source": ""
+      },
+      "defendants_of_charge": [
+        {
           "defendant_name": "So Hoi-yan",
-          "trafficking_mode": {
-            "mode": "Courier delivery",
-            "source": "She then proceeded to make deliveries as instructed all over Kowloon and New Territories."
-          },
+          "defendant_id": 2,
+          "trafficking_mode": null,
           "reasons_for_offence": [
             {
               "reason": "Financial gain",
@@ -57,36 +131,22 @@
           "benefits_received": {
             "received": true,
             "amount": 14840.0,
-            "source": "She also had HK$14,840 in cash and two mobile phones."
+            "source": "On 2 October 2021, at around 1.30 am, police officers... She also had HK$14,840 in cash and two mobile phones."
           }
-        },
-        {
-          "defendant_name": "Fu Chun-wah",
-          "trafficking_mode": {
-            "mode": "Drug repackaging or storage",
-            "source": "After his arrest, Fu revealed a drug storage premises in Mongkok to the police."
-          },
-          "reasons_for_offence": [
-            {
-              "reason": "Financial gain",
-              "source": "All were lured into this by the promise of easy money."
-            }
-          ],
-          "benefits_received": null
         }
       ]
     },
     {
+      "charge_no": 4,
       "charge_name": "Conspiracy to traffic in dangerous drugs",
-      "offence_date": null,
-      "offence_time": null,
-      "place_of_offence": {
-        "address": "Hong Kong",
-        "nature": "Other",
-        "subDistrict": "Mong Kok",
-        "source": "between 22 September and 3 October 2021, both dates inclusive, in Hong Kong",
-        "district": "Yau Tsim Mong"
+      "offence_date": {
+        "date": "2021-09-22",
+        "source": "Count 2 against the 2nd defendant only, Lam: Lam has pleaded guilty to conspiracy to traffic in a dangerous drug, namely, cocaine and cannabis in a herbal form with Fu, the defendant of 316/2023, and other persons unknown between 22 September and 3 October 2021, both dates inclusive, in Hong Kong.",
+        "day_of_week": 3,
+        "is_hk_public_holiday": true
       },
+      "offence_time": null,
+      "place_of_offence": null,
       "cross_border": {
         "cross_border": false,
         "type": null,
@@ -95,59 +155,37 @@
       "defendants_of_charge": [
         {
           "defendant_name": "Lam Tsz-man",
-          "trafficking_mode": {
-            "mode": "Drug repackaging or storage",
-            "source": "Then he was to take it back to the subdivided unit in Mongkok and repackage the drugs into smaller bags."
-          },
+          "defendant_id": 3,
+          "trafficking_mode": null,
           "reasons_for_offence": [
             {
               "reason": "Financial gain",
-              "source": "He told the police that both he and Fu met this Siu Wan who offered them both a way to make easy money."
+              "source": "He told the police that both he and Fu met this Siu Wan who offered them both a way to make easy money. He instructed them to rent the subdivided unit and provided money to buy digital scales and plastic bags."
             }
           ],
-          "benefits_received": null
-        }
-      ]
-    },
-    {
-      "charge_name": "Trafficking in dangerous drugs",
-      "offence_date": {
-        "date": "2021-10-03",
-        "source": "on 3 October 2021",
-        "day_of_week": 7,
-        "is_hk_public_holiday": false
-      },
-      "offence_time": null,
-      "place_of_offence": {
-        "address": "Room F, 3rd Floor, 59 Prince Edward Road West, Mongkok, Hong Kong",
-        "nature": "Residential building",
-        "subDistrict": "Mong Kok",
-        "source": "Room F, 3rd Floor, 59 Prince Edward Road West, Mongkok, Hong Kong",
-        "district": "Yau Tsim Mong"
-      },
-      "cross_border": {
-        "cross_border": false,
-        "type": null,
-        "source": ""
-      },
-      "defendants_of_charge": [
-        {
-          "defendant_name": "Fu Chun-wah",
-          "trafficking_mode": {
-            "mode": "Drug repackaging or storage",
-            "source": "They searched the premises and found 41 plastic bags containing a total of 7.2 grammes of a solid containing 6.19 grammes of cocaine and two plastic bags containing a total of 6.12 grammes of cannabis in herbal form."
-          },
-          "reasons_for_offence": [
-            {
-              "reason": "Financial gain",
-              "source": "All were lured into this by the promise of easy money."
-            }
-          ],
-          "benefits_received": null
+          "benefits_received": {
+            "received": false,
+            "amount": null,
+            "source": ""
+          }
         }
       ]
     }
   ],
   "court": "HKCFI",
-  "tracing_id": "f7365442ac702e7deb5ab4ef126fd38f"
+  "defendants": [
+    [
+      1,
+      "Fu Chun-wah"
+    ],
+    [
+      2,
+      "So Hoi-yan"
+    ],
+    [
+      3,
+      "Lam Tsz-man"
+    ]
+  ],
+  "tracing_id": "e1915e5b456d82570c1b3b8f990c9352"
 }

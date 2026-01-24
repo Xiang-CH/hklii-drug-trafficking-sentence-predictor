@@ -5,7 +5,7 @@
   "representatives": [
     {
       "name": "伍宇鍔",
-      "role": "外聘律師，代表香港特別行政區"
+      "role": "為外聘律師，代表香港特別行政區"
     },
     {
       "name": "馬明俊",
@@ -21,78 +21,87 @@
   ],
   "charges": [
     {
+      "charge_no": 1,
       "charge_name": "Conspiracy to traffic in dangerous drugs",
       "offence_date": {
         "date": "2024-01-30",
-        "source": "案情指，2024年1月30日上午9時45分左右，警方在大埔區一帶展開反罪惡巡邏。",
+        "source": "案情指，2024年1月30日上午9時45分左右，警方在大埔區一帶展開反罪惡巡邏。於同日上午10時46分左右，警員見到第一被告人離開一幢大廈，形迹可疑，於是截停第一被告人查問。經初步查問後，警員帶第一被告人到其住所進一步調查。",
         "day_of_week": 2,
         "is_hk_public_holiday": false
       },
       "offence_time": {
-        "time": "10:46:00+08:00",
-        "source": "於同日上午10時46分左右，警員見到第一被告人離開一幢大廈，形迹可疑，於是截停第一被告人查問。",
+        "time": "09:45:00+08:00",
+        "source": "案情指，2024年1月30日上午9時45分左右，警方在大埔區一帶展開反罪惡巡邏。於同日上午10時46分左右，警員見到第一被告人離開一幢大廈，形迹可疑，於是截停第一被告人查問。",
         "time_of_day": "morning"
       },
       "place_of_offence": {
-        "address": "null",
+        "address": "",
         "nature": "Residential building",
         "subDistrict": "Tai Po",
-        "source": "經初步查問後，警員帶第一被告人到其住所進一步調查。他們抵達後發現，第一被告人住所房內床邊有一個可再封口透明膠袋，內有13個可再封口透明膠袋。",
+        "source": "案情指，2024年1月30日上午...警員見到第一被告人離開一幢大廈...帶第一被告人到其住所進一步調查。他們抵達後發現，第一被告人住所房內床邊有一個可再封口透明膠袋...",
         "district": "Tai Po"
       },
       "cross_border": {
         "cross_border": false,
         "type": null,
-        "source": "未有提及跨境活動"
+        "source": ""
       },
       "defendants_of_charge": [
         {
           "defendant_name": "黃鈺庭",
+          "defendant_id": 1,
           "trafficking_mode": {
             "mode": "Courier delivery",
-            "source": "第一被告人表示在新龍圍公廁外面的垃圾桶拿取40包氯胺酮；客人會聯絡第一被告人，雙方會協定數量及交收地點；第一被告人稱'放哂'所拿取的毒品後會通知'So Ken'。"
+            "source": "第一被告人表示：So Ken叫第一被告人出售和派送毒品；客人會聯絡第一被告人，雙方會協定數量及交收地點；第一被告人以每粒港幣350元出售毒品。"
           },
           "reasons_for_offence": [
             {
               "reason": "Economic hardship",
-              "source": "辯方陳述：案發時第一被告人因為失業而借故外出消遣，繼而開始吸食氯胺酮。"
-            },
-            {
-              "reason": "Addiction-driven",
-              "source": "辯方陳述：其後開始吸食氯胺酮，並以出售及派送氯胺酮維持。"
+              "source": "辯方解釋，案發時第一被告人因為失業而借故外出消遣，繼而開始吸食氯胺酮。"
             },
             {
               "reason": "Financial gain",
-              "source": "第一被告人以港幣14,000元的價格出售該40包氯胺酮；其中港幣10,000元交給'So Ken'，第一被告人保留港幣4,000元。"
+              "source": "第一被告人以港幣14,000元的價格出售該40包氯胺酮；其中港幣10,000元交給“So Ken”，第一被告人保留港幣4,000元。"
             }
           ],
           "benefits_received": {
             "received": true,
             "amount": 4000.0,
-            "source": "第一被告人保留港幣4,000元"
+            "source": "(f) 其中港幣10,000元交給“So Ken”，第一被告人保留港幣4,000元；"
           }
         },
         {
           "defendant_name": "蘇偉強",
+          "defendant_id": 2,
           "trafficking_mode": {
-            "mode": "Other",
-            "source": "第二被告人表示其以'介紹'角色將第一被告人介紹給葉維輝，並介紹第一被告人派送和出售毒品，以及從中抽取分成。"
+            "mode": "Courier delivery",
+            "source": "第二被告人表示：第二被告人介紹第一被告人派送和出售毒品；每“送”一包，第一被告人會保留港幣80元，第二被告人會獲得港幣20元。"
           },
           "reasons_for_offence": [
             {
               "reason": "Financial gain",
-              "source": "第二被告人表示介紹第一被告人派送和出售毒品，因為第一被告人想賺多些錢；第二被告人會從中抽水。"
+              "source": "第二被告人表示：每“送”一包，第一被告人會保留港幣80元，第二被告人會獲得港幣20元，餘數會交給葉維輝；第二被告人介紹第一被告人派送和出售毒品，因為第一被告人想賺多些錢。"
             }
           ],
           "benefits_received": {
             "received": true,
             "amount": 4000.0,
-            "source": "控方補充：第二被告人從第一被告人一方收過3至4次錢，每次$1,200但總數不超過$4,000。"
+            "source": "[1] 控方在較後階段補充，第二被告人從第一被告人一方收過3至4次錢，每次$1,200但總數不超過$4,000。"
           }
         }
       ]
     }
   ],
   "court": "HKDC",
-  "tracing_id": "af89b5e4378e0e125c6af800f8245896"
+  "defendants": [
+    [
+      1,
+      "黃鈺庭"
+    ],
+    [
+      2,
+      "蘇偉強"
+    ]
+  ],
+  "tracing_id": "365f78df548e04dfc205eb38b5d98161"
 }

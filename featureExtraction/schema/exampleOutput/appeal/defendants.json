@@ -1,45 +1,42 @@
 {
   "defendants": [
     {
+      "defendant_id": 1,
       "defendant_name": {
-        "name": "LAU Kam-hung (劉金洪)",
-        "source": "LAU Kam-hung (劉金洪)"
+        "name": "Lau Kam Hung (劉金洪)",
+        "source": "Case title and parties listing: \"LAU KAM HUNG (劉金洪)\""
       },
       "nationality": {
         "category": "Mainland Chinese",
         "hk_resident_status": null,
         "foreign_country_code": null,
-        "infer_reason": "Born in Guangzhou",
-        "source": "The defendant was born in Guangzhou in July 1956 and is 68."
+        "infer_reason": "Born in Guangzhou and relocated to Hong Kong at age 21; nationality not explicitly stated in the judgment.",
+        "source": "Background and Mitigation: \"The defendant was born in Guangzhou in July 1956 and is 68. He relocated to Hong Kong when he was 21.\""
       },
       "age_at_offence": {
         "age": 65,
-        "source": "The defendant was born in Guangzhou in July 1956 and is 68. Particulars of the offence are that the defendant on 2 April 2022, at room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon, unlawfully trafficked in dangerous drugs, namely, 17.3g of a crystalline solid containing 17.0g of methamphetamine hydrochloride (commonly known as “ice”)  and 14.40g of cannabis in herbal form."
+        "source": "Offence date 2 April 2022 and birth July 1956: \"The defendant was born in Guangzhou in July 1956\"; offence dated at [6],[8] (2 April 2022)."
       },
       "age_at_sentencing": {
         "age": 68,
-        "source": "The defendant was born in Guangzhou in July 1956 and is 68."
+        "source": "Background and Mitigation: \"The defendant was born in Guangzhou in July 1956 and is 68.\" (Sentence dated 22 January 2025)"
       },
       "gender": {
         "gender": "Male",
-        "source": "He relocated to Hong Kong when he was 21."
+        "source": "Case text refers to the defendant using male references and lists name as \"LAU Kam-hung\"; parties listing and judgment wording (e.g., \"the defendant\", male pronouns implied)."
       },
       "marital_status": null,
       "parental_status": {
         "status": "Parent",
         "custody": null,
-        "source": "The defendant contributes about RMB800 towards his daughter’s living expenses, who is 18 years old and studying nursing in Guangzhou."
+        "source": "Background and Mitigation: \"The defendant contributes about RMB800 towards his daughter’s living expenses, who is 18 years old and studying nursing in Guangzhou.\""
       },
       "household_composition": null,
       "health_status": {
         "conditions": [
           {
             "type": "Physical health",
-            "source": "The defendant suffers from cardiac disease, diabetes, kidney problems, hernia and polyps. He had undergone angioplasty procedure during his remand. He is constantly exhausted from frequent night time urination, and is in pain most of the time."
-          },
-          {
-            "type": "Drug addiction",
-            "source": "It may very well be true that the defendant was a drug abuser, and that urine tests showed that he might have taken some drugs before his arrest."
+            "source": "Background and Mitigation: \"The defendant suffers from cardiac disease, diabetes, kidney problems, hernia and polyps. He had undergone angioplasty procedure during his remand. He is constantly exhausted from frequent night time urination, and is in pain most of the time.\""
           }
         ]
       },
@@ -47,30 +44,30 @@
       "education_level": null,
       "occupation": {
         "occupation_category": "Craft and related worker",
-        "occupation_name": "construction site worker",
-        "source": "The defendant was working as a construction site worker in 2015, earning around $30,000, when he suffered a hand injury forcing him to stop."
+        "occupation_name": "Construction site worker (2015)",
+        "source": "Background and Mitigation: \"The defendant was working as a construction site worker in 2015, earning around $30,000...\""
       },
       "monthly_wage": {
-        "wage": 5300,
-        "source": "His health had since deteriorated and had to rely on CSSA of $5,300 per month for his daily and medical expenses since 2017."
+        "wage": 30000,
+        "source": "Background and Mitigation: \"The defendant was working as a construction site worker in 2015, earning around $30,000...\""
       },
       "criminal_record": {
         "record": "Other offences",
-        "source": "The defendant has 19 convictions from 6 court appearances."
+        "source": "Previous Convictions: detailed list including rape, robbery, assault, indecent assault, managing a vice establishment, criminal intimidation, theft and a 2019 conviction for possession of dangerous drugs (see [13]-[16])."
       },
       "positive_habits_after_arrest": {
         "habits": [
           "Participation in rehabilitation/self-improvement"
         ],
-        "source": "He has since quit his drug use and plans to be reunited with his daughter in the mainland upon release, and to never return to Hong Kong."
+        "source": "Background and Mitigation: \"He has since quit his drug use and plans to be reunited with his daughter in the mainland upon release, and to never return to Hong Kong.\""
       },
-      "family_support": {
-        "support": [
-          "Other"
-        ],
-        "source": "The defendant contributes about RMB800 towards his daughter’s living expenses, who is 18 years old and studying nursing in Guangzhou."
-      }
+      "family_supports": [
+        {
+          "support": "Other",
+          "source": "Background and Mitigation: \"The defendant contributes about RMB800 towards his daughter’s living expenses, who is 18 years old and studying nursing in Guangzhou.\""
+        }
+      ]
     }
   ],
-  "tracing_id": "3c7a13488acf9cbe2a4b5d1b7fd6c09c"
+  "tracing_id": "b181628207e66df4cb3401780016cd9a"
 }

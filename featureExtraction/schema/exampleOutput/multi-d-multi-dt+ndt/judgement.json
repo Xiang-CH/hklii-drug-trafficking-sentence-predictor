@@ -5,7 +5,7 @@
   "representatives": [
     {
       "name": "譚皓",
-      "role": "律政司署理高級檢控官，代表香港特別行政區"
+      "role": "律政司署理高級檢控官"
     },
     {
       "name": "許浩銘",
@@ -21,6 +21,7 @@
   ],
   "charges": [
     {
+      "charge_no": 1,
       "charge_name": "Trafficking in a dangerous drug",
       "offence_date": {
         "date": "2023-12-31",
@@ -34,31 +35,28 @@
         "time_of_day": "night"
       },
       "place_of_offence": {
-        "address": "元朗八鄉錦田公路AD1688號燈柱附近的警方路障截停登記號碼YW3947私家車",
+        "address": "元朗八鄉錦田公路AD1688號燈柱附近的警方路障",
         "nature": "Street",
-        "subDistrict": "Yuen Long",
+        "subDistrict": "Kam Tin",
         "source": "2023年12月31日凌晨2時07分左右，警方在元朗八鄉錦田公路AD1688號燈柱附近的警方路障截停登記號碼YW3947私家車。",
         "district": "Yuen Long"
       },
       "cross_border": {
         "cross_border": false,
         "type": null,
-        "source": "未有提及跨境運送或進出口事宜。"
+        "source": ""
       },
       "defendants_of_charge": [
         {
           "defendant_name": "曾浩然",
+          "defendant_id": 1,
           "trafficking_mode": null,
-          "reasons_for_offence": [
-            {
-              "reason": "Peer influence",
-              "source": "因疫情及經濟低迷，他受損友影響犯罪，現希望法庭給予改過自新的機會。"
-            }
-          ],
+          "reasons_for_offence": null,
           "benefits_received": null
         },
         {
           "defendant_name": "張曜龍",
+          "defendant_id": 2,
           "trafficking_mode": null,
           "reasons_for_offence": null,
           "benefits_received": null
@@ -66,72 +64,71 @@
       ]
     },
     {
+      "charge_no": 2,
       "charge_name": "Trafficking in a dangerous drug",
       "offence_date": {
         "date": "2023-12-31",
-        "source": "2023年12月31日凌晨2時07分左右，警方在元朗八鄉錦田公路AD1688號燈柱附近的警方路障截停登記號碼YW3947私家車。",
+        "source": "同上 — 控罪四記載為第一被告人身上發現之可卡因，時間及地點同日截查時發現。",
         "day_of_week": 7,
         "is_hk_public_holiday": false
       },
       "offence_time": {
         "time": "02:07:00+08:00",
-        "source": "2023年12月31日凌晨2時07分左右，警方在元朗八鄉錦田公路AD1688號燈柱附近的警方路障截停登記號碼YW3947私家車。",
+        "source": "同上 — 控罪四記載為第一被告人身上發現之可卡因，時間及地點同日截查時發現。",
         "time_of_day": "night"
       },
       "place_of_offence": {
-        "address": "元朗八鄉錦田公路AD1688號燈柱附近的警方路障截停登記號碼YW3947私家車",
-        "nature": "Street",
-        "subDistrict": "Yuen Long",
-        "source": "2023年12月31日凌晨2時07分左右，警方在元朗八鄉錦田公路AD1688號燈柱附近的警方路障截停登記號碼YW3947私家車。",
+        "address": "YW3947 車內及被告人身上（於元朗八鄉錦田公路警方路障處被搜出）",
+        "nature": "Private vehicle",
+        "subDistrict": "Kam Tin",
+        "source": "警員17676在搜查第一被告人後有以下發現：第一被告人的衛衣前袋內...斜孭袋內...（控罪四）",
         "district": "Yuen Long"
       },
       "cross_border": {
         "cross_border": false,
         "type": null,
-        "source": "未有提及跨境運送或進出口事宜。"
+        "source": ""
       },
       "defendants_of_charge": [
         {
           "defendant_name": "曾浩然",
+          "defendant_id": 1,
           "trafficking_mode": null,
-          "reasons_for_offence": [
-            {
-              "reason": "Peer influence",
-              "source": "因疫情及經濟低迷，他受損友影響犯罪，現希望法庭給予改過自新的機會。"
-            }
-          ],
+          "reasons_for_offence": null,
           "benefits_received": null
         }
       ]
     },
     {
+      "charge_no": 3,
       "charge_name": "Trafficking in a dangerous drug",
       "offence_date": {
         "date": "2023-12-31",
-        "source": "2023年12月31日凌晨2時07分左右，警方在元朗八鄉錦田公路AD1688號燈柱附近的警方路障截停登記號碼YW3947私家車。",
+        "source": "同上 — 控罪五記載為在第二被告人身上發現之可卡因，於同日及同一地點被搜出。",
         "day_of_week": 7,
         "is_hk_public_holiday": false
       },
       "offence_time": {
         "time": "02:07:00+08:00",
-        "source": "2023年12月31日凌晨2時07分左右，警方在元朗八鄉錦田公路AD1688號燈柱附近的警方路障截停登記號碼YW3947私家車。",
+        "source": "同上 — 控罪五記載為在第二被告人身上發現之可卡因，於同日及同一地點被搜出。",
         "time_of_day": "night"
       },
       "place_of_offence": {
-        "address": "元朗八鄉錦田公路AD1688號燈柱附近的警方路障截停登記號碼YW3947私家車",
-        "nature": "Street",
-        "subDistrict": "Yuen Long",
-        "source": "2023年12月31日凌晨2時07分左右，警方在元朗八鄉錦田公路AD1688號燈柱附近的警方路障截停登記號碼YW3947私家車。",
+        "address": "第二被告人外套右袋（於YW3947車輛被截查時搜出）",
+        "nature": "Private vehicle",
+        "subDistrict": "Kam Tin",
+        "source": "第二被告人的外套右袋內(1) 一個膠袋，內有16個膠袋，載有內含1.9克可卡因的共2.72克固體（證物16）（控罪五）。",
         "district": "Yuen Long"
       },
       "cross_border": {
         "cross_border": false,
         "type": null,
-        "source": "未有提及跨境運送或進出口事宜。"
+        "source": ""
       },
       "defendants_of_charge": [
         {
           "defendant_name": "張曜龍",
+          "defendant_id": 2,
           "trafficking_mode": null,
           "reasons_for_offence": null,
           "benefits_received": null
@@ -140,5 +137,15 @@
     }
   ],
   "court": "HKDC",
-  "tracing_id": "bab399f6bac0296271804a9fb5fa1af2"
+  "defendants": [
+    [
+      1,
+      "曾浩然"
+    ],
+    [
+      2,
+      "張曜龍"
+    ]
+  ],
+  "tracing_id": "56688ead18a20670f65ca52405535681"
 }

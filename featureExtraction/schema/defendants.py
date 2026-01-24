@@ -2,7 +2,7 @@ from enum import Enum
 from typing import Optional, List, Union
 from pydantic import BaseModel, Field, ConfigDict, model_validator
 from pydantic_extra_types.country import CountryAlpha2
-from schema.common import source_field
+from common import source_field
 
 
 class NationalityCategory(str, Enum):

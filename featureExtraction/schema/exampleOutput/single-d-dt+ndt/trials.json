@@ -4,7 +4,8 @@
       "charge_type": {
         "charge_no": 1,
         "type": "Actual Trafficking",
-        "defendant": "Wong Pui-hung",
+        "defendant_name": "Wong Pui-hung",
+        "defendant_id": 1,
         "source": "The defendant has pleaded guilty to one count of trafficking in a dangerous drug and one count of possession of a dangerous drug, contrary to section 4 and section 8 of the Dangerous Drugs Ordinance respectively."
       },
       "drugs": [
@@ -13,6 +14,12 @@
           "other_drug_type": null,
           "quantity": 43.13,
           "source": "Inside the car in question, police officers found a rucksack which contained 43.13 grammes of methamphetamine hydrochloride and various resealable plastic bags."
+        },
+        {
+          "drug_type": "Cocaine",
+          "other_drug_type": null,
+          "quantity": 14.48,
+          "source": "In other parts of the car, police officers also found 14.48 grammes of cocaine and various apparatus indicating the consumption of cocaine therein."
         }
       ],
       "roles": [
@@ -52,7 +59,7 @@
       "notional_sentence": {
         "sentence_years": 10,
         "sentence_months": 3,
-        "source": "Starting point for trafficking in 43.13 grammes of methamphetamine hydrochloride based on quantity alone will be 9 years and 3 months’ imprisonment. However, this is not the defendant’s first trafficking record. As such, an additional 1 year will be added.",
+        "source": "There is nothing in this case to indicate the defendant’s role beyond a mere courier. However, this is not the defendant’s first trafficking record. As such, an additional 1 year will be added.",
         "total_months": 123
       },
       "mitigation_reduction": null,
@@ -67,5 +74,5 @@
       }
     }
   ],
-  "tracing_id": "ca55ca15488c7810d77853fd6aa32976"
+  "tracing_id": "b109fddc99a43933d5f192c2a2deb7d6"
 }

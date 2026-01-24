@@ -19,7 +19,7 @@
                     "title": "Age"
                 },
                 "source": {
-                    "description": "The exact match source text from which the age at offence was extracted",
+                    "description": "The exact match source text from which the age at offence was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -50,7 +50,7 @@
                     "title": "Age"
                 },
                 "source": {
-                    "description": "The exact match source text from which the age at sentencing was extracted",
+                    "description": "The exact match source text from which the age at sentencing was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -79,7 +79,7 @@
                     "$ref": "#/$defs/CriminalRecord"
                 },
                 "source": {
-                    "description": "The exact match source text from which the criminal record was extracted",
+                    "description": "The exact match source text from which the criminal record was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -108,7 +108,7 @@
                     "type": "string"
                 },
                 "source": {
-                    "description": "The exact match source text from which the name was extracted",
+                    "description": "The exact match source text from which the name was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -123,6 +123,11 @@
         "DefendantProfile": {
             "additionalProperties": false,
             "properties": {
+                "defendant_id": {
+                    "description": "Defendant ID in the prompt",
+                    "title": "Defendant Id",
+                    "type": "integer"
+                },
                 "defendant_name": {
                     "$ref": "#/$defs/DefendantNameDetail"
                 },
@@ -135,7 +140,8 @@
                             "type": "null"
                         }
                     ],
-                    "default": null
+                    "default": null,
+                    "description": "Infer nationality if not explicitly stated, (e.g., the defendant\u2019s name (if culturally indicative), place of birth, location or system of education). Do not infer nationality based on the court location or setting."
                 },
                 "age_at_offence": {
                     "anyOf": [
@@ -168,7 +174,8 @@
                             "type": "null"
                         }
                     ],
-                    "default": null
+                    "default": null,
+                    "description": "Gender of the defendant, try to infer from (he/she/\u4ed6/\u5979) if not explicitly stated"
                 },
                 "marital_status": {
                     "anyOf": [
@@ -256,7 +263,8 @@
                             "type": "null"
                         }
                     ],
-                    "default": null
+                    "default": null,
+                    "description": "null means not mentioned at all; use 0 if unemployed"
                 },
                 "criminal_record": {
                     "anyOf": [
@@ -280,19 +288,24 @@
                     ],
                     "default": null
                 },
-                "family_support": {
+                "family_supports": {
                     "anyOf": [
                         {
-                            "$ref": "#/$defs/FamilySupportDetail"
+                            "items": {
+                                "$ref": "#/$defs/FamilySupportDetail"
+                            },
+                            "type": "array"
                         },
                         {
                             "type": "null"
                         }
                     ],
-                    "default": null
+                    "default": null,
+                    "title": "Family Supports"
                 }
             },
             "required": [
+                "defendant_id",
                 "defendant_name"
             ],
             "title": "DefendantProfile",
@@ -307,7 +320,7 @@
                     "type": "boolean"
                 },
                 "source": {
-                    "description": "The exact match source text from which the drug treatment participation was extracted",
+                    "description": "The exact match source text from which the drug treatment participation was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -338,7 +351,7 @@
                     "description": "Lower secondary: Including Secondary 1-3 or equivalent level; Upper secondary: Including Secondary 4-7 of old academic structure (1985-2011), Secondary 4-6 of new academic structure (2012 onwards) or equivalent level, Project Yi Jin/Yi Jin Diploma, Diploma of Applied Education and craft level"
                 },
                 "source": {
-                    "description": "The exact match source text from which the education level was extracted",
+                    "description": "The exact match source text from which the education level was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -364,15 +377,11 @@
             "additionalProperties": false,
             "properties": {
                 "support": {
-                    "description": "Types of family support present",
-                    "items": {
-                        "$ref": "#/$defs/FamilySupport"
-                    },
-                    "title": "Support",
-                    "type": "array"
+                    "$ref": "#/$defs/FamilySupport",
+                    "description": "Type of family support present"
                 },
                 "source": {
-                    "description": "The exact match source text from which the family support was extracted",
+                    "description": "The exact match source text from which the family support was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -399,7 +408,7 @@
                     "$ref": "#/$defs/Gender"
                 },
                 "source": {
-                    "description": "The exact match source text from which the gender was extracted",
+                    "description": "The exact match source text from which the gender was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -446,7 +455,7 @@
                     "description": "Type of health status"
                 },
                 "source": {
-                    "description": "The exact match source text from which this health status was extracted",
+                    "description": "The exact match source text from which the health status was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -484,7 +493,7 @@
                     "$ref": "#/$defs/HouseholdComposition"
                 },
                 "source": {
-                    "description": "The exact match source text from which the household composition was extracted",
+                    "description": "The exact match source text from which the household composition was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -514,7 +523,7 @@
                     "$ref": "#/$defs/MaritalStatus"
                 },
                 "source": {
-                    "description": "The exact match source text from which the marital status was extracted",
+                    "description": "The exact match source text from which the marital status was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -530,12 +539,12 @@
             "additionalProperties": false,
             "properties": {
                 "wage": {
-                    "description": "Monthly wage at time of offence in HKD",
+                    "description": "Monthly wage at time of offence in HKD, 0 if unemployed",
                     "title": "Wage",
                     "type": "integer"
                 },
                 "source": {
-                    "description": "The exact match source text from which the monthly wage was extracted",
+                    "description": "The exact match source text from which the monthly wage was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -563,7 +572,7 @@
                         }
                     ],
                     "default": null,
-                    "description": "Only applicable if category is Hong Kong resident"
+                    "description": "Required if category is Hong Kong resident. To infer Hong Kong permanent resident status (b2), look for indications such as references to living in Hong Kong for seven or more years, or possession of a Hong Kong permanent identity card."
                 },
                 "foreign_country_code": {
                     "anyOf": [
@@ -576,11 +585,24 @@
                         }
                     ],
                     "default": null,
-                    "description": "Specify country code in ISO 3166-1 alpha-2 format if nationality is Foreign nationality",
+                    "description": "Required if category is Foreign nationality. Specify country code in ISO 3166-1 alpha-2 format",
                     "title": "Foreign Country Code"
                 },
+                "infer_reason": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Reason for inferring nationality, if applicable",
+                    "title": "Infer Reason"
+                },
                 "source": {
-                    "description": "The exact match source text from which the nationality was extracted",
+                    "description": "The exact match source text from which the nationality was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -604,18 +626,31 @@
         "Occupation": {
             "additionalProperties": false,
             "properties": {
-                "occupation": {
+                "occupation_category": {
                     "$ref": "#/$defs/OccupationCategory",
                     "description": "Occupation at time of offence."
                 },
+                "occupation_name": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Specific occupation name if available",
+                    "title": "Occupation Name"
+                },
                 "source": {
-                    "description": "The exact match source text from which the occupation was extracted",
+                    "description": "The exact match source text from which the occupation was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
             },
             "required": [
-                "occupation",
+                "occupation_category",
                 "source"
             ],
             "title": "Occupation",
@@ -658,7 +693,7 @@
                     "description": "Only applicable if status is Parent. Parent with custody means: Has one or more children and primary or shared custody; Parent without custody means: Has one or more children but does not have custody (e.g., children live with another parent or guardian)"
                 },
                 "source": {
-                    "description": "The exact match source text from which the parental status was extracted",
+                    "description": "The exact match source text from which the parental status was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }
@@ -701,7 +736,7 @@
                     "type": "array"
                 },
                 "source": {
-                    "description": "The exact match source text from which the positive habits were extracted",
+                    "description": "The exact match source text from which the positive habits was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
                     "type": "string"
                 }

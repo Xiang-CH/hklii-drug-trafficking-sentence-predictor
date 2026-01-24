@@ -1,26 +1,18 @@
 {
   "defendants": [
     {
+      "defendant_id": 1,
       "defendant_name": {
         "name": "Wong Pui-hung",
         "source": "Wong Pui-hung"
       },
       "nationality": null,
-      "age_at_offence": {
-        "age": [
-          42,
-          43
-        ],
-        "source": "In the afternoon on 30 January 2023, the defendant was stopped by police officers in Yau Ma Tei. The defendant is 45 and educated up to secondary school level."
-      },
+      "age_at_offence": null,
       "age_at_sentencing": {
         "age": 45,
-        "source": "The defendant is 45 and educated up to secondary school level."
+        "source": "The defendant is 45"
       },
-      "gender": {
-        "gender": "Male",
-        "source": "In a video-recorded interview, the defendant admitted that he had consumed cocaine inside the car."
-      },
+      "gender": null,
       "marital_status": null,
       "parental_status": null,
       "household_composition": null,
@@ -44,8 +36,8 @@
         "source": "He has 25 criminal convictions with multiple offences. In particular, he has four trafficking in dangerous drugs and eight possession in dangerous drugs records."
       },
       "positive_habits_after_arrest": null,
-      "family_support": null
+      "family_supports": null
     }
   ],
-  "tracing_id": "d86ae7cfc2a9ec22cc702121eb6586f7"
+  "tracing_id": "b109fddc99a43933d5f192c2a2deb7d6"
 }

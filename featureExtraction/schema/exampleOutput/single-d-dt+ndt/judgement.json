@@ -1,15 +1,15 @@
 {
   "neutral_citation": "[2025] HKCFI 4709",
-  "judge_name": "Andrew Chan",
+  "judge_name": "Hon Andrew Chan J",
   "judgment_date_time": "2025-07-24T09:42:00+08:00",
   "representatives": [
     {
-      "name": "Antony Leung",
-      "role": "Mr Antony Leung, SPP of the Department of Justice, for HKSAR"
+      "name": "Mr Antony Leung",
+      "role": "SPP of the Department of Justice, for HKSAR"
     },
     {
-      "name": "So Pui-man Maria",
-      "role": "Ms So Pui-man Maria, instructed by Ernest Tang, Solicitors, assigned by DLA, for the accused"
+      "name": "Ms So Pui-man Maria",
+      "role": "Counsel instructed by Ernest Tang, Solicitors, assigned by DLA, for the accused"
     }
   ],
   "cases_heard": [
@@ -17,6 +17,7 @@
   ],
   "charges": [
     {
+      "charge_no": 1,
       "charge_name": "Trafficking in a dangerous drug",
       "offence_date": {
         "date": "2023-01-30",
@@ -35,14 +36,15 @@
       "cross_border": {
         "cross_border": false,
         "type": null,
-        "source": ""
+        "source": "No cross-border activity or import/export mentioned in the transcript."
       },
       "defendants_of_charge": [
         {
           "defendant_name": "Wong Pui-hung",
+          "defendant_id": 1,
           "trafficking_mode": {
-            "mode": "Courier delivery",
-            "source": "There is nothing in this case to indicate the defendant’s role beyond a mere courier."
+            "mode": "Vehicle-based dealing",
+            "source": "Inside the car in question, police officers found a rucksack which contained 43.13 grammes of methamphetamine hydrochloride and various resealable plastic bags."
           },
           "reasons_for_offence": null,
           "benefits_received": null
@@ -51,5 +53,11 @@
     }
   ],
   "court": "HKCFI",
-  "tracing_id": "7179069b0882e7b0fe5da11774d5aeb6"
+  "defendants": [
+    [
+      1,
+      "Wong Pui-hung"
+    ]
+  ],
+  "tracing_id": "b109fddc99a43933d5f192c2a2deb7d6"
 }
