@@ -1,0 +1,97 @@
+{
+  "neutral_citation": "[2025] HKCFI 4503",
+  "judge_name": "Hon Anna Lai J",
+  "judgment_date_time": "2025-08-29T11:21:00+08:00",
+  "representatives": [
+    {
+      "name": "Miss Lo Sum-yee Rosa",
+      "role": "SPP of the Department of Justice, for HKSAR"
+    },
+    {
+      "name": "Mr Chung Boey",
+      "role": "instructed by Eli K K Tsui & Co, assigned by DLA, for the 1st accused"
+    },
+    {
+      "name": "Mr Lau Chung-man Clement",
+      "role": "instructed by Raymond C P Lo & Co, assigned by DLA, for the 2nd accused"
+    }
+  ],
+  "cases_heard": [
+    "HCCC 33/2025"
+  ],
+  "charges": [
+    {
+      "charge_no": 1,
+      "charge_name": "Conspiracy to traffic in a dangerous drug",
+      "offence_date": {
+        "date": [
+          "2022-12-01",
+          "2022-12-27"
+        ],
+        "source": "on an unknown date between December 2022 and the 27th day of December 2022",
+        "day_of_week": 4,
+        "is_hk_public_holiday": true
+      },
+      "offence_time": null,
+      "place_of_offence": {
+        "address": "Room 606D, Block B, Yau Tong Industrial City in Kwun Tong",
+        "nature": "Industrial building",
+        "subDistrict": "Yau Tong",
+        "source": "at about 1.20 am on 27 December 2022, the police arrived at Room 606D, Block B, Yau Tong Industrial City in Kwun Tong",
+        "district": "Kwun Tong"
+      },
+      "cross_border": {
+        "cross_border": false,
+        "type": null,
+        "source": "in a room in Yau Tong, they conspired to unlawfully traffic in cocaine"
+      },
+      "defendants_of_charge": [
+        {
+          "defendant_name": "Hui Kwai-chung, Dick (許貴仲) (A1)",
+          "defendant_id": 1,
+          "trafficking_mode": {
+            "mode": "Courier delivery",
+            "source": "Counsel said that his role was more like a courier taking the drug from the Lei Yue Mun Plaza back to the room."
+          },
+          "reasons_for_offence": [
+            {
+              "reason": "Economic hardship",
+              "source": "Because the 1st defendant was indebted so he agreed."
+            },
+            {
+              "reason": "Financial gain",
+              "source": "Counsel said he committed the present offence to earn quick money."
+            }
+          ],
+          "benefits_received": {
+            "received": false,
+            "amount": null,
+            "source": "The acquaintance said that he would be remunerated afterwards."
+          }
+        },
+        {
+          "defendant_name": "Hong Ka-ming (康家銘) (A2)",
+          "defendant_id": 2,
+          "trafficking_mode": {
+            "mode": "Drug repackaging or storage",
+            "source": "Police enquiry also revealed that in late December 2022, the 2nd defendant signed a tenancy agreement to rent the room..."
+          },
+          "reasons_for_offence": null,
+          "benefits_received": null
+        }
+      ]
+    }
+  ],
+  "court": "HKCFI",
+  "defendants": [
+    {
+      "id": 1,
+      "name": "Hui Kwai-chung, Dick (許貴仲) (A1)"
+    },
+    {
+      "id": 2,
+      "name": "Hong Ka-ming (康家銘) (A2)"
+    }
+  ],
+  "tracing_id": "7dae97f86f8b9c3042e1fdd95cfced0c"
+}

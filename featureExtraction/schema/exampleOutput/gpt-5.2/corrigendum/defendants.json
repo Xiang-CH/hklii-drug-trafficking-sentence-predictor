@@ -1,0 +1,97 @@
+{
+  "defendants": [
+    {
+      "defendant_id": 1,
+      "defendant_name": {
+        "name": "黃鈺庭",
+        "source": "黃鈺庭\n（第一被告人）"
+      },
+      "nationality": null,
+      "age_at_offence": null,
+      "age_at_sentencing": {
+        "age": 18,
+        "source": "他現年只有18歲"
+      },
+      "gender": null,
+      "marital_status": null,
+      "parental_status": null,
+      "household_composition": null,
+      "health_status": {
+        "conditions": [
+          {
+            "name": "吸食氯胺酮",
+            "type": "Drug addiction",
+            "source": "繼而開始吸食氯胺酮"
+          }
+        ]
+      },
+      "drug_treatment_participation": null,
+      "education_level": {
+        "level": "Secondary - Lower",
+        "source": "在2021年完成中三學歷"
+      },
+      "occupation": {
+        "occupation_category": "Unemployed",
+        "occupation_name": null,
+        "source": "第二被告人知道第一被告人無業"
+      },
+      "monthly_wage": {
+        "wage": 0,
+        "source": "第二被告人知道第一被告人無業"
+      },
+      "criminal_records": [
+        {
+          "record": "None",
+          "source": "他沒有任何前科"
+        }
+      ],
+      "positive_habits_after_arrest": null,
+      "family_supports": null
+    },
+    {
+      "defendant_id": 2,
+      "defendant_name": {
+        "name": "蘇偉強",
+        "source": "蘇偉強\n（第二被告人）"
+      },
+      "nationality": null,
+      "age_at_offence": null,
+      "age_at_sentencing": null,
+      "gender": null,
+      "marital_status": null,
+      "parental_status": null,
+      "household_composition": null,
+      "health_status": {
+        "conditions": [
+          {
+            "name": "沒有吸毒習慣",
+            "type": "Drug addiction",
+            "source": "第二被告人沒有吸毒習慣"
+          }
+        ]
+      },
+      "drug_treatment_participation": null,
+      "education_level": null,
+      "occupation": null,
+      "monthly_wage": null,
+      "criminal_records": [
+        {
+          "record": "None",
+          "source": "兩位被告人均無定罪紀錄"
+        }
+      ],
+      "positive_habits_after_arrest": null,
+      "family_supports": [
+        {
+          "support": "Letters of support from family",
+          "source": "辯方更依賴大量求情信"
+        },
+        {
+          "support": "Other",
+          "source": "其家人及朋友對他的正面評價及支持"
+        }
+      ]
+    }
+  ],
+  "tracing_id": "e3185f92210dc9799d69c243a39dd1c8"
+}

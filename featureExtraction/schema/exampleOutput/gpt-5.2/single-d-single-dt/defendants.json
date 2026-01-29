@@ -1,0 +1,60 @@
+{
+  "defendants": [
+    {
+      "defendant_id": 1,
+      "defendant_name": {
+        "name": "Wong Man-kit",
+        "source": "Wong Man-kit"
+      },
+      "nationality": null,
+      "age_at_offence": {
+        "age": 21,
+        "source": "he was 21 years old at the time"
+      },
+      "age_at_sentencing": {
+        "age": 23,
+        "source": "The defendant is now 23 years old"
+      },
+      "gender": {
+        "gender": "Male",
+        "source": "He was committed to the Court of First Instance for sentence."
+      },
+      "marital_status": null,
+      "parental_status": null,
+      "household_composition": {
+        "composition": "Lives with family",
+        "source": "Defendant lived there with his parents and younger brother."
+      },
+      "health_status": null,
+      "drug_treatment_participation": null,
+      "education_level": null,
+      "occupation": {
+        "occupation_category": "Craft and related worker",
+        "occupation_name": "elevator repair apprentice",
+        "source": "After finishing school, he became an elevator repair apprentice"
+      },
+      "monthly_wage": {
+        "wage": 0,
+        "source": "But at the time of his arrest, he was unemployed."
+      },
+      "criminal_records": [
+        {
+          "record": "None",
+          "source": "had a clear record"
+        }
+      ],
+      "positive_habits_after_arrest": null,
+      "family_supports": [
+        {
+          "support": "Letters of support from family",
+          "source": "I do have a mitigation letter from the defendant’s parents who are very supportive"
+        },
+        {
+          "support": "Other",
+          "source": "I have a letter from the defendant who deeply regrets committing this offence and disappointing his family."
+        }
+      ]
+    }
+  ],
+  "tracing_id": "813dc3b6b1b1584c1ce4941fc214f4f0"
+}

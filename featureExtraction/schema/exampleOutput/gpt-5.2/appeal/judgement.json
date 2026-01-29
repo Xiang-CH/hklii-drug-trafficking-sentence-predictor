@@ -1,0 +1,77 @@
+{
+  "neutral_citation": "[2025] HKCA 943",
+  "judge_name": "Macrae VP",
+  "judgment_date_time": "2025-10-17T00:00:00+08:00",
+  "representatives": [
+    {
+      "name": "Prakash L Daryanani",
+      "role": "SPP, of the Department of Justice, for the Respondent"
+    },
+    {
+      "name": "Duncan Percy",
+      "role": "instructed by SH Chan & Co, assigned by the Director of Legal Aid, for the Applicant"
+    }
+  ],
+  "cases_heard": [
+    "CACC 28/2025",
+    "HCCC 114/2024"
+  ],
+  "charges": [
+    {
+      "charge_no": 1,
+      "charge_name": "Trafficking in dangerous drugs",
+      "offence_date": {
+        "date": "2022-04-02",
+        "source": "in the evening of 2 April 2022",
+        "day_of_week": 6,
+        "is_hk_public_holiday": false
+      },
+      "offence_time": {
+        "time": "20:30:00+08:00",
+        "source": "at around 8:30pm",
+        "time_of_day": "evening"
+      },
+      "place_of_offence": {
+        "address": "room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon",
+        "nature": "Residential building",
+        "subDistrict": "Tai Kok Tsui",
+        "source": "at room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon",
+        "district": "Yau Tsim Mong"
+      },
+      "cross_border": {
+        "cross_border": false,
+        "type": null,
+        "source": "the defendant on 2 April 2022, at room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon"
+      },
+      "defendants_of_charge": [
+        {
+          "defendant_name": "Lau Kam Hung (劉金洪)",
+          "defendant_id": 1,
+          "trafficking_mode": {
+            "mode": "Drug repackaging or storage",
+            "source": "from a metal box on a table, (a)  4 resealable plastic bags containing a total of 17.3g ... (b)  An electronic scale, (c)  a resealable plastic bag containing multiple smaller resealable plastic bags"
+          },
+          "reasons_for_offence": [
+            {
+              "reason": "Economic hardship",
+              "source": "turning to gambling, which led to debts, which in turn resulted in his commission of the previous offences."
+            },
+            {
+              "reason": "Addiction-driven",
+              "source": "it was the pain that drove the defendant to resort to dangerous drugs"
+            }
+          ],
+          "benefits_received": null
+        }
+      ]
+    }
+  ],
+  "court": "HKCA",
+  "defendants": [
+    {
+      "id": 1,
+      "name": "Lau Kam Hung (劉金洪)"
+    }
+  ],
+  "tracing_id": "8234bd6308e13a83e60a9452d9859ced"
+}

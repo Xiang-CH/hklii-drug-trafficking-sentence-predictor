@@ -141,7 +141,7 @@
                         }
                     ],
                     "default": null,
-                    "description": "Infer nationality if not explicitly stated, (e.g., the defendant\u2019s name (if culturally indicative), place of birth, location or system of education). Do not infer nationality based on the court location or setting."
+                    "description": "Infer nationality if not explicitly stated, (e.g., the defendant's name (if culturally indicative), place of birth, location or system of education). Do not infer nationality based on the court location or setting."
                 },
                 "age_at_offence": {
                     "anyOf": [
@@ -266,16 +266,20 @@
                     "default": null,
                     "description": "null means not mentioned at all; use 0 if unemployed"
                 },
-                "criminal_record": {
+                "criminal_records": {
                     "anyOf": [
                         {
-                            "$ref": "#/$defs/CriminalRecordDetail"
+                            "items": {
+                                "$ref": "#/$defs/CriminalRecordDetail"
+                            },
+                            "type": "array"
                         },
                         {
                             "type": "null"
                         }
                     ],
-                    "default": null
+                    "default": null,
+                    "title": "Criminal Records"
                 },
                 "positive_habits_after_arrest": {
                     "anyOf": [
@@ -450,6 +454,11 @@
         "HealthStatusCondition": {
             "additionalProperties": false,
             "properties": {
+                "name": {
+                    "description": "Name of the health condition",
+                    "title": "Name",
+                    "type": "string"
+                },
                 "type": {
                     "$ref": "#/$defs/HealthStatusType",
                     "description": "Type of health status"
@@ -461,6 +470,7 @@
                 }
             },
             "required": [
+                "name",
                 "type",
                 "source"
             ],
@@ -490,7 +500,8 @@
             "additionalProperties": false,
             "properties": {
                 "composition": {
-                    "$ref": "#/$defs/HouseholdComposition"
+                    "$ref": "#/$defs/HouseholdComposition",
+                    "description": "Household composition of the defendant at time of offence. Lives alone: The defendant does not live with anyone else, including family members. Lives with family: The defendant lives with immediate or extended family members, such as parents, siblings, children, spouses, or other relatives. This option excludes cohabitation with a fianc\u00e9 or fianc\u00e9e Lives with non-family: The defendant lives with individuals not considered family, such as friends, roommates, acquaintances, or a romantic partner who is not yet legally recognised as family (e.g., a fianc\u00e9 or fianc\u00e9e, boyfriend or girlfriend) "
                 },
                 "source": {
                     "description": "The exact match source text from which the household composition was extracted. Do not include any additional information in the source document.",

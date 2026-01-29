@@ -170,6 +170,7 @@ class ParentalStatus(BaseModel):
 class HealthStatusCondition(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
+    name: str = Field(description="Name of the health condition")
     type: HealthStatusType = Field(description="Type of health status")
     source: str = source_field("health status")
 
@@ -220,7 +221,12 @@ class MaritalStatusDetail(BaseModel):
 class HouseholdCompositionDetail(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    composition: HouseholdComposition
+    composition: HouseholdComposition = Field(
+        description="Household composition of the defendant at time of offence. "
+        "Lives alone: The defendant does not live with anyone else, including family members. "
+        "Lives with family: The defendant lives with immediate or extended family members, such as parents, siblings, children, spouses, or other relatives. This option excludes cohabitation with a fiancé or fiancée "
+        "Lives with non-family: The defendant lives with individuals not considered family, such as friends, roommates, acquaintances, or a romantic partner who is not yet legally recognised as family (e.g., a fiancé or fiancée, boyfriend or girlfriend) "
+    )
     source: str = source_field("household composition")
 
 
@@ -300,13 +306,16 @@ class DefendantProfile(BaseModel):
     monthly_wage: Optional[MonthlyWageDetail] = Field(
         default=None, description="null means not mentioned at all; use 0 if unemployed"
     )
-    criminal_record: Optional[CriminalRecordDetail] = Field(default=None)
+    criminal_records: Optional[List[CriminalRecordDetail]] = Field(default=None)
     positive_habits_after_arrest: Optional[PositiveHabitDetail] = Field(default=None)
     family_supports: Optional[List[FamilySupportDetail]] = Field(default=None)
 
     @model_validator(mode="after")
     def set_wage_for_unemployed(self) -> "DefendantProfile":
-        if self.occupation and self.occupation.occupation_category == OccupationCategory.UNEMPLOYED:
+        if (
+            self.occupation
+            and self.occupation.occupation_category == OccupationCategory.UNEMPLOYED
+        ):
             self.monthly_wage = MonthlyWageDetail(wage=0, source=self.occupation.source)
         return self
 

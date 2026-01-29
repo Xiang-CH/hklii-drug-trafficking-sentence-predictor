@@ -1,0 +1,93 @@
+{
+  "neutral_citation": "[2025] HKCFI 4503",
+  "judge_name": "Hon Anna Lai J",
+  "judgment_date_time": "2025-08-29T11:21:00+08:00",
+  "representatives": [
+    {
+      "name": "Miss Lo Sum-yee Rosa",
+      "role": "SPP of the Department of Justice, for HKSAR"
+    },
+    {
+      "name": "Mr Chung Boey",
+      "role": "instructed by Eli K K Tsui & Co, assigned by DLA, for the 1st accused"
+    },
+    {
+      "name": "Mr Lau Chung-man Clement",
+      "role": "instructed by Raymond C P Lo & Co, assigned by DLA, for the 2nd accused"
+    }
+  ],
+  "cases_heard": [
+    "HCCC 33/2025"
+  ],
+  "charges": [
+    {
+      "charge_no": 1,
+      "charge_name": "Conspiracy to traffic in a dangerous drug",
+      "offence_date": {
+        "date": [
+          "2022-12-01",
+          "2022-12-27"
+        ],
+        "source": "on an unknown date between December 2022 and the 27th day of December 2022",
+        "day_of_week": 4,
+        "is_hk_public_holiday": true
+      },
+      "offence_time": {
+        "time": "01:20:00+08:00",
+        "source": "at about 1.20 am on 27 December 2022, the police arrived at Room 606D, Block B, Yau Tong Industrial City in Kwun Tong as a result of a 999 call regarding a dispute.",
+        "time_of_day": "night"
+      },
+      "place_of_offence": {
+        "address": "Room 606D, Block B, Yau Tong Industrial City in Kwun Tong",
+        "nature": "Industrial building",
+        "subDistrict": "Kwun Tong",
+        "source": "at about 1.20 am on 27 December 2022, the police arrived at Room 606D, Block B, Yau Tong Industrial City in Kwun Tong as a result of a 999 call regarding a dispute.",
+        "district": "Kwun Tong"
+      },
+      "cross_border": {
+        "cross_border": false,
+        "type": null,
+        "source": "Not mentioned in the judgment"
+      },
+      "defendants_of_charge": [
+        {
+          "defendant_name": "Hui Kwai-chung, Dick",
+          "defendant_id": 1,
+          "trafficking_mode": {
+            "mode": "Courier delivery",
+            "source": "Counsel said that his role was more like a courier taking the drug from the Lei Yue Mun Plaza back to the room."
+          },
+          "reasons_for_offence": [
+            {
+              "reason": "Economic hardship",
+              "source": "Because the 1st defendant was indebted so he agreed."
+            }
+          ],
+          "benefits_received": null
+        },
+        {
+          "defendant_name": "Hong Ka-ming",
+          "defendant_id": 2,
+          "trafficking_mode": {
+            "mode": "Drug houses",
+            "source": "He also hired the room for a period of 2 years, apparently on behalf of the drug trafficking syndicate."
+          },
+          "reasons_for_offence": null,
+          "benefits_received": null
+        }
+      ]
+    }
+  ],
+  "court": "HKCFI",
+  "defendants": [
+    {
+      "id": 1,
+      "name": "Hui Kwai-chung, Dick"
+    },
+    {
+      "id": 2,
+      "name": "Hong Ka-ming"
+    }
+  ],
+  "tracing_id": "065936cc47e045741d0d51b47ba6bd45"
+}

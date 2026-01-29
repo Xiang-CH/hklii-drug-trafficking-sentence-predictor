@@ -1,0 +1,84 @@
+{
+  "trials": [
+    {
+      "charge_type": {
+        "charge_no": 1,
+        "type": "Actual Trafficking",
+        "defendant_name": "Lau Kam Hung",
+        "defendant_id": 1,
+        "source": "Having pleaded not guilty before a magistrate at his committal on 11 April 2024 to one count of trafficking in dangerous drugs, contrary to section 4(1)(a) and (3) of the Dangerous Drugs Ordinance, Cap 134, the applicant later indicated that he would plead guilty shortly after trial dates were fixed in the High Court."
+      },
+      "drugs": [
+        {
+          "drug_type": "Methamphetamine",
+          "other_drug_type": null,
+          "quantity": 17.0,
+          "source": "The applicant was charged with trafficking in 17.0 grammes of “Ice” and 14.4 grammes of herbal cannabis found inside the Flat, the street value of which was HK$9,895.60 and HK$2,621 respectively."
+        },
+        {
+          "drug_type": "Cannabis",
+          "other_drug_type": null,
+          "quantity": 14.4,
+          "source": "The applicant was charged with trafficking in 17.0 grammes of “Ice” and 14.4 grammes of herbal cannabis found inside the Flat, the street value of which was HK$9,895.60 and HK$2,621 respectively."
+        }
+      ],
+      "roles": [
+        {
+          "role": "Storekeeper",
+          "source": "Based on the summary of facts, the only reasonable inference is that the defendant was in possession of the dangerous drugs as a storekeeper."
+        }
+      ],
+      "aggravating_factors": [
+        {
+          "factor": "Multiple drugs",
+          "other_factor": null,
+          "enhancement": 1,
+          "source": "Furthermore, as mentioned above, the fact that the defendant was trafficking in more than one type of dangerous drugs is an aggravating factor. Given the relatively small quantity of herbal cannabis involved, I will enhance his sentence on this basis by 1 month, taking the total to 8 years and 1 month."
+        },
+        {
+          "factor": "Persistent offender",
+          "other_factor": null,
+          "enhancement": 6,
+          "source": "The defendant has a number of convictions for very serious offences. Although this is his first conviction for trafficking in dangerous drugs, and his only other drug related conviction was in 2019 for simple possession, I find that I must place more weight on the need to deter the defendant from committing further offences in the future when sentencing. As such, I will enhance his sentence by 6 months on him being a persistent offender, taking the starting point up to 8 years' imprisonment."
+        }
+      ],
+      "mitigating_factors": null,
+      "guilty_plea": {
+        "pleaded_guilty": true,
+        "court_type": "High Court",
+        "high_court_stage": "After dates fixed",
+        "district_court_stage": null,
+        "source": "Here the defendant indicated through his solicitors his intention to plead guilty about 1 month after the trial dates were fixed. The defendant did plead guilty on 22 January 2025, admitted to the summary of facts, and was duly convicted."
+      },
+      "starting_point": {
+        "sentence_years": 7,
+        "sentence_months": 6,
+        "source": "Step 3: Based on my finding of the defendant’s role and culpability, I adopt a starting point of 7 years and 6 months, being the arithmetical application of the tariff.",
+        "total_months": 90
+      },
+      "sentence_after_role": {
+        "sentence_years": 7,
+        "sentence_months": 6,
+        "source": "Inferred as starting point since role adjustment not provided",
+        "total_months": 90
+      },
+      "notional_sentence": {
+        "sentence_years": 8,
+        "sentence_months": 1,
+        "source": "The defendant has a number of convictions for very serious offences ... I will enhance his sentence by 6 months on him being a persistent offender, taking the starting point up to 8 years' imprisonment. Furthermore ... I will enhance his sentence on this basis by 1 month, taking the total to 8 years and 1 month.",
+        "total_months": 97
+      },
+      "mitigation_reduction": null,
+      "final_sentence": {
+        "sentence_years": 6,
+        "sentence_months": 1,
+        "guilty_plea_reduction_years": 2,
+        "guilty_plea_reduction_months": 0,
+        "source": "I find that the defendant should be granted a discount of about 25% for his plea, resulting in a post discount sentence of 73 months' imprisonment. The defendant is sentenced to 6 years 1 month's imprisonment.",
+        "total_months": 73,
+        "guilty_plea_reduction_total_months": 24
+      }
+    }
+  ],
+  "tracing_id": "afe0c91c6b775d55e828428bb3cf0f04"
+}

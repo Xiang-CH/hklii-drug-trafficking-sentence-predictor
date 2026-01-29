@@ -1,0 +1,60 @@
+{
+  "defendants": [
+    {
+      "defendant_id": 1,
+      "defendant_name": {
+        "name": "Wong Man-kit",
+        "source": "Wong Man-kit"
+      },
+      "nationality": null,
+      "age_at_offence": {
+        "age": 21,
+        "source": "after all, he was 21 years old at the time"
+      },
+      "age_at_sentencing": {
+        "age": 23,
+        "source": "The defendant is now 23 years old"
+      },
+      "gender": {
+        "gender": "Male",
+        "source": "after all, he was 21 years old at the time"
+      },
+      "marital_status": null,
+      "parental_status": {
+        "status": "No children",
+        "custody": null,
+        "source": "The defendant lived there with his parents and younger brother."
+      },
+      "household_composition": {
+        "composition": "Lives with family",
+        "source": "Defendant lived there with his parents and younger brother."
+      },
+      "health_status": null,
+      "drug_treatment_participation": null,
+      "education_level": null,
+      "occupation": {
+        "occupation_category": "Unemployed",
+        "occupation_name": null,
+        "source": "After finishing school, he became an elevator repair apprentice and had a full-time job, but the COVID pandemic affected his employment and he was made redundant. He did work for some time in 2022 as a construction worker. But at the time of his arrest, he was unemployed."
+      },
+      "monthly_wage": {
+        "wage": 0,
+        "source": "After finishing school, he became an elevator repair apprentice and had a full-time job, but the COVID pandemic affected his employment and he was made redundant. He did work for some time in 2022 as a construction worker. But at the time of his arrest, he was unemployed."
+      },
+      "criminal_records": [
+        {
+          "record": "None",
+          "source": "The defendant is now 23 years old and had a clear record."
+        }
+      ],
+      "positive_habits_after_arrest": null,
+      "family_supports": [
+        {
+          "support": "Letters of support from family",
+          "source": "I do have a mitigation letter from the defendant’s parents who are very supportive and accept the defendant’s remorse as genuine."
+        }
+      ]
+    }
+  ],
+  "tracing_id": "3ac88b1cc58a31e38fcde87f5b357337"
+}

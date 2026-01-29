@@ -1,0 +1,139 @@
+{
+  "trials": [
+    {
+      "charge_type": {
+        "charge_no": 1,
+        "type": "Actual Trafficking",
+        "defendant_name": "劉子健",
+        "defendant_id": 1,
+        "source": "控罪：\n[1] 販運危險藥物（Trafficking in a dangerous drug）"
+      },
+      "drugs": [
+        {
+          "drug_type": "Heroin",
+          "other_drug_type": null,
+          "quantity": 5183.0,
+          "source": "被告於2023年3月29日，連同盧健文，分別非法販運內含5.183公斤海洛英鹽酸鹽的6.638公斤混合劑（第一項控罪）"
+        }
+      ],
+      "roles": [
+        {
+          "role": "Storekeeper",
+          "source": "辯方指出，被告的警誡口供及錄影會面當中已提述他並非主腦、管理人或組織者，他僅擔任倉管及運輸角色，只是受僱為他人運毒，以獲取報酬。"
+        },
+        {
+          "role": "Courier",
+          "source": "辯方指出，被告的警誡口供及錄影會面當中已提述他並非主腦、管理人或組織者，他僅擔任倉管及運輸角色，只是受僱為他人運毒，以獲取報酬。"
+        }
+      ],
+      "aggravating_factors": null,
+      "mitigating_factors": null,
+      "guilty_plea": {
+        "pleaded_guilty": true,
+        "court_type": "High Court",
+        "high_court_stage": "Up to committal",
+        "district_court_stage": null,
+        "source": "被告早在2024年5月13日首次在裁判法院已承認兩項控罪及同意相關案情。"
+      },
+      "starting_point": {
+        "sentence_years": 15,
+        "sentence_months": 0,
+        "source": "因此，考慮所有上述情節，就首項控罪可予15年監禁為量刑起點",
+        "total_months": 180
+      },
+      "sentence_after_role": {
+        "sentence_years": 15,
+        "sentence_months": 0,
+        "source": "Inferred as starting point since role adjustment not provided",
+        "total_months": 180
+      },
+      "notional_sentence": {
+        "sentence_years": 15,
+        "sentence_months": 0,
+        "source": "因此，考慮所有上述情節，就首項控罪可予15年監禁為量刑起點",
+        "total_months": 180
+      },
+      "mitigation_reduction": null,
+      "final_sentence": {
+        "sentence_years": 10,
+        "sentence_months": 0,
+        "guilty_plea_reduction_years": 5,
+        "guilty_plea_reduction_months": 0,
+        "source": "因此，考慮所有上述情節，就首項控罪可予15年監禁為量刑起點，認罪後減為10年監禁；",
+        "total_months": 120,
+        "guilty_plea_reduction_total_months": 60
+      }
+    },
+    {
+      "charge_type": {
+        "charge_no": 2,
+        "type": "Actual Trafficking",
+        "defendant_name": "劉子健",
+        "defendant_id": 1,
+        "source": "控罪：\n[2] 販運危險藥物（Trafficking in dangerous drugs）"
+      },
+      "drugs": [
+        {
+          "drug_type": "Heroin",
+          "other_drug_type": null,
+          "quantity": 70013.0,
+          "source": "被告於2023年3月29日，連同盧健文，分別非法販運...與及內含70.013公斤海洛英鹽酸鹽及385克單乙酰嗎啡鹽酸鹽的86.226公斤混合劑（控罪二）。"
+        },
+        {
+          "drug_type": "Morphine",
+          "other_drug_type": null,
+          "quantity": 385.0,
+          "source": "被告於2023年3月29日，連同盧健文，分別非法販運...與及內含70.013公斤海洛英鹽酸鹽及385克單乙酰嗎啡鹽酸鹽的86.226公斤混合劑（控罪二）。"
+        }
+      ],
+      "roles": [
+        {
+          "role": "Storekeeper",
+          "source": "辯方指出，被告的警誡口供及錄影會面當中已提述他並非主腦、管理人或組織者，他僅擔任倉管及運輸角色，只是受僱為他人運毒，以獲取報酬。"
+        },
+        {
+          "role": "Courier",
+          "source": "辯方指出，被告的警誡口供及錄影會面當中已提述他並非主腦、管理人或組織者，他僅擔任倉管及運輸角色，只是受僱為他人運毒，以獲取報酬。"
+        }
+      ],
+      "aggravating_factors": null,
+      "mitigating_factors": null,
+      "guilty_plea": {
+        "pleaded_guilty": true,
+        "court_type": "High Court",
+        "high_court_stage": "Up to committal",
+        "district_court_stage": null,
+        "source": "被告早在2024年5月13日首次在裁判法院已承認兩項控罪及同意相關案情。"
+      },
+      "starting_point": {
+        "sentence_years": 33,
+        "sentence_months": 0,
+        "source": "次項控罪則以33年監禁為量刑起點",
+        "total_months": 396
+      },
+      "sentence_after_role": {
+        "sentence_years": 33,
+        "sentence_months": 0,
+        "source": "Inferred as starting point since role adjustment not provided",
+        "total_months": 396
+      },
+      "notional_sentence": {
+        "sentence_years": 33,
+        "sentence_months": 0,
+        "source": "次項控罪則以33年監禁為量刑起點",
+        "total_months": 396
+      },
+      "mitigation_reduction": null,
+      "final_sentence": {
+        "sentence_years": 22,
+        "sentence_months": 0,
+        "guilty_plea_reduction_years": 11,
+        "guilty_plea_reduction_months": 0,
+        "source": "次項控罪則以33年監禁為量刑起點，認罪後減為22年監禁。",
+        "total_months": 264,
+        "guilty_plea_reduction_total_months": 132
+      }
+    }
+  ],
+  "tracing_id": "f0a9dd617ea07b72c7aea2d5f8ee5f8e"
+}

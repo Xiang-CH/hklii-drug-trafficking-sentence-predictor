@@ -3,7 +3,7 @@ import re
 import holidays
 
 from enum import Enum
-from typing import List, Optional, Dict, Tuple
+from typing import List, Optional, Dict
 from pydantic import (
     BaseModel,
     Field,
@@ -12,7 +12,7 @@ from pydantic import (
     field_validator,
     model_validator,
 )
-from datetime import date as date_type, time as time_type, datetime
+from datetime import date as date_type, time as time_type, datetime, timedelta
 from schema.common import source_field
 from utils.hkDistricts import (
     District,
@@ -81,15 +81,30 @@ class ReasonForOffence(str, Enum):
 class DateDetail(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    date: date_type = Field(
-        description="The date of offence in ISO 8601 format (YYYY-MM-DD)"
+    date: date_type | List[date_type] = Field(
+        description="The date of offence in ISO 8601 format (YYYY-MM-DD), or a list of two elements if a date range is mentioned"
     )
+
+    @field_validator("date")
+    @classmethod
+    def validate_date(
+        cls, v: date_type | List[date_type]
+    ) -> date_type | List[date_type]:
+        if isinstance(v, list):
+            if len(v) != 2:
+                raise ValueError("Date range must be a list of two dates")
+            if v[0] > v[1]:
+                raise ValueError("Start date must be before or equal to end date")
+        return v
+
     source: str = source_field("date")
 
     @computed_field
     @property
     def day_of_week(self) -> int:
         """Automatically computed day of the week from the date (1=Monday, 7=Sunday)."""
+        if isinstance(self.date, list):
+            return self.date[0].weekday() + 1
         return self.date.weekday() + 1
 
     @computed_field
@@ -97,6 +112,14 @@ class DateDetail(BaseModel):
     def is_hk_public_holiday(self) -> bool:
         """Automatically computed whether the date is a Hong Kong public holiday."""
         hk_holidays = holidays.country_holidays("HK")
+        if isinstance(self.date, list):
+            # Generate all dates in the range and check if any is a holiday
+            current = self.date[0]
+            while current <= self.date[1]:
+                if current in hk_holidays:
+                    return True
+                current += timedelta(days=1)
+            return False
         return self.date in hk_holidays
 
 
@@ -224,7 +247,15 @@ class ChargeForDefendant(BaseModel):
     )
     trafficking_mode: Optional[TraffickingMode] = Field(default=None)
     reasons_for_offence: Optional[List[ReasonForOffenceDetail]] = Field(default=None)
-    benefits_received: Optional[BenefitsReceivedDetail] = Field(default=None)
+    benefits_received: Optional[BenefitsReceivedDetail] = Field(
+        default=None,
+        description="Extract a monetary benefit only if the judgment explicitly says the defendant received: "
+        "a ‘payment’, ‘reward’, ‘profit’, ‘proceeds’, ‘benefit’, ‘gain’, or ‘income’ from drug trafficking "
+        "and for the defendant’s personal benefit (not merely handled or transported).\n"
+        "Ignore cash simply because it was found on the defendant’s person or in a car/room; "
+        "Do not infer benefits from drug quantity, street value, or general trafficking profitability; "
+        "Attribute a benefit solely when the text clearly links that specific benefit to that defendant.",
+    )
 
 
 class Charge(BaseModel):
@@ -255,6 +286,15 @@ class Representative(BaseModel):
     role: str = Field(
         description="Role of the representative in original language of the judgment"
     )
+
+
+class DefendantInfo(BaseModel):
+    """Simple model for defendant ID and name in the defendants list."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    id: int = Field(description="Defendant ID (1-indexed)")
+    name: str = Field(description="Full name of the defendant")
 
 
 # Regex patterns for validation
@@ -293,7 +333,7 @@ class Judgement(BaseModel):
         description="List of legal representatives involved in the case"
     )
     cases_heard: List[str] = Field(
-        description="List of cases heard in the judgment in the format <case_type case_no/year>, at least one case must be present"
+        description="List of cases heard in the judgment in the format <case_type case_no/year>, e.g. HCCC 100/2024 at least one case must be present"
     )
 
     @field_validator("cases_heard")
@@ -305,7 +345,7 @@ class Judgement(BaseModel):
             if not CASES_HEARD_PATTERN.match(case):
                 raise ValueError(
                     f"Invalid case format: '{case}'. "
-                    "Expected format: case_type case_no/year (e.g., 'CC 1/2024')"
+                    "Expected format: case_type case_no/year (e.g., 'HCCC 100/2024')"
                 )
         return v
 
@@ -332,7 +372,7 @@ class Judgement(BaseModel):
 
     @computed_field
     @property
-    def defendants(self) -> List[Tuple[int, str]]:
+    def defendants(self) -> List[DefendantInfo]:
         """Computed list of all defendants with their IDs based on first appearance order."""
         defendant_id_map: Dict[str, int] = {}
         current_id = 1
@@ -341,8 +381,11 @@ class Judgement(BaseModel):
                 if defendant.defendant_name not in defendant_id_map:
                     defendant_id_map[defendant.defendant_name] = current_id
                     current_id += 1
-        # Return as list of (id, name) tuples sorted by ID
-        return sorted([(id, name) for name, id in defendant_id_map.items()])
+        # Return as list of DefendantInfo objects sorted by ID
+        return sorted(
+            [DefendantInfo(id=id, name=name) for name, id in defendant_id_map.items()],
+            key=lambda x: x.id,
+        )
 
 
 if __name__ == "__main__":

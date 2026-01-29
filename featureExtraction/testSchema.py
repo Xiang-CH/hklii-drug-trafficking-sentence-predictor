@@ -21,6 +21,8 @@ langfuse = Langfuse()
 
 RERUN_ALL = False
 MAX_RETRIES = 5
+# MODEL = "gpt-5-mini"
+MODEL = "gpt-5.2"
 
 judgement_base_path = "sampleJudgments"
 judgement_types = [
@@ -101,7 +103,10 @@ def extract_single_schema(
             if schema_name == "defendants":
                 base_prompt = base_prompt.format(
                     defendant_ids_and_names="\n".join(
-                        [f"{d[0]}. {d[1]}" for d in previous_extractions["defendants"]]
+                        [
+                            f"{d.id}. {d.name}"
+                            for d in previous_extractions["defendants"]
+                        ]
                     )
                 )
             elif schema_name == "trials":
@@ -120,10 +125,10 @@ def extract_single_schema(
 
             response = client.responses.parse(
                 name=f"{schema_name}-extraction-{attempt + 1}",
-                model="gpt-5-mini",
+                model=MODEL,
                 instructions=base_prompt,
                 input=full_input,
-                reasoning={"effort": "low", "summary": "detailed"},
+                reasoning={"summary": "detailed"},
                 text_format=schema_model,
                 metadata={
                     "judgement_type": judgement_type,
@@ -156,7 +161,7 @@ def extract_single_schema(
 
             return response.output_parsed  # Return for use in subsequent extractions
 
-        except (OpenAIError, ValidationError) as e:
+        except (OpenAIError, ValidationError, ValueError) as e:
             # print(f"Attempt {attempt + 1} failed for {schema_name}: {str(e)}")
             if isinstance(e, ValidationError):
                 last_error = str(e)
@@ -173,7 +178,7 @@ def extract_single_schema(
 def extract_all_features(case_txt: str, judgement_type: str, output_dir: str) -> None:
     """Extract all features in sequence, passing context between extractions."""
     langfuse.update_current_trace(
-        input={"judgement_type": judgement_type},
+        input={"judgement_type": judgement_type, "model": MODEL},
         tags=["feature-extraction"],
     )
 
@@ -202,7 +207,7 @@ def extract_all_features(case_txt: str, judgement_type: str, output_dir: str) ->
 
 
 for judgement_type in tqdm(judgement_types, desc="Judgement Types"):
-    output_dir = f"schema/exampleOutput/{judgement_type}"
+    output_dir = f"schema/exampleOutput/{MODEL}/{judgement_type}"
     os.makedirs(output_dir, exist_ok=True)
 
     # Skip if all outputs already exist and not rerunning all

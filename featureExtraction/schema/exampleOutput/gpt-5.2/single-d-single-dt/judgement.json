@@ -1,0 +1,76 @@
+{
+  "neutral_citation": "[2025] HKCFI 4195",
+  "judge_name": "Hon Woodcock J",
+  "judgment_date_time": "2025-07-24T09:36:00+08:00",
+  "representatives": [
+    {
+      "name": "Ms Clara Ma",
+      "role": "SADPP of the Department of Justice, for HKSAR"
+    },
+    {
+      "name": "Ms Ling Wai-kai Vickie",
+      "role": "instructed by DLA, for the accused"
+    }
+  ],
+  "cases_heard": [
+    "HCCC 66/2025"
+  ],
+  "charges": [
+    {
+      "charge_no": 1,
+      "charge_name": "Trafficking in dangerous drugs",
+      "offence_date": {
+        "date": "2023-11-30",
+        "source": "on 30 November 2023",
+        "day_of_week": 4,
+        "is_hk_public_holiday": false
+      },
+      "offence_time": null,
+      "place_of_offence": {
+        "address": "Room 1140, Hong Tai House, Cheung Hong Estate, Tsing Yi, New Territories",
+        "nature": "Residential building",
+        "subDistrict": "Tsing Yi",
+        "source": "at Room 1140, Hong Tai House, Cheung Hong Estate, Tsing Yi, New Territories",
+        "district": "Kwai Tsing"
+      },
+      "cross_border": {
+        "cross_border": false,
+        "type": null,
+        "source": "on 30 November 2023, at Room 1140, Hong Tai House, Cheung Hong Estate, Tsing Yi, New Territories, unlawfully trafficked in dangerous drugs"
+      },
+      "defendants_of_charge": [
+        {
+          "defendant_name": "Wong Man-kit",
+          "defendant_id": 1,
+          "trafficking_mode": {
+            "mode": "Drug repackaging or storage",
+            "source": "On a table on the defendant’s lower bunk bed, the police found the drugs in numerous plastic bags of different weights, electric scales, empty plastic resealable bags, and other paraphernalia needed to weigh and package drugs"
+          },
+          "reasons_for_offence": [
+            {
+              "reason": "Financial gain",
+              "source": "He was tempted by an old school friend who promised an easy job for quick and good money. He could store some goods and make some deliveries for $16,000 a month."
+            },
+            {
+              "reason": "Coercion",
+              "source": "he was told if he quit the job, he would need to repay $30,000 as compensation. Since he did not have the money, he kept the drugs and followed instructions"
+            }
+          ],
+          "benefits_received": {
+            "received": true,
+            "amount": 16000.0,
+            "source": "store some goods and make some deliveries for $16,000 a month"
+          }
+        }
+      ]
+    }
+  ],
+  "court": "HKCFI",
+  "defendants": [
+    {
+      "id": 1,
+      "name": "Wong Man-kit"
+    }
+  ],
+  "tracing_id": "813dc3b6b1b1584c1ce4941fc214f4f0"
+}

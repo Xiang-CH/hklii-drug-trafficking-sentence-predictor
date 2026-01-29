@@ -1,0 +1,145 @@
+{
+  "trials": [
+    {
+      "charge_type": {
+        "charge_no": 1,
+        "type": "Conspiracy to Traffic",
+        "defendant_name": "Hui Kwai-chung, Dick",
+        "defendant_id": 1,
+        "source": "Both defendants were jointly charged with one count of conspiracy to traffic in a dangerous drug, namely on an unknown date between December 2022 and the 27th day of December 2022, in a room in Yau Tong, they conspired to unlawfully traffic in cocaine."
+      },
+      "drugs": [
+        {
+          "drug_type": "Cocaine",
+          "other_drug_type": null,
+          "quantity": 31.4,
+          "source": "the police found a paper wrapping containing two plastic bags containing a total of 42 grammes of a solid containing 31.4 grammes of cocaine narcotic."
+        }
+      ],
+      "roles": [
+        {
+          "role": "Courier",
+          "source": "Counsel said that his role was more like a courier taking the drug from the Lei Yue Mun Plaza back to the room."
+        }
+      ],
+      "aggravating_factors": null,
+      "mitigating_factors": [
+        {
+          "factor": "Assistance - useful",
+          "other_factor": null,
+          "reduction": 3,
+          "source": "the prosecution confirmed that as a result of checking or enquiry of that telephone number, they identified a certain person and eventually, about 152.26 grammes of cocaine was found at that person’s home."
+        }
+      ],
+      "guilty_plea": {
+        "pleaded_guilty": true,
+        "court_type": "High Court",
+        "high_court_stage": "Up to committal",
+        "district_court_stage": null,
+        "source": "They pleaded guilty to the offence on 3 February this year before a magistrate and were committed to the High Court for sentence."
+      },
+      "starting_point": {
+        "sentence_years": 6,
+        "sentence_months": 7,
+        "source": "So for 31.4 grammes of cocaine narcotics, on a mathematical calculation, the starting point would be one of 6 years and 7 months’ imprisonment.",
+        "total_months": 79
+      },
+      "sentence_after_role": {
+        "sentence_years": 6,
+        "sentence_months": 7,
+        "source": "So for 31.4 grammes of cocaine narcotics, on a mathematical calculation, the starting point would be one of 6 years and 7 months’ imprisonment.",
+        "total_months": 79
+      },
+      "notional_sentence": {
+        "sentence_years": 6,
+        "sentence_months": 7,
+        "source": "So for 31.4 grammes of cocaine narcotics, on a mathematical calculation, the starting point would be one of 6 years and 7 months’ imprisonment.",
+        "total_months": 79
+      },
+      "mitigation_reduction": {
+        "reduction_months": 3,
+        "source": "So he would be entitled to 36 per cent discount in total including his assistance and also his plea of guilty. The resulting sentence for the 1st defendant is 4 years and 2 months’ imprisonment."
+      },
+      "final_sentence": {
+        "sentence_years": 4,
+        "sentence_months": 2,
+        "guilty_plea_reduction_years": 2,
+        "guilty_plea_reduction_months": 2,
+        "source": "So he would be entitled to 36 per cent discount in total including his assistance and also his plea of guilty. The resulting sentence for the 1st defendant is 4 years and 2 months’ imprisonment.",
+        "total_months": 50,
+        "guilty_plea_reduction_total_months": 26
+      }
+    },
+    {
+      "charge_type": {
+        "charge_no": 1,
+        "type": "Conspiracy to Traffic",
+        "defendant_name": "Hong Ka-ming",
+        "defendant_id": 2,
+        "source": "Both defendants were jointly charged with one count of conspiracy to traffic in a dangerous drug, namely on an unknown date between December 2022 and the 27th day of December 2022, in a room in Yau Tong, they conspired to unlawfully traffic in cocaine."
+      },
+      "drugs": [
+        {
+          "drug_type": "Cocaine",
+          "other_drug_type": null,
+          "quantity": 31.4,
+          "source": "the police found a paper wrapping containing two plastic bags containing a total of 42 grammes of a solid containing 31.4 grammes of cocaine narcotic."
+        }
+      ],
+      "roles": [
+        {
+          "role": "Storekeeper",
+          "source": "he had signed a tenancy agreement to rent the room at the monthly rental of $4,800 for a period of two years from 28 December 2022."
+        }
+      ],
+      "aggravating_factors": null,
+      "mitigating_factors": [
+        {
+          "factor": "Medical conditions",
+          "other_factor": null,
+          "reduction": 1,
+          "source": "In his mitigation, counsel for the 2nd defendant Mr Clement Lau informed this court that he has a long history of mental illness."
+        }
+      ],
+      "guilty_plea": {
+        "pleaded_guilty": true,
+        "court_type": "High Court",
+        "high_court_stage": "Up to committal",
+        "district_court_stage": null,
+        "source": "They pleaded guilty to the offence on 3 February this year before a magistrate and were committed to the High Court for sentence."
+      },
+      "starting_point": {
+        "sentence_years": 6,
+        "sentence_months": 8,
+        "source": "Having considered all the circumstances of the conspiracy, I consider the appropriate starting point for the 2nd defendant will be 6 years and 8 months’ imprisonment.",
+        "total_months": 80
+      },
+      "sentence_after_role": {
+        "sentence_years": 6,
+        "sentence_months": 8,
+        "source": "Having considered all the circumstances of the conspiracy, I consider the appropriate starting point for the 2nd defendant will be 6 years and 8 months’ imprisonment.",
+        "total_months": 80
+      },
+      "notional_sentence": {
+        "sentence_years": 6,
+        "sentence_months": 8,
+        "source": "Having considered all the circumstances of the conspiracy, I consider the appropriate starting point for the 2nd defendant will be 6 years and 8 months’ imprisonment.",
+        "total_months": 80
+      },
+      "mitigation_reduction": {
+        "reduction_months": 1,
+        "source": "I would take that into account as a matter of leniency and grant him a further discount of 1 month. So the sentence in respect of the 2nd defendant is 4 years and 4 months’ imprisonment."
+      },
+      "final_sentence": {
+        "sentence_years": 4,
+        "sentence_months": 4,
+        "guilty_plea_reduction_years": 2,
+        "guilty_plea_reduction_months": 3,
+        "source": "As such, he is entitled to the full one-third discount which reduce the sentence to 4 years and 5 months’ imprisonment. ... I would take that into account as a matter of leniency and grant him a further discount of 1 month. So the sentence in respect of the 2nd defendant is 4 years and 4 months’ imprisonment.",
+        "total_months": 52,
+        "guilty_plea_reduction_total_months": 27
+      }
+    }
+  ],
+  "tracing_id": "065936cc47e045741d0d51b47ba6bd45"
+}
