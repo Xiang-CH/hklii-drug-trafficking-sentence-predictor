@@ -1,7 +1,7 @@
-import { DateRangeField, TimeField } from './date-time-field'
+import { DateRangeField } from './date-time-field'
 import { EditableField } from './editable-field'
 import { SourceField } from './source-field'
-import { COMPUTED_FIELDS } from '@/lib/schema'
+import { COMPUTED_FIELDS, getDefaultValueForField, isFieldNullable } from '@/lib/schema'
 
 interface EditableDataObjectProps {
   data: any
@@ -25,13 +25,28 @@ export function EditableDataObject({
   const isFieldComputed =
     isComputed || COMPUTED_FIELDS.includes(fieldName || '')
 
+  function handleSetValue() {
+    // For array items or nested fields, use parent context to infer schema
+    const schemaKey = fieldName || parentField
+    
+    if (!schemaKey) {
+      onChange('')
+      return
+    }
+
+    // Get the default value based on the field schema
+    // Pass parentField to help resolve array item types
+    const defaultValue = getDefaultValueForField(schemaKey, parentField, true)
+    onChange(defaultValue)
+  }
+
   if (data === null || data === undefined) {
     return (
       <div>
         <span className="text-gray-400 italic">Not Specified</span>
         {isEditing && !isFieldComputed && (
           <button
-            onClick={() => onChange('')}
+            onClick={handleSetValue}
             className="ml-2 text-blue-500 hover:text-blue-700 text-xs"
           >
             Set Value
@@ -129,7 +144,9 @@ export function EditableDataObject({
         {isEditing && (
           <button
             onClick={() => {
-              onChange([...data, null])
+              // Get default value for array items
+              const defaultItem = getDefaultValueForField(fieldName || '', parentField)
+              onChange([...data, defaultItem])
             }}
             className="text-blue-500 hover:text-blue-700 text-sm ml-3"
           >
@@ -149,13 +166,29 @@ export function EditableDataObject({
           const isEntryComputed = COMPUTED_FIELDS.includes(key)
           const isArray = Array.isArray(value)
 
+          const isNullable = isFieldNullable(key, fieldName || parentField)
+          const hasValue = value !== null && value !== undefined
+
           return (
             <div
               key={key}
               className={`flex ${isArray ? 'flex-col' : ' items-start'} w-full`}
             >
-              <div className="text-purple-600 dark:text-purple-400 font-medium">
-                {key}:
+              <div className="flex items-center gap-2">
+                <div className="text-purple-600 dark:text-purple-400 font-medium">
+                  {key}:
+                </div>
+                {isEditing && isNullable && hasValue && !isEntryComputed && (
+                  <button
+                    onClick={() => {
+                      onChange({ ...data, [key]: null })
+                    }}
+                    className="text-xs text-red-500 hover:text-red-700 hover:underline"
+                    title="Set to null"
+                  >
+                    Clear
+                  </button>
+                )}
               </div>
               <div className={`${isArray ? 'ml-6 mt-1' : 'ml-2'} flex-1`}>
                 {key === 'source' && typeof value === 'string' ? (

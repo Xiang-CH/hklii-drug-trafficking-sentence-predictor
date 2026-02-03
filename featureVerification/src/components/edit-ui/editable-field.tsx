@@ -114,9 +114,6 @@ export function EditableField({
               {option}
             </SelectItem>
           ))}
-          <SelectItem key="placeholder" value="placeholder">
-            Not specified
-          </SelectItem>
         </SelectContent>
       </Select>
     )
@@ -128,16 +125,15 @@ export function EditableField({
       <Select
         value={String(value)}
         onValueChange={(val) => {
-          onChange(val === 'null' ? null : val === 'true')
+          onChange(val === 'true')
         }}
       >
         <SelectTrigger className="w-full">
           <SelectValue placeholder={fieldName} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="null">null</SelectItem>
-          <SelectItem value="true">true</SelectItem>
-          <SelectItem value="false">false</SelectItem>
+          <SelectItem value="true">Yes</SelectItem>
+          <SelectItem value="false">No</SelectItem>
         </SelectContent>
       </Select>
     )
