@@ -140,7 +140,7 @@ export function DateRangeField({
           <PopoverContent className="w-auto p-0">
             <Calendar
               mode="single"
-              defaultMonth={new Date(value)}
+              defaultMonth={value ? new Date(value) : new Date()}
               selected={value ? new Date(value) : undefined}
               onSelect={(date) => {
                 const dateStr = date ? format(date, 'yyyy-MM-dd') : ''

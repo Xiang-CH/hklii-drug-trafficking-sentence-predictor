@@ -1,7 +1,12 @@
 import { DateRangeField } from './date-time-field'
+import { AgeRangeField } from './age-range-field'
 import { EditableField } from './editable-field'
 import { SourceField } from './source-field'
-import { COMPUTED_FIELDS, getDefaultValueForField, isFieldNullable } from '@/lib/schema'
+import {
+  COMPUTED_FIELDS,
+  getDefaultValueForField,
+  isFieldNullable,
+} from '@/lib/schema'
 
 interface EditableDataObjectProps {
   data: any
@@ -28,7 +33,7 @@ export function EditableDataObject({
   function handleSetValue() {
     // For array items or nested fields, use parent context to infer schema
     const schemaKey = fieldName || parentField
-    
+
     if (!schemaKey) {
       onChange('')
       return
@@ -63,6 +68,22 @@ export function EditableDataObject({
   ) {
     return (
       <DateRangeField
+        value={data}
+        isEditing={isEditing}
+        onChange={(val) => onChange(val)}
+        isComputed={isFieldComputed}
+      />
+    )
+  }
+
+  // Special handling for age field (can be single age or age range)
+  if (
+    fieldName === 'age' &&
+    (parentField === 'age_at_offence' || parentField === 'age_at_sentencing') &&
+    (typeof data === 'number' || (Array.isArray(data) && data.length === 2))
+  ) {
+    return (
+      <AgeRangeField
         value={data}
         isEditing={isEditing}
         onChange={(val) => onChange(val)}
@@ -145,7 +166,10 @@ export function EditableDataObject({
           <button
             onClick={() => {
               // Get default value for array items
-              const defaultItem = getDefaultValueForField(fieldName || '', parentField)
+              const defaultItem = getDefaultValueForField(
+                fieldName || '',
+                parentField,
+              )
               onChange([...data, defaultItem])
             }}
             className="text-blue-500 hover:text-blue-700 text-sm ml-3"

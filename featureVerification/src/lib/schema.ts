@@ -789,11 +789,12 @@ export const FIELD_SCHEMAS: Record<string, z.ZodTypeAny> = {
   final_sentence: FinalSentenceDetailInputSchema,
   charge_type: ChargeDetailSchema,
 
-  
   // Judgement schemas
   judgement: JudgementSchema,
   date: DateDetailInputSchema,
+  offence_date: DateDetailInputSchema,
   time: TimeDetailInputSchema,
+  offence_time: TimeDetailInputSchema,
   place_of_offence: PlaceOfOffenceInputSchema,
   trafficking_mode: TraffickingModeSchema,
   reasons_for_offence: ReasonForOffenceDetailSchema,
@@ -802,7 +803,7 @@ export const FIELD_SCHEMAS: Record<string, z.ZodTypeAny> = {
   charges: ChargeSchema,
   representatives: RepresentativeSchema,
   defendants_of_charge: ChargeForDefendantSchema,
-  
+
   // Defendant schemas
   defendants: DefendantProfileSchema,
   defendant_name: DefendantNameDetailSchema,
@@ -824,39 +825,64 @@ export const FIELD_SCHEMAS: Record<string, z.ZodTypeAny> = {
   conditions: HealthStatusConditionSchema,
 }
 
-const FIELD_IS_ARRAY: Array<string> = ['drugs', 'roles', 'aggravating_factors', 'mitigating_factors', 'charges', 'defendants', 'criminal_records', 'positive_habits_after_arrest', 'family_supports', 'reasons_for_offence', 'representatives', 'conditions']
-
+const FIELD_IS_ARRAY: Array<string> = [
+  'drugs',
+  'roles',
+  'aggravating_factors',
+  'mitigating_factors',
+  'charges',
+  'defendants',
+  'criminal_records',
+  'positive_habits_after_arrest',
+  'family_supports',
+  'reasons_for_offence',
+  'representatives',
+  'conditions',
+]
 
 // Function to check if a field is nullable in the schema
-export function isFieldNullable(fieldName: string, parentFieldName?: string): boolean {
+export function isFieldNullable(
+  fieldName: string,
+  parentFieldName?: string,
+): boolean {
   // Check parent field schema if provided
   const parentSchema = parentFieldName ? FIELD_SCHEMAS[parentFieldName] : null
-  
+
   if (parentSchema && parentSchema instanceof z.ZodObject) {
     const shape = parentSchema.shape
     const fieldSchema = shape[fieldName] as z.ZodTypeAny
-    
+
     if (fieldSchema) {
       // Check if the field itself is nullable or optional
-      if (fieldSchema instanceof z.ZodNullable || fieldSchema instanceof z.ZodOptional) {
+      if (
+        fieldSchema instanceof z.ZodNullable ||
+        fieldSchema instanceof z.ZodOptional
+      ) {
         return true
       }
-      
+
       // Check if it's a default with nullable inner type
       if (fieldSchema instanceof z.ZodDefault) {
         const innerType = (fieldSchema as any)._def.innerType
-        return innerType instanceof z.ZodNullable || innerType instanceof z.ZodOptional
+        return (
+          innerType instanceof z.ZodNullable ||
+          innerType instanceof z.ZodOptional
+        )
       }
     }
   }
-  
+
   return false
 }
 
 // Function to get default value for a field based on its schema
-export function getDefaultValueForField(fieldName: string, parentFieldName?: string, isSetValue = false): any {
+export function getDefaultValueForField(
+  fieldName: string,
+  parentFieldName?: string,
+  isSetValue = false,
+): any {
   let schema = FIELD_SCHEMAS[fieldName]
-  
+
   // If we don't have a direct schema match and we have a parent field,
   // check if the parent is an array and get its item type
   if (!schema && parentFieldName) {
@@ -864,13 +890,13 @@ export function getDefaultValueForField(fieldName: string, parentFieldName?: str
     if (parentSchema instanceof z.ZodObject) {
       const shape = parentSchema.shape
       const parentFieldSchema = shape[fieldName] as z.ZodTypeAny
-      
+
       if (parentFieldSchema) {
         schema = unwrapSchema(parentFieldSchema)
       }
     }
   }
-  
+
   if (!schema) {
     // If no specific schema found, return empty object
     return {}
@@ -878,7 +904,6 @@ export function getDefaultValueForField(fieldName: string, parentFieldName?: str
 
   // Unwrap the schema to get to the actual type
   const unwrappedSchema = unwrapSchema(schema)
-  console.log(`Unwrapped schema for ${fieldName}:`, unwrappedSchema);
 
   // Check if it's a ZodObject
   if (unwrappedSchema instanceof z.ZodObject) {
@@ -886,27 +911,33 @@ export function getDefaultValueForField(fieldName: string, parentFieldName?: str
     const defaultValue: Record<string, any> = {}
 
     for (const [key, fieldSchema] of Object.entries(shape)) {
-      defaultValue[key] = getDefaultValueForFieldSchema(fieldSchema as z.ZodTypeAny, key)
-      console.log(`Default value for ${key}:`, defaultValue[key])
+      defaultValue[key] = getDefaultValueForFieldSchema(
+        fieldSchema as z.ZodTypeAny,
+        key,
+      )
     }
 
     if (isSetValue && FIELD_IS_ARRAY.includes(fieldName)) {
       return [defaultValue]
     }
     return defaultValue
-  } 
+  }
 
   // For other types, use the helper
   return getDefaultValueForFieldSchema(unwrappedSchema, fieldName)
 }
 
-// Helper to unwrap nullable, optional, and default wrappers
+// Helper to unwrap nullable, optional, default, and pipe wrappers
 function unwrapSchema(schema: z.ZodTypeAny): z.ZodTypeAny {
   if (schema instanceof z.ZodNullable || schema instanceof z.ZodOptional) {
     return unwrapSchema((schema as any)._def.innerType)
   }
   if (schema instanceof z.ZodDefault) {
     return unwrapSchema((schema as any)._def.innerType)
+  }
+  // Handle ZodPipe (created by .transform() in Zod v4)
+  if ((schema as any)._def?.type === 'pipe' && (schema as any)._def?.in) {
+    return unwrapSchema((schema as any)._def.in)
   }
   // if (schema instanceof z.ZodArray) {
   //   // For arrays, return the element type
@@ -916,16 +947,19 @@ function unwrapSchema(schema: z.ZodTypeAny): z.ZodTypeAny {
 }
 
 // Helper to get default value for a specific schema type
-function getDefaultValueForFieldSchema(fieldSchema: z.ZodTypeAny, fieldName: string): any {
+function getDefaultValueForFieldSchema(
+  fieldSchema: z.ZodTypeAny,
+  fieldName: string,
+): any {
   // Check if it has a default value
   if (fieldSchema instanceof z.ZodDefault) {
     const defaultFn = (fieldSchema as any)._def.defaultValue
     return typeof defaultFn === 'function' ? defaultFn() : null
   }
-  
+
   // Unwrap to get the actual type
   const unwrapped = unwrapSchema(fieldSchema)
-  
+
   if (unwrapped instanceof z.ZodString) {
     return ''
   }
@@ -946,12 +980,20 @@ function getDefaultValueForFieldSchema(fieldSchema: z.ZodTypeAny, fieldName: str
     // Recursively create default for nested objects
     return getDefaultValueForField(fieldName)
   }
-  
+  // For union types (e.g., string | array, number | array), default to the first option
+  if (unwrapped instanceof z.ZodUnion) {
+    const firstOption = (unwrapped as any)._def.options[0]
+    return getDefaultValueForFieldSchema(firstOption, fieldName)
+  }
+
   // For nullable/optional non-enum fields, return null
-  if (fieldSchema instanceof z.ZodNullable || fieldSchema instanceof z.ZodOptional) {
+  if (
+    fieldSchema instanceof z.ZodNullable ||
+    fieldSchema instanceof z.ZodOptional
+  ) {
     return null
   }
-  
+
   // Default fallback
   return null
 }
@@ -987,9 +1029,7 @@ export const ENUM_OPTIONS: Record<string, Array<string>> = {
   education_level_level: getEnumValues(EducationLevelSchema),
   occupation_occupation_category: getEnumValues(OccupationCategorySchema),
   criminal_records_record: getEnumValues(CriminalRecordSchema),
-  conditions_type: getEnumValues(
-    HealthStatusTypeSchema,
-  ),
+  conditions_type: getEnumValues(HealthStatusTypeSchema),
   positive_habits_after_arrest_habit: getEnumValues(PositiveHabitSchema),
   family_supports_support: getEnumValues(FamilySupportSchema),
 }

@@ -1,4 +1,5 @@
 import { DateRangeField, DateTimeField, TimeField } from './date-time-field'
+import { AgeRangeField } from './age-range-field'
 import { EditableField } from './editable-field'
 import { SourceField } from './source-field'
 import { ValidationErrorsPanel } from './validation-error'
@@ -6,6 +7,7 @@ import { EditableDataObject } from './editable-data-object'
 import { EditableDataSection } from './editable-data-section'
 
 export {
+  AgeRangeField,
   DateRangeField,
   TimeField,
   DateTimeField,
