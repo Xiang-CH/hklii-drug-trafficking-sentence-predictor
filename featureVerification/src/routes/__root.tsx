@@ -7,7 +7,7 @@ import {
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
-import Header from '../components/Header'
+import Header from '@/components/Header'
 
 import TanStackQueryDevtools from '../integrations/tanstack-query/devtools'
 

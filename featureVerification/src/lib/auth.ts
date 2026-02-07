@@ -1,11 +1,11 @@
 import { betterAuth } from 'better-auth'
 import { tanstackStartCookies } from 'better-auth/tanstack-start'
-import { admin, username } from "better-auth/plugins"
-import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import  mongoClient  from './mongodb'
+import { admin, username } from 'better-auth/plugins'
+import { mongodbAdapter } from 'better-auth/adapters/mongodb'
+import mongoClient from './mongodb'
 
-const client = mongoClient;
-const db = client.db();
+const client = mongoClient
+const db = client.db()
 
 export const auth = betterAuth({
   database: mongodbAdapter(db, {
@@ -14,6 +14,10 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    minPasswordLength: 5,
   },
   plugins: [tanstackStartCookies(), admin(), username()],
 })
+
+export type UserType = typeof auth.$Infer.Session.user
+export type SessionType = typeof auth.$Infer.Session

@@ -1,9 +1,18 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useState } from 'react'
+import { createFileRoute, useSearch, useNavigate } from '@tanstack/react-router'
+import { useEffect, useState } from 'react'
 import { authClient } from '@/lib/auth-client'
 
-export const Route = createFileRoute('/demo/better-auth')({
+type LoginSearchParams = {
+  redirect?: string
+}
+
+export const Route = createFileRoute('/login')({
   component: BetterAuthDemo,
+  validateSearch: (search: Record<string, unknown>): LoginSearchParams => {
+    return {
+      redirect: search.redirect as string,
+    }
+  },
 })
 
 function BetterAuthDemo() {
@@ -14,6 +23,14 @@ function BetterAuthDemo() {
   const [name, setName] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const params = useSearch({ from: '/login' })
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (session?.user && params.redirect) {
+      navigate({ to: params.redirect })
+    }
+  }, [session, params])
 
   if (isPending) {
     return (
@@ -57,8 +74,8 @@ function BetterAuthDemo() {
           </div>
 
           <div className="text-sm font-medium">
-                {JSON.stringify(session.user)}
-              </div>
+            {JSON.stringify(session.user)}
+          </div>
 
           <button
             onClick={() => authClient.signOut()}
@@ -103,6 +120,7 @@ function BetterAuthDemo() {
         const result = await authClient.signIn.email({
           email,
           password,
+          callbackURL: params.redirect || '/',
         })
         if (result.error) {
           setError(result.error.message || 'Sign in failed')
@@ -175,7 +193,7 @@ function BetterAuthDemo() {
               onChange={(e) => setPassword(e.target.value)}
               className="flex h-9 w-full border border-neutral-300 dark:border-neutral-700 bg-transparent px-3 text-sm focus:outline-none focus:border-neutral-900 dark:focus:border-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
               required
-              minLength={8}
+              minLength={5}
             />
           </div>
 

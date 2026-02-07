@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
-import EditableDataViewer from '../components/EditableDataViewer'
-import HtmlViewer from '../components/HtmlViewer'
+import EditableDataViewer from '../components/editable-data-viewer'
+import HtmlViewer from '../components/html-viewer'
 
 export const Route = createFileRoute('/verify')({
   component: VerifyPage,
