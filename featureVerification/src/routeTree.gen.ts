@@ -12,13 +12,16 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as VerifyRouteImport } from './routes/verify'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as DemoTanstackQueryRouteImport } from './routes/demo/tanstack-query'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
+import { Route as AdminJudgementsRouteImport } from './routes/admin/judgements'
 import { Route as DemoStartServerFuncsRouteImport } from './routes/demo/start.server-funcs'
 import { Route as DemoStartApiRequestRouteImport } from './routes/demo/start.api-request'
 import { Route as DemoApiTqTodosRouteImport } from './routes/demo/api.tq-todos'
 import { Route as DemoApiNamesRouteImport } from './routes/demo/api.names'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as AdminApiJudgementsRouteImport } from './routes/admin/api/judgements'
 import { Route as DemoStartSsrIndexRouteImport } from './routes/demo/start.ssr.index'
 import { Route as DemoStartSsrSpaModeRouteImport } from './routes/demo/start.ssr.spa-mode'
 import { Route as DemoStartSsrFullSsrRouteImport } from './routes/demo/start.ssr.full-ssr'
@@ -39,6 +42,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
   id: '/demo/tanstack-query',
   path: '/demo/tanstack-query',
@@ -47,6 +55,11 @@ const DemoTanstackQueryRoute = DemoTanstackQueryRouteImport.update({
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/admin/users',
   path: '/admin/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminJudgementsRoute = AdminJudgementsRouteImport.update({
+  id: '/admin/judgements',
+  path: '/admin/judgements',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoStartServerFuncsRoute = DemoStartServerFuncsRouteImport.update({
@@ -74,6 +87,11 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminApiJudgementsRoute = AdminApiJudgementsRouteImport.update({
+  id: '/admin/api/judgements',
+  path: '/admin/api/judgements',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoStartSsrIndexRoute = DemoStartSsrIndexRouteImport.update({
   id: '/demo/start/ssr/',
   path: '/demo/start/ssr/',
@@ -99,8 +117,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/verify': typeof VerifyRoute
+  '/admin/judgements': typeof AdminJudgementsRoute
   '/admin/users': typeof AdminUsersRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/api/judgements': typeof AdminApiJudgementsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/api/tq-todos': typeof DemoApiTqTodosRoute
@@ -115,8 +136,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/verify': typeof VerifyRoute
+  '/admin/judgements': typeof AdminJudgementsRoute
   '/admin/users': typeof AdminUsersRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/admin': typeof AdminIndexRoute
+  '/admin/api/judgements': typeof AdminApiJudgementsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/api/tq-todos': typeof DemoApiTqTodosRoute
@@ -132,8 +156,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/verify': typeof VerifyRoute
+  '/admin/judgements': typeof AdminJudgementsRoute
   '/admin/users': typeof AdminUsersRoute
   '/demo/tanstack-query': typeof DemoTanstackQueryRoute
+  '/admin/': typeof AdminIndexRoute
+  '/admin/api/judgements': typeof AdminApiJudgementsRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/demo/api/names': typeof DemoApiNamesRoute
   '/demo/api/tq-todos': typeof DemoApiTqTodosRoute
@@ -150,8 +177,11 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/verify'
+    | '/admin/judgements'
     | '/admin/users'
     | '/demo/tanstack-query'
+    | '/admin/'
+    | '/admin/api/judgements'
     | '/api/auth/$'
     | '/demo/api/names'
     | '/demo/api/tq-todos'
@@ -166,8 +196,11 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/verify'
+    | '/admin/judgements'
     | '/admin/users'
     | '/demo/tanstack-query'
+    | '/admin'
+    | '/admin/api/judgements'
     | '/api/auth/$'
     | '/demo/api/names'
     | '/demo/api/tq-todos'
@@ -182,8 +215,11 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/verify'
+    | '/admin/judgements'
     | '/admin/users'
     | '/demo/tanstack-query'
+    | '/admin/'
+    | '/admin/api/judgements'
     | '/api/auth/$'
     | '/demo/api/names'
     | '/demo/api/tq-todos'
@@ -199,8 +235,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
   VerifyRoute: typeof VerifyRoute
+  AdminJudgementsRoute: typeof AdminJudgementsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   DemoTanstackQueryRoute: typeof DemoTanstackQueryRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminApiJudgementsRoute: typeof AdminApiJudgementsRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   DemoApiNamesRoute: typeof DemoApiNamesRoute
   DemoApiTqTodosRoute: typeof DemoApiTqTodosRoute
@@ -235,6 +274,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo/tanstack-query': {
       id: '/demo/tanstack-query'
       path: '/demo/tanstack-query'
@@ -247,6 +293,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/users'
       fullPath: '/admin/users'
       preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/judgements': {
+      id: '/admin/judgements'
+      path: '/admin/judgements'
+      fullPath: '/admin/judgements'
+      preLoaderRoute: typeof AdminJudgementsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/start/server-funcs': {
@@ -284,6 +337,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/api/judgements': {
+      id: '/admin/api/judgements'
+      path: '/admin/api/judgements'
+      fullPath: '/admin/api/judgements'
+      preLoaderRoute: typeof AdminApiJudgementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo/start/ssr/': {
       id: '/demo/start/ssr/'
       path: '/demo/start/ssr'
@@ -319,8 +379,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
   VerifyRoute: VerifyRoute,
+  AdminJudgementsRoute: AdminJudgementsRoute,
   AdminUsersRoute: AdminUsersRoute,
   DemoTanstackQueryRoute: DemoTanstackQueryRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  AdminApiJudgementsRoute: AdminApiJudgementsRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   DemoApiNamesRoute: DemoApiNamesRoute,
   DemoApiTqTodosRoute: DemoApiTqTodosRoute,

@@ -1,6 +1,9 @@
 import { createFileRoute, useSearch, useNavigate } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { authClient } from '@/lib/auth-client'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Switch } from '@/components/ui/switch'
 
 type LoginSearchParams = {
   redirect?: string
@@ -17,10 +20,10 @@ export const Route = createFileRoute('/login')({
 
 function BetterAuthDemo() {
   const { data: session, isPending } = authClient.useSession()
-  const [isSignUp, setIsSignUp] = useState(false)
   const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [name, setName] = useState('')
+  const [useUsername, setUseUsername] = useState(true)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const params = useSearch({ from: '/login' })
@@ -73,10 +76,6 @@ function BetterAuthDemo() {
             </div>
           </div>
 
-          <div className="text-sm font-medium">
-            {JSON.stringify(session.user)}
-          </div>
-
           <button
             onClick={() => authClient.signOut()}
             className="w-full h-9 px-4 text-sm font-medium border border-neutral-300 dark:border-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
@@ -107,24 +106,20 @@ function BetterAuthDemo() {
     setLoading(true)
 
     try {
-      if (isSignUp) {
-        const result = await authClient.signUp.email({
-          email,
-          password,
-          name,
-        })
-        if (result.error) {
-          setError(result.error.message || 'Sign up failed')
-        }
-      } else {
-        const result = await authClient.signIn.email({
-          email,
-          password,
-          callbackURL: params.redirect || '/',
-        })
-        if (result.error) {
-          setError(result.error.message || 'Sign in failed')
-        }
+      const result = useUsername
+        ? await authClient.signIn.username({
+            username,
+            password,
+            callbackURL: params.redirect || '/',
+          })
+        : await authClient.signIn.email({
+            email,
+            password,
+            callbackURL: params.redirect || '/',
+          })
+
+      if (result.error) {
+        setError(result.error.message || 'Sign in failed')
       }
     } catch (err) {
       setError('An unexpected error occurred')
@@ -136,48 +131,57 @@ function BetterAuthDemo() {
   return (
     <div className="flex justify-center py-10 px-4">
       <div className="w-full max-w-md p-6">
-        <h1 className="text-lg font-semibold leading-none tracking-tight">
-          {isSignUp ? 'Create an account' : 'Sign in'}
-        </h1>
+        <h1 className="text-lg font-semibold leading-none tracking-tight">Sign in</h1>
         <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-2 mb-6">
-          {isSignUp
-            ? 'Enter your information to create an account'
+          {useUsername
+            ? 'Enter your username below to login to your account'
             : 'Enter your email below to login to your account'}
         </p>
 
         <form onSubmit={handleSubmit} className="grid gap-4">
-          {isSignUp && (
+          <div className="flex items-center justify-between rounded-lg border border-neutral-200 dark:border-neutral-800 px-3 py-2">
+            <div className="space-y-0.5">
+              <p className="text-sm font-medium">Use username</p>
+              <p className="text-xs text-neutral-500 dark:text-neutral-400">
+                Toggle to sign in with username instead of email
+              </p>
+            </div>
+            <Switch
+              checked={useUsername}
+              onCheckedChange={(checked) => {
+                setUseUsername(checked)
+                setError('')
+              }}
+            />
+          </div>
+
+          {useUsername ? (
             <div className="grid gap-2">
-              <label
-                htmlFor="name"
-                className="text-sm font-medium leading-none"
-              >
-                Name
+              <label htmlFor="username" className="text-sm font-medium leading-none">
+                Username
               </label>
-              <input
-                id="name"
+              <Input
+                id="username"
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="flex h-9 w-full border border-neutral-300 dark:border-neutral-700 bg-transparent px-3 text-sm focus:outline-none focus:border-neutral-900 dark:focus:border-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+              />
+            </div>
+          ) : (
+            <div className="grid gap-2">
+              <label htmlFor="email" className="text-sm font-medium leading-none">
+                Email
+              </label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
           )}
-
-          <div className="grid gap-2">
-            <label htmlFor="email" className="text-sm font-medium leading-none">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="flex h-9 w-full border border-neutral-300 dark:border-neutral-700 bg-transparent px-3 text-sm focus:outline-none focus:border-neutral-900 dark:focus:border-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
-              required
-            />
-          </div>
 
           <div className="grid gap-2">
             <label
@@ -186,12 +190,11 @@ function BetterAuthDemo() {
             >
               Password
             </label>
-            <input
+            <Input
               id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="flex h-9 w-full border border-neutral-300 dark:border-neutral-700 bg-transparent px-3 text-sm focus:outline-none focus:border-neutral-900 dark:focus:border-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
               required
               minLength={5}
             />
@@ -203,38 +206,21 @@ function BetterAuthDemo() {
             </div>
           )}
 
-          <button
+          <Button
             type="submit"
             disabled={loading}
-            className="w-full h-9 px-4 text-sm font-medium text-white bg-neutral-900 hover:bg-neutral-800 dark:bg-neutral-50 dark:text-neutral-900 dark:hover:bg-neutral-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
                 <span className="h-4 w-4 animate-spin rounded-full border-2 border-neutral-400 border-t-white dark:border-neutral-600 dark:border-t-neutral-900" />
                 <span>Please wait</span>
               </span>
-            ) : isSignUp ? (
-              'Create account'
             ) : (
               'Sign in'
             )}
-          </button>
+          </Button>
         </form>
-
-        <div className="mt-4 text-center">
-          <button
-            type="button"
-            onClick={() => {
-              setIsSignUp(!isSignUp)
-              setError('')
-            }}
-            className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
-          >
-            {isSignUp
-              ? 'Already have an account? Sign in'
-              : "Don't have an account? Sign up"}
-          </button>
-        </div>
 
         <p className="mt-6 text-xs text-center text-neutral-400 dark:text-neutral-500">
           Built with{' '}

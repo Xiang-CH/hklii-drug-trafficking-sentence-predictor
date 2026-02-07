@@ -28,6 +28,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useForm } from '@tanstack/react-form'
+import { useNavigate } from '@tanstack/react-router'
 
 type UsersSearchParams = {
   page: number
@@ -93,6 +94,7 @@ export const Route = createFileRoute('/admin/users')({
 
 function UsersComponent() {
   const response = Route.useLoaderData()
+  const navigate = useNavigate({ from: '/admin/users' })
   const { page } = Route.useSearch()
 
   if (response.error) {
@@ -339,6 +341,14 @@ function UsersComponent() {
         <Pagination
           currentPage={page}
           totalPages={Math.ceil((response?.data?.total ?? 0) / USERS_PER_PAGE)}
+          callback={(newPage) => {
+            navigate({
+              search: (prev) => ({
+                ...prev,
+                page: newPage,
+              }),
+            })
+          }}
         />
       </div>
     </div>
@@ -375,7 +385,7 @@ function CreateUserForm({
 
   React.useEffect(() => {
     if (form.state.values.name && !editedUsername) {
-      form.setFieldValue('username', form.state.values.name.toLowerCase().replace(/\s+/g, '-'))
+      form.setFieldValue('username', form.state.values.name.toLowerCase().replace(/\s+/g, '.'))
     }
   }, [form.state.values.name])
 
