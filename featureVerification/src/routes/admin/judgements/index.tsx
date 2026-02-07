@@ -1,7 +1,12 @@
 import * as React from 'react'
-import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
+import {
+  Link,
+  createFileRoute,
+  redirect,
+  useNavigate,
+} from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import type { JudgementListItem } from './api/judgements'
+import type { JudgementListItem } from '@/routes/api/judgements/$'
 import { authClient } from '@/lib/auth-client'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -23,7 +28,7 @@ import {
 } from '@/components/ui/select'
 
 type JudgementsSearchParams = {
-  page: number
+  page?: number
   status?: 'all' | 'processed' | 'unprocessed' | 'verified'
   search?: string
 }
@@ -37,12 +42,12 @@ const JUDGEMENTS_PER_PAGE = 20
 
 async function getJudgements(params: JudgementsSearchParams) {
   const query = new URLSearchParams({
-    page: params.page.toString(),
+    page: params.page?.toString() ?? '1',
     status: params.status ?? 'all',
     search: params.search ?? '',
   })
 
-  const response = await fetch(`/admin/api/judgements?${query.toString()}`)
+  const response = await fetch(`/api/judgements?${query.toString()}`)
   if (response.status === 401) {
     throw redirect({
       to: '/login',
@@ -55,7 +60,7 @@ async function getJudgements(params: JudgementsSearchParams) {
   return (await response.json()) as JudgementResponse
 }
 
-export const Route = createFileRoute('/admin/judgements')({
+export const Route = createFileRoute('/admin/judgements/')({
   component: JudgementsComponent,
   validateSearch: (search: Record<string, string>): JudgementsSearchParams => {
     return {
@@ -64,13 +69,10 @@ export const Route = createFileRoute('/admin/judgements')({
       search: search.search,
     }
   },
-  beforeLoad: async (query) => {
+  beforeLoad: async ({ location }) => {
     const session = await authClient.getSession()
     if (!session.data?.user) {
-      throw redirect({
-        to: '/login',
-        search: { redirect: `/admin/judgements?${query.toString()}` },
-      })
+      throw redirect({ to: '/login', search: { redirect: location.href } })
     }
     if (session.data.user.role !== 'admin') {
       throw redirect({ to: '/' })
@@ -94,12 +96,13 @@ function JudgementsComponent() {
   const initial = Route.useLoaderData()
   const { page, status, search } = Route.useSearch()
   const [searchText, setSearchText] = React.useState(search ?? '')
-  const navigate = useNavigate({ from: '/admin/judgements' })
+  const navigate = useNavigate({ from: '/admin/judgements/' })
 
   const { data } = useQuery({
     queryKey: ['judgements', page, status, search],
     initialData: initial,
     queryFn: () => getJudgements({ page, status, search }),
+    gcTime: 0,
   })
 
   const totalPages = Math.ceil(data.total / JUDGEMENTS_PER_PAGE)
@@ -172,9 +175,17 @@ function JudgementsComponent() {
             {data.items.map((row) => (
               <TableRow key={row.id}>
                 <TableCell className="font-medium">
-                  {row.trial ?? row.id}
-                  {row.appeal ? ` (${row.appeal})` : ''}
-                  {row.corrigendum ? ` (${row.corrigendum})` : ''}
+                  <Link
+                    to="/admin/judgements/$filename"
+                    params={{ filename: row.filename }}
+                    className="inline-flex items-center gap-1 text-blue-600 hover:underline"
+                  >
+                    <span>
+                      {row.trial || row.filename}
+                      {row.appeal ? ` (${row.appeal})` : ''}
+                      {row.corrigendum ? ` (${row.corrigendum})` : ''}
+                    </span>
+                  </Link>
                 </TableCell>
                 <TableCell>
                   <span
@@ -204,7 +215,7 @@ function JudgementsComponent() {
 
       <div className="mt-4 flex justify-end">
         <Pagination
-          currentPage={page}
+          currentPage={page ?? 1}
           totalPages={totalPages}
           callback={(newPage) => {
             navigate({

@@ -67,10 +67,13 @@ export const Route = createFileRoute('/admin/users')({
       page: search.page ? parseInt(search.page) : 1,
     }
   },
-  beforeLoad: async () => {
+  beforeLoad: async ({ search }) => {
     const session = await authClient.getSession()
     if (!session.data?.user) {
-      throw redirect({ to: '/login', search: { redirect: '/admin/users' } })
+      throw redirect({
+        to: '/login',
+        search: { redirect: `/admin/users?page=${search.page}` },
+      })
     }
     if (session.data.user.role !== 'admin') {
       throw redirect({ to: '/' })

@@ -1,11 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ObjectId } from 'mongodb'
-import mongoClient from '@/lib/mongodb'
 import { auth } from '@/lib/auth'
+import { db } from '@/lib/db'
 
 export type JudgementListItem = {
   id: string
-  trial?: string
+  filename: string
+  trial: string
   appeal?: string
   corrigendum?: string
   year?: string
@@ -24,7 +25,7 @@ function normalizeString(value: string | null) {
   return value?.trim() ? value.trim() : null
 }
 
-export const Route = createFileRoute('/admin/api/judgements')({
+export const Route = createFileRoute('/api/judgements/$')({
   server: {
     handlers: {
       GET: async ({ request }) => {
@@ -33,13 +34,21 @@ export const Route = createFileRoute('/admin/api/judgements')({
         if (!session?.user || session.user.role !== 'admin') {
           return new Response('Unauthorized', { status: 401 })
         }
-
-        const url = new URL(request.url)
+        // console.log('request.url', request.url)
+        const url = new URL(
+          request.url.startsWith('http')
+            ? request.url
+            : `http://dummy${request.url}`,
+        )
         const page = Math.max(parseInt(url.searchParams.get('page') ?? '1'), 1)
         const status = url.searchParams.get('status') ?? 'all'
-        const search = url.searchParams.get('search')?.trim()
+        const search =
+          url.searchParams
+            .get('search')
+            ?.trim()
+            .replace('[', '\\[')
+            .replace(']', '\\]') ?? null
 
-        const db = mongoClient.db('drug-sentencing-predictor')
         const judgementsCollection = db.collection('judgement-html')
         const extractedCollection = db.collection('llm-extracted-features')
         const verifiedCollection = db.collection('verified-features')
@@ -80,10 +89,12 @@ export const Route = createFileRoute('/admin/api/judgements')({
 
         const total = await judgementsCollection.countDocuments(match)
         const assigneeIds = await judgementsCollection.distinct('assigned_to')
+
         const assignees = await db
-          .collection('users')
-          .find({ _id: { $in: assigneeIds.map((id) => new ObjectId(id)) } })
+          .collection('user')
+          .find({ _id: { $in: assigneeIds } })
           .toArray()
+
         const assigneeMap = assignees.reduce(
           (acc, user) => {
             acc[user._id.toHexString()] = {
@@ -115,6 +126,7 @@ export const Route = createFileRoute('/admin/api/judgements')({
           return {
             id,
             trial: doc.trial,
+            filename: doc.filename,
             appeal: doc.appeal ?? null,
             corrigendum: doc.corrigendum ?? null,
             year: doc.year,

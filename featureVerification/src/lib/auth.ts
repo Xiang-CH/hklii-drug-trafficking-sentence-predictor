@@ -2,10 +2,7 @@ import { betterAuth } from 'better-auth'
 import { tanstackStartCookies } from 'better-auth/tanstack-start'
 import { admin, username } from 'better-auth/plugins'
 import { mongodbAdapter } from 'better-auth/adapters/mongodb'
-import mongoClient from './mongodb'
-
-const client = mongoClient
-const db = client.db()
+import { client, db } from './db'
 
 export const auth = betterAuth({
   database: mongodbAdapter(db, {

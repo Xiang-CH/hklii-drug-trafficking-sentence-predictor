@@ -14,9 +14,11 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
-import { Route as AdminJudgementsRouteImport } from './routes/admin/judgements'
+import { Route as AdminJudgementsIndexRouteImport } from './routes/admin/judgements/index'
+import { Route as ApiJudgementsFilenameRouteImport } from './routes/api/judgements/$filename'
+import { Route as ApiJudgementsSplatRouteImport } from './routes/api/judgements/$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
-import { Route as AdminApiJudgementsRouteImport } from './routes/admin/api/judgements'
+import { Route as AdminJudgementsFilenameRouteImport } from './routes/admin/judgements/$filename'
 
 const VerifyRoute = VerifyRouteImport.update({
   id: '/verify',
@@ -43,9 +45,19 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
   path: '/admin/users',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminJudgementsRoute = AdminJudgementsRouteImport.update({
-  id: '/admin/judgements',
-  path: '/admin/judgements',
+const AdminJudgementsIndexRoute = AdminJudgementsIndexRouteImport.update({
+  id: '/admin/judgements/',
+  path: '/admin/judgements/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiJudgementsFilenameRoute = ApiJudgementsFilenameRouteImport.update({
+  id: '/api/judgements/$filename',
+  path: '/api/judgements/$filename',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiJudgementsSplatRoute = ApiJudgementsSplatRouteImport.update({
+  id: '/api/judgements/$',
+  path: '/api/judgements/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -53,9 +65,9 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminApiJudgementsRoute = AdminApiJudgementsRouteImport.update({
-  id: '/admin/api/judgements',
-  path: '/admin/api/judgements',
+const AdminJudgementsFilenameRoute = AdminJudgementsFilenameRouteImport.update({
+  id: '/admin/judgements/$filename',
+  path: '/admin/judgements/$filename',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -63,32 +75,38 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/verify': typeof VerifyRoute
-  '/admin/judgements': typeof AdminJudgementsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/': typeof AdminIndexRoute
-  '/admin/api/judgements': typeof AdminApiJudgementsRoute
+  '/admin/judgements/$filename': typeof AdminJudgementsFilenameRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/judgements/$': typeof ApiJudgementsSplatRoute
+  '/api/judgements/$filename': typeof ApiJudgementsFilenameRoute
+  '/admin/judgements/': typeof AdminJudgementsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/verify': typeof VerifyRoute
-  '/admin/judgements': typeof AdminJudgementsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin': typeof AdminIndexRoute
-  '/admin/api/judgements': typeof AdminApiJudgementsRoute
+  '/admin/judgements/$filename': typeof AdminJudgementsFilenameRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/judgements/$': typeof ApiJudgementsSplatRoute
+  '/api/judgements/$filename': typeof ApiJudgementsFilenameRoute
+  '/admin/judgements': typeof AdminJudgementsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/verify': typeof VerifyRoute
-  '/admin/judgements': typeof AdminJudgementsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/': typeof AdminIndexRoute
-  '/admin/api/judgements': typeof AdminApiJudgementsRoute
+  '/admin/judgements/$filename': typeof AdminJudgementsFilenameRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/judgements/$': typeof ApiJudgementsSplatRoute
+  '/api/judgements/$filename': typeof ApiJudgementsFilenameRoute
+  '/admin/judgements/': typeof AdminJudgementsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -96,42 +114,50 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/verify'
-    | '/admin/judgements'
     | '/admin/users'
     | '/admin/'
-    | '/admin/api/judgements'
+    | '/admin/judgements/$filename'
     | '/api/auth/$'
+    | '/api/judgements/$'
+    | '/api/judgements/$filename'
+    | '/admin/judgements/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/login'
     | '/verify'
-    | '/admin/judgements'
     | '/admin/users'
     | '/admin'
-    | '/admin/api/judgements'
+    | '/admin/judgements/$filename'
     | '/api/auth/$'
+    | '/api/judgements/$'
+    | '/api/judgements/$filename'
+    | '/admin/judgements'
   id:
     | '__root__'
     | '/'
     | '/login'
     | '/verify'
-    | '/admin/judgements'
     | '/admin/users'
     | '/admin/'
-    | '/admin/api/judgements'
+    | '/admin/judgements/$filename'
     | '/api/auth/$'
+    | '/api/judgements/$'
+    | '/api/judgements/$filename'
+    | '/admin/judgements/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
   VerifyRoute: typeof VerifyRoute
-  AdminJudgementsRoute: typeof AdminJudgementsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
-  AdminApiJudgementsRoute: typeof AdminApiJudgementsRoute
+  AdminJudgementsFilenameRoute: typeof AdminJudgementsFilenameRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiJudgementsSplatRoute: typeof ApiJudgementsSplatRoute
+  ApiJudgementsFilenameRoute: typeof ApiJudgementsFilenameRoute
+  AdminJudgementsIndexRoute: typeof AdminJudgementsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -171,11 +197,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminUsersRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/judgements': {
-      id: '/admin/judgements'
+    '/admin/judgements/': {
+      id: '/admin/judgements/'
       path: '/admin/judgements'
-      fullPath: '/admin/judgements'
-      preLoaderRoute: typeof AdminJudgementsRouteImport
+      fullPath: '/admin/judgements/'
+      preLoaderRoute: typeof AdminJudgementsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/judgements/$filename': {
+      id: '/api/judgements/$filename'
+      path: '/api/judgements/$filename'
+      fullPath: '/api/judgements/$filename'
+      preLoaderRoute: typeof ApiJudgementsFilenameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/judgements/$': {
+      id: '/api/judgements/$'
+      path: '/api/judgements/$'
+      fullPath: '/api/judgements/$'
+      preLoaderRoute: typeof ApiJudgementsSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/auth/$': {
@@ -185,11 +225,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/api/judgements': {
-      id: '/admin/api/judgements'
-      path: '/admin/api/judgements'
-      fullPath: '/admin/api/judgements'
-      preLoaderRoute: typeof AdminApiJudgementsRouteImport
+    '/admin/judgements/$filename': {
+      id: '/admin/judgements/$filename'
+      path: '/admin/judgements/$filename'
+      fullPath: '/admin/judgements/$filename'
+      preLoaderRoute: typeof AdminJudgementsFilenameRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -199,11 +239,13 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
   VerifyRoute: VerifyRoute,
-  AdminJudgementsRoute: AdminJudgementsRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
-  AdminApiJudgementsRoute: AdminApiJudgementsRoute,
+  AdminJudgementsFilenameRoute: AdminJudgementsFilenameRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiJudgementsSplatRoute: ApiJudgementsSplatRoute,
+  ApiJudgementsFilenameRoute: ApiJudgementsFilenameRoute,
+  AdminJudgementsIndexRoute: AdminJudgementsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -18,7 +18,7 @@ async function initializeAdmin() {
         password: adminPassword, // required
         name: 'Super Admin', // required
         role: 'admin',
-        data: { customField: 'customValue' },
+        data: { username: 'super.admin' },
       },
     })
     console.log('Default admin user created:', newUser.user.email)
