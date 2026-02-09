@@ -10,6 +10,9 @@ export default function HtmlViewer({ html, highlightedText }: HtmlViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const highlightedRef = useRef<number | null>(null)
 
+  // Remove img tags from the HTML content to prevent loading external resources
+  html = html.replace(/<img[^>]*>/g, '')
+
   useEffect(() => {
     if (!containerRef.current) return
 

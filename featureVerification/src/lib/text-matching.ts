@@ -75,12 +75,15 @@ export function findAndHighlightText(
   if (!normalizedSearch || normalizedSearch.length === 0) return
 
   // Check if search text contains ellipsis indicating multiple fragments
-  const hasEllipsis = searchText.includes('...') || searchText.includes('…')
+  const hasEllipsis =
+    searchText.includes('...') ||
+    searchText.includes('…') ||
+    searchText.includes('\n')
 
   if (hasEllipsis) {
     // Split by ellipsis and highlight each fragment
     const fragments = searchText
-      .split(/\.{3,}|…/)
+      .split(/\.{3,}|…|\n/)
       .map((f) => f.trim())
       .filter((f) => f.length > 0)
     const highlights: Array<HTMLElement> = []

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Edit2, Save } from 'lucide-react'
-import { DefendantsSchema, JudgementSchema, TrialsSchema } from '../lib/schema'
 import { EditableDataSection, ValidationErrorsPanel } from './edit-ui'
 import type * as z from 'zod'
+import { DefendantsSchema, JudgementSchema, TrialsSchema } from '@/lib/schema'
 
 interface EditableDataViewerProps {
   data: {

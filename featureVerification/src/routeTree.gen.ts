@@ -9,10 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as VerifyRouteImport } from './routes/verify'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as VerifyDemoRouteImport } from './routes/verify/demo'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as AdminJudgementsIndexRouteImport } from './routes/admin/judgements/index'
 import { Route as AdminAssignmentIndexRouteImport } from './routes/admin/assignment/index'
@@ -22,11 +22,6 @@ import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ApiAssignmentSplatRouteImport } from './routes/api/assignment/$'
 import { Route as AdminJudgementsFilenameRouteImport } from './routes/admin/judgements/$filename'
 
-const VerifyRoute = VerifyRouteImport.update({
-  id: '/verify',
-  path: '/verify',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -40,6 +35,11 @@ const IndexRoute = IndexRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerifyDemoRoute = VerifyDemoRouteImport.update({
+  id: '/verify/demo',
+  path: '/verify/demo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
@@ -86,8 +86,8 @@ const AdminJudgementsFilenameRoute = AdminJudgementsFilenameRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/verify': typeof VerifyRoute
   '/admin/users': typeof AdminUsersRoute
+  '/verify/demo': typeof VerifyDemoRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/judgements/$filename': typeof AdminJudgementsFilenameRoute
   '/api/assignment/$': typeof ApiAssignmentSplatRoute
@@ -100,8 +100,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/verify': typeof VerifyRoute
   '/admin/users': typeof AdminUsersRoute
+  '/verify/demo': typeof VerifyDemoRoute
   '/admin': typeof AdminIndexRoute
   '/admin/judgements/$filename': typeof AdminJudgementsFilenameRoute
   '/api/assignment/$': typeof ApiAssignmentSplatRoute
@@ -115,8 +115,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/verify': typeof VerifyRoute
   '/admin/users': typeof AdminUsersRoute
+  '/verify/demo': typeof VerifyDemoRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/judgements/$filename': typeof AdminJudgementsFilenameRoute
   '/api/assignment/$': typeof ApiAssignmentSplatRoute
@@ -131,8 +131,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
-    | '/verify'
     | '/admin/users'
+    | '/verify/demo'
     | '/admin/'
     | '/admin/judgements/$filename'
     | '/api/assignment/$'
@@ -145,8 +145,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
-    | '/verify'
     | '/admin/users'
+    | '/verify/demo'
     | '/admin'
     | '/admin/judgements/$filename'
     | '/api/assignment/$'
@@ -159,8 +159,8 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/login'
-    | '/verify'
     | '/admin/users'
+    | '/verify/demo'
     | '/admin/'
     | '/admin/judgements/$filename'
     | '/api/assignment/$'
@@ -174,8 +174,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
-  VerifyRoute: typeof VerifyRoute
   AdminUsersRoute: typeof AdminUsersRoute
+  VerifyDemoRoute: typeof VerifyDemoRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminJudgementsFilenameRoute: typeof AdminJudgementsFilenameRoute
   ApiAssignmentSplatRoute: typeof ApiAssignmentSplatRoute
@@ -188,13 +188,6 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/verify': {
-      id: '/verify'
-      path: '/verify'
-      fullPath: '/verify'
-      preLoaderRoute: typeof VerifyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -214,6 +207,13 @@ declare module '@tanstack/react-router' {
       path: '/admin'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verify/demo': {
+      id: '/verify/demo'
+      path: '/verify/demo'
+      fullPath: '/verify/demo'
+      preLoaderRoute: typeof VerifyDemoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/users': {
@@ -278,8 +278,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
-  VerifyRoute: VerifyRoute,
   AdminUsersRoute: AdminUsersRoute,
+  VerifyDemoRoute: VerifyDemoRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminJudgementsFilenameRoute: AdminJudgementsFilenameRoute,
   ApiAssignmentSplatRoute: ApiAssignmentSplatRoute,
