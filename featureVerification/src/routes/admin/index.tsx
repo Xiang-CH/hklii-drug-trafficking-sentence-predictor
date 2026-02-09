@@ -45,6 +45,12 @@ function AdminComponent() {
       to: '/admin/judgements',
       count: judgmentCount,
     },
+    {
+      title: 'Assignment',
+      description: 'Assign judgements to users for review.',
+      to: '/admin/assignment',
+      count: undefined,
+    },
   ]
 
   return (
@@ -67,7 +73,9 @@ function AdminComponent() {
               </CardHeader>
               <CardContent>
                 <p className="text-sm text-muted-foreground">
-                  Total {link.title.toLowerCase()}: {link.count}
+                  {link.count !== undefined
+                    ? `Total ${link.title.toLowerCase()}: ${link.count}`
+                    : 'Manage assignments'}
                 </p>
               </CardContent>
             </Card>

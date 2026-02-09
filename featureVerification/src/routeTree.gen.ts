@@ -15,9 +15,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as AdminJudgementsIndexRouteImport } from './routes/admin/judgements/index'
+import { Route as AdminAssignmentIndexRouteImport } from './routes/admin/assignment/index'
 import { Route as ApiJudgementsFilenameRouteImport } from './routes/api/judgements/$filename'
 import { Route as ApiJudgementsSplatRouteImport } from './routes/api/judgements/$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as ApiAssignmentSplatRouteImport } from './routes/api/assignment/$'
 import { Route as AdminJudgementsFilenameRouteImport } from './routes/admin/judgements/$filename'
 
 const VerifyRoute = VerifyRouteImport.update({
@@ -50,6 +52,11 @@ const AdminJudgementsIndexRoute = AdminJudgementsIndexRouteImport.update({
   path: '/admin/judgements/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminAssignmentIndexRoute = AdminAssignmentIndexRouteImport.update({
+  id: '/admin/assignment/',
+  path: '/admin/assignment/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiJudgementsFilenameRoute = ApiJudgementsFilenameRouteImport.update({
   id: '/api/judgements/$filename',
   path: '/api/judgements/$filename',
@@ -65,6 +72,11 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiAssignmentSplatRoute = ApiAssignmentSplatRouteImport.update({
+  id: '/api/assignment/$',
+  path: '/api/assignment/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminJudgementsFilenameRoute = AdminJudgementsFilenameRouteImport.update({
   id: '/admin/judgements/$filename',
   path: '/admin/judgements/$filename',
@@ -78,9 +90,11 @@ export interface FileRoutesByFullPath {
   '/admin/users': typeof AdminUsersRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/judgements/$filename': typeof AdminJudgementsFilenameRoute
+  '/api/assignment/$': typeof ApiAssignmentSplatRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/judgements/$': typeof ApiJudgementsSplatRoute
   '/api/judgements/$filename': typeof ApiJudgementsFilenameRoute
+  '/admin/assignment/': typeof AdminAssignmentIndexRoute
   '/admin/judgements/': typeof AdminJudgementsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -90,9 +104,11 @@ export interface FileRoutesByTo {
   '/admin/users': typeof AdminUsersRoute
   '/admin': typeof AdminIndexRoute
   '/admin/judgements/$filename': typeof AdminJudgementsFilenameRoute
+  '/api/assignment/$': typeof ApiAssignmentSplatRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/judgements/$': typeof ApiJudgementsSplatRoute
   '/api/judgements/$filename': typeof ApiJudgementsFilenameRoute
+  '/admin/assignment': typeof AdminAssignmentIndexRoute
   '/admin/judgements': typeof AdminJudgementsIndexRoute
 }
 export interface FileRoutesById {
@@ -103,9 +119,11 @@ export interface FileRoutesById {
   '/admin/users': typeof AdminUsersRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/judgements/$filename': typeof AdminJudgementsFilenameRoute
+  '/api/assignment/$': typeof ApiAssignmentSplatRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/judgements/$': typeof ApiJudgementsSplatRoute
   '/api/judgements/$filename': typeof ApiJudgementsFilenameRoute
+  '/admin/assignment/': typeof AdminAssignmentIndexRoute
   '/admin/judgements/': typeof AdminJudgementsIndexRoute
 }
 export interface FileRouteTypes {
@@ -117,9 +135,11 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/'
     | '/admin/judgements/$filename'
+    | '/api/assignment/$'
     | '/api/auth/$'
     | '/api/judgements/$'
     | '/api/judgements/$filename'
+    | '/admin/assignment/'
     | '/admin/judgements/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -129,9 +149,11 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin'
     | '/admin/judgements/$filename'
+    | '/api/assignment/$'
     | '/api/auth/$'
     | '/api/judgements/$'
     | '/api/judgements/$filename'
+    | '/admin/assignment'
     | '/admin/judgements'
   id:
     | '__root__'
@@ -141,9 +163,11 @@ export interface FileRouteTypes {
     | '/admin/users'
     | '/admin/'
     | '/admin/judgements/$filename'
+    | '/api/assignment/$'
     | '/api/auth/$'
     | '/api/judgements/$'
     | '/api/judgements/$filename'
+    | '/admin/assignment/'
     | '/admin/judgements/'
   fileRoutesById: FileRoutesById
 }
@@ -154,9 +178,11 @@ export interface RootRouteChildren {
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminJudgementsFilenameRoute: typeof AdminJudgementsFilenameRoute
+  ApiAssignmentSplatRoute: typeof ApiAssignmentSplatRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiJudgementsSplatRoute: typeof ApiJudgementsSplatRoute
   ApiJudgementsFilenameRoute: typeof ApiJudgementsFilenameRoute
+  AdminAssignmentIndexRoute: typeof AdminAssignmentIndexRoute
   AdminJudgementsIndexRoute: typeof AdminJudgementsIndexRoute
 }
 
@@ -204,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminJudgementsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/assignment/': {
+      id: '/admin/assignment/'
+      path: '/admin/assignment'
+      fullPath: '/admin/assignment/'
+      preLoaderRoute: typeof AdminAssignmentIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/judgements/$filename': {
       id: '/api/judgements/$filename'
       path: '/api/judgements/$filename'
@@ -225,6 +258,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/assignment/$': {
+      id: '/api/assignment/$'
+      path: '/api/assignment/$'
+      fullPath: '/api/assignment/$'
+      preLoaderRoute: typeof ApiAssignmentSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/judgements/$filename': {
       id: '/admin/judgements/$filename'
       path: '/admin/judgements/$filename'
@@ -242,9 +282,11 @@ const rootRouteChildren: RootRouteChildren = {
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminJudgementsFilenameRoute: AdminJudgementsFilenameRoute,
+  ApiAssignmentSplatRoute: ApiAssignmentSplatRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiJudgementsSplatRoute: ApiJudgementsSplatRoute,
   ApiJudgementsFilenameRoute: ApiJudgementsFilenameRoute,
+  AdminAssignmentIndexRoute: AdminAssignmentIndexRoute,
   AdminJudgementsIndexRoute: AdminJudgementsIndexRoute,
 }
 export const routeTree = rootRouteImport

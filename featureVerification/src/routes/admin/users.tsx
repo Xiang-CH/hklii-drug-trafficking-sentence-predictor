@@ -1,5 +1,10 @@
 import * as React from 'react'
-import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router'
+import {
+  Link,
+  createFileRoute,
+  redirect,
+  useNavigate,
+} from '@tanstack/react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from '@tanstack/react-form'
 import type { UseMutationResult } from '@tanstack/react-query'
@@ -7,6 +12,7 @@ import type { UserType } from '@/lib/auth'
 import { authClient, requireAdminAuth } from '@/lib/auth-client'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import {
   Table,
   TableBody,
@@ -23,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { getUserAssignmentCounts } from '@/server/assignment'
 
 type UsersSearchParams = {
   page: number
@@ -76,12 +83,13 @@ export const Route = createFileRoute('/admin/users')({
   loader: async (deps) => {
     const { page } = deps.deps
     const response = await getUsers(page)
-    return response
+    const assignmentCounts = await getUserAssignmentCounts()
+    return { response, assignmentCounts }
   },
 })
 
 function UsersComponent() {
-  const response = Route.useLoaderData()
+  const { response, assignmentCounts } = Route.useLoaderData()
   const navigate = useNavigate({ from: '/admin/users' })
   const { page } = Route.useSearch()
 
@@ -101,6 +109,24 @@ function UsersComponent() {
     initialData: response.data.users,
     queryFn: () => getUsers(page).then((res) => res.data?.users ?? []),
   })
+
+  // Track assignment counts locally and update on mutation success
+  const [localAssignmentCounts, setLocalAssignmentCounts] =
+    React.useState<Record<string, number>>(assignmentCounts)
+
+  // Update local counts when loader data changes (e.g., when navigating back)
+  React.useEffect(() => {
+    setLocalAssignmentCounts(assignmentCounts)
+  }, [assignmentCounts])
+
+  // Refresh counts when component mounts or page changes
+  React.useEffect(() => {
+    const refreshCounts = async () => {
+      const freshCounts = await getUserAssignmentCounts()
+      setLocalAssignmentCounts(freshCounts)
+    }
+    refreshCounts()
+  }, [page])
 
   const [editingId, setEditingId] = React.useState<string | null>(null)
   const [editingValues, setEditingValues] = React.useState({
@@ -190,7 +216,7 @@ function UsersComponent() {
   }
 
   return (
-    <div className="container mx-auto p-6 max-w-5xl">
+    <div className="container mx-auto p-6 max-w-6xl">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-semibold">Users</h1>
         <div className="flex items-center gap-2">
@@ -212,21 +238,22 @@ function UsersComponent() {
           No users found
         </div>
       ) : (
-        <Table>
+        <Table className="table-fixed">
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Username</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Created</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead className="w-[17%]">Name</TableHead>
+              <TableHead className="w-[21%]">Email</TableHead>
+              <TableHead className="w-[15%]">Username</TableHead>
+              <TableHead className="w-[10%]">Role</TableHead>
+              <TableHead className="w-[10%]">Assigned</TableHead>
+              <TableHead className="w-[12%]">Created</TableHead>
+              <TableHead className="w-[15%]">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {users.map((user: UserType) => (
               <TableRow key={user.id}>
-                <TableCell className="font-medium">
+                <TableCell className="font-medium truncate">
                   {editingId === user.id ? (
                     <Input
                       value={editingValues.name}
@@ -236,12 +263,15 @@ function UsersComponent() {
                           name: e.target.value,
                         }))
                       }
+                      className="w-full"
                     />
                   ) : (
-                    user.name
+                    <span className="block truncate" title={user.name}>
+                      {user.name}
+                    </span>
                   )}
                 </TableCell>
-                <TableCell>
+                <TableCell className="truncate">
                   {editingId === user.id ? (
                     <Input
                       value={editingValues.email}
@@ -251,12 +281,15 @@ function UsersComponent() {
                           email: e.target.value,
                         }))
                       }
+                      className="w-full"
                     />
                   ) : (
-                    user.email
+                    <span className="block truncate" title={user.email}>
+                      {user.email}
+                    </span>
                   )}
                 </TableCell>
-                <TableCell>
+                <TableCell className="truncate">
                   {editingId === user.id ? (
                     <Input
                       value={editingValues.username}
@@ -266,9 +299,15 @@ function UsersComponent() {
                           username: e.target.value,
                         }))
                       }
+                      className="w-full"
                     />
                   ) : (
-                    user.username
+                    <span
+                      className="block truncate"
+                      title={user.username || undefined}
+                    >
+                      {user.username}
+                    </span>
                   )}
                 </TableCell>
                 <TableCell>
@@ -282,36 +321,50 @@ function UsersComponent() {
                     {user.role ?? 'user'}
                   </span>
                 </TableCell>
+                <TableCell>
+                  <Badge
+                    variant={
+                      localAssignmentCounts[user.id] ? 'default' : 'secondary'
+                    }
+                  >
+                    {localAssignmentCounts[user.id] || 0}
+                  </Badge>
+                </TableCell>
                 <TableCell className="text-muted-foreground">
                   {new Date(user.createdAt).toLocaleDateString('en-US')}
                 </TableCell>
                 <TableCell>
                   {editingId === user.id ? (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
                       <Button
                         variant="default"
                         onClick={() => saveUser(user.id)}
                         disabled={loadingId === user.id}
+                        size="sm"
                       >
                         {loadingId === user.id ? 'Saving...' : 'Save'}
                       </Button>
-                      <Button variant="ghost" onClick={cancelEdit}>
+                      <Button variant="ghost" onClick={cancelEdit} size="sm">
                         Cancel
                       </Button>
-                      {errorMsg && (
-                        <div className="text-sm text-destructive">
-                          {errorMsg}
-                        </div>
-                      )}
                     </div>
                   ) : (
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1">
                       <Button
                         variant="secondary"
                         onClick={() => startEdit(user)}
+                        size="sm"
                       >
                         Edit
                       </Button>
+                      <Link
+                        to="/admin/assignment"
+                        search={{ username: user.username }}
+                      >
+                        <Button variant="outline" size="sm">
+                          Assign
+                        </Button>
+                      </Link>
                     </div>
                   )}
                 </TableCell>
@@ -364,19 +417,9 @@ function CreateUserForm({
       console.log('CreateUserForm submit values', values.value)
       const data = { ...values.value, password: values.value.username }
       updateUserMutation.mutateAsync({ data, userId: undefined })
+      form.reset()
     },
   })
-
-  React.useEffect(() => {
-    if (form.state.values.name && !editedUsername) {
-      form.setFieldValue(
-        'username',
-        form.state.values.name.toLowerCase().replace(/\s+/g, '.'),
-      )
-    }
-  }, [form.state.values.name])
-
-  form.Subscribe
 
   return (
     <form
@@ -395,7 +438,7 @@ function CreateUserForm({
                 if (!editedUsername) {
                   form.setFieldValue(
                     'username',
-                    value.toLowerCase().replace(/\s+/g, '-'),
+                    value.toLowerCase().replace(/\s+/g, '.'),
                   )
                 }
               },
