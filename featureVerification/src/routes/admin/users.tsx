@@ -135,7 +135,7 @@ function UsersComponent() {
     username: '',
   })
   const [loadingId, setLoadingId] = React.useState<string | null>(null)
-  const [errorMsg, setErrorMsg] = React.useState<string | null>(null)
+  const [, setErrorMsg] = React.useState<string | null>(null)
 
   const [showCreate, setShowCreate] = React.useState(false)
 

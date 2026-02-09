@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ObjectId } from 'mongodb'
-import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { getUserAssignmentCounts } from '@/server/assignment'
 import { authMiddleware } from '@/middleware/auth'
@@ -46,7 +45,12 @@ export const Route = createFileRoute('/api/assignment/$')({
             : `http://dummy${request.url}`,
         )
         const page = Math.max(parseInt(url.searchParams.get('page') ?? '1'), 1)
-        const search = url.searchParams.get('search')?.trim() ?? null
+        const search =
+          url.searchParams
+            .get('search')
+            ?.trim()
+            .replaceAll('[', '\\[')
+            .replaceAll(']', '\\]') ?? null
         const assignedFilter = url.searchParams.get('assigned') ?? 'all'
         const username = url.searchParams.get('username')?.trim() ?? null
 

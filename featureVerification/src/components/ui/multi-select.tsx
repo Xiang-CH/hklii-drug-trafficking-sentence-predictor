@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { CheckIcon, ChevronDownIcon, XIcon } from 'lucide-react'
+import { ChevronDownIcon, XIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Checkbox } from '@/components/ui/checkbox'
 import {

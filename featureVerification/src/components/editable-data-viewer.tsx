@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Edit2, Save } from 'lucide-react'
+import { Edit2 } from 'lucide-react'
 import { EditableDataSection, ValidationErrorsPanel } from './edit-ui'
 import type * as z from 'zod'
 import { DefendantsSchema, JudgementSchema, TrialsSchema } from '@/lib/schema'
@@ -9,13 +9,20 @@ interface EditableDataViewerProps {
     judgement: any
     defendants: any
     trials: any
+    remarks?: string
+    exclude: boolean
   }
   onSourceHover: (text: string | null) => void
-  onDataChange?: (data: {
-    judgement: any
-    defendants: any
-    trials: any
-  }) => void
+  onDataChange?: (
+    data: {
+      judgement: any
+      defendants: any
+      trials: any
+      remarks?: string
+      exclude: boolean
+    },
+    hasErrors: boolean,
+  ) => void
 }
 
 export default function EditableDataViewer({
@@ -27,7 +34,7 @@ export default function EditableDataViewer({
   const [validationErrors, setValidationErrors] = useState<
     Record<string, Array<string>>
   >({})
-  const [isEditing, setIsEditing] = useState(false)
+  const [isEditing, setIsEditing] = useState(true)
 
   // Update localData when prop changes
   useEffect(() => {
@@ -92,6 +99,12 @@ export default function EditableDataViewer({
     if (isEditing) {
       setValidationErrors(errors)
     }
+
+    if (Object.keys(errors).length === 0) {
+      onDataChange?.(transformedData, false)
+    } else {
+      onDataChange?.(transformedData, true)
+    }
   }
 
   // Validate when entering edit mode
@@ -100,27 +113,6 @@ export default function EditableDataViewer({
     const { errors, transformedData } = validateData(localData)
     setLocalData(transformedData) // Update computed fields when entering edit mode
     setValidationErrors(errors)
-  }
-
-  const handleSave = () => {
-    // Final validation before saving (though real-time validation is already running)
-    const { errors, transformedData } = validateData(localData)
-    setValidationErrors(errors)
-
-    if (onDataChange) {
-      // Save the transformed data with updated computed fields
-      onDataChange(transformedData)
-    }
-    setIsEditing(false)
-    // Optionally save to localStorage or download as JSON
-    const jsonStr = JSON.stringify(transformedData, null, 2)
-    const blob = new Blob([jsonStr], { type: 'application/json' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = 'updated-data.json'
-    a.click()
-    URL.revokeObjectURL(url)
   }
 
   return (
@@ -135,7 +127,7 @@ export default function EditableDataViewer({
           </p>
         </div>
         <div className="flex gap-2">
-          {!isEditing ? (
+          {!isEditing && (
             <button
               onClick={handleStartEditing}
               className="px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded text-sm flex items-center gap-2"
@@ -143,26 +135,6 @@ export default function EditableDataViewer({
               <Edit2 className="w-4 h-4" />
               Edit
             </button>
-          ) : (
-            <>
-              <button
-                onClick={() => {
-                  setLocalData(data)
-                  setValidationErrors({})
-                  setIsEditing(false)
-                }}
-                className="px-3 py-1.5 bg-gray-500 hover:bg-gray-600 text-white rounded text-sm"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSave}
-                className="px-3 py-1.5 bg-green-500 hover:bg-green-600 text-white rounded text-sm flex items-center gap-2"
-              >
-                <Save className="w-4 h-4" />
-                Save
-              </button>
-            </>
           )}
         </div>
       </div>
@@ -203,6 +175,27 @@ export default function EditableDataViewer({
           }
         />
       )}
+      <div className="flex items-center gap-2">
+        <span className="font-semibold">Exclude from training: </span>
+        <input
+          type="checkbox"
+          checked={localData.exclude}
+          onChange={(e) =>
+            handleDataChange({ ...localData, exclude: e.target.checked })
+          }
+          disabled={!isEditing}
+        />
+      </div>
+      <p className="font-semibold">Remarks:</p>
+      <textarea
+        className="w-[98%] ml-2 p-2 border border-gray-300 dark:border-gray-700 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none disabled:opacity-50"
+        value={localData.remarks || ''}
+        onChange={(e) =>
+          handleDataChange({ ...localData, remarks: e.target.value })
+        }
+        disabled={!isEditing}
+        placeholder="Add any remarks or notes about this case here..."
+      />
     </div>
   )
 }

@@ -1,118 +1,253 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { Link, createFileRoute } from '@tanstack/react-router'
+import { useQuery } from '@tanstack/react-query'
 import {
-  Route as RouteIcon,
-  Server,
-  Shield,
-  Sparkles,
-  Waves,
-  Zap,
+  AlertCircle,
+  CheckCircle2,
+  Circle,
+  FileText,
+  Loader2,
 } from 'lucide-react'
+import type { UserJudgement } from '@/server/user-judgements'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { getUserAssignedJudgements } from '@/server/user-judgements'
+import { authClient } from '@/lib/auth-client'
 
-export const Route = createFileRoute('/')({ component: App })
+export const Route = createFileRoute('/')({
+  component: UserDashboard,
+  loader: async ({ context }) => {
+    // Prefetch data on server
+    const queryClient = context.queryClient
 
-function App() {
-  const features = [
-    {
-      icon: <Zap className="w-12 h-12 text-cyan-400" />,
-      title: 'Powerful Server Functions',
-      description:
-        'Write server-side code that seamlessly integrates with your client components. Type-safe, secure, and simple.',
-    },
-    {
-      icon: <Server className="w-12 h-12 text-cyan-400" />,
-      title: 'Flexible Server Side Rendering',
-      description:
-        'Full-document SSR, streaming, and progressive enhancement out of the box. Control exactly what renders where.',
-    },
-    {
-      icon: <RouteIcon className="w-12 h-12 text-cyan-400" />,
-      title: 'API Routes',
-      description:
-        'Build type-safe API endpoints alongside your application. No separate backend needed.',
-    },
-    {
-      icon: <Shield className="w-12 h-12 text-cyan-400" />,
-      title: 'Strongly Typed Everything',
-      description:
-        'End-to-end type safety from server to client. Catch errors before they reach production.',
-    },
-    {
-      icon: <Waves className="w-12 h-12 text-cyan-400" />,
-      title: 'Full Streaming Support',
-      description:
-        'Stream data from server to client progressively. Perfect for AI applications and real-time updates.',
-    },
-    {
-      icon: <Sparkles className="w-12 h-12 text-cyan-400" />,
-      title: 'Next Generation Ready',
-      description:
-        'Built from the ground up for modern web applications. Deploy anywhere JavaScript runs.',
-    },
-  ]
+    await Promise.all([
+      queryClient.prefetchQuery({
+        queryKey: ['user-judgements'],
+        queryFn: () => getUserAssignedJudgements(),
+      }),
+    ])
+  },
+})
+
+function UserDashboard() {
+  const { data: session } = authClient.useSession()
+
+  const { data: judgements, isLoading: judgementsLoading } = useQuery({
+    queryKey: ['user-judgements'],
+    queryFn: () => getUserAssignedJudgements(),
+  })
+
+  if (!session?.user) {
+    return (
+      <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-center">Welcome</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <p className="text-center text-muted-foreground">
+              Please sign in to view your verification dashboard
+            </p>
+            <div className="flex justify-center">
+              <Link to="/login">
+                <Button>Sign In</Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
+  const pendingJudgements =
+    judgements?.filter((j) => j.status === 'pending') ?? []
+  const inProgressJudgements =
+    judgements?.filter((j) => j.status === 'in_progress') ?? []
+  const verifiedJudgements =
+    judgements?.filter((j) => j.status === 'verified') ?? []
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
-      <section className="relative py-20 px-6 text-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 via-blue-500/10 to-purple-500/10"></div>
-        <div className="relative max-w-5xl mx-auto">
-          <div className="flex items-center justify-center gap-6 mb-6">
-            <img
-              src="/tanstack-circle-logo.png"
-              alt="TanStack Logo"
-              className="w-24 h-24 md:w-32 md:h-32"
-            />
-            <h1 className="text-6xl md:text-7xl font-black text-white [letter-spacing:-0.08em]">
-              <span className="text-gray-300">TANSTACK</span>{' '}
-              <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                START
-              </span>
-            </h1>
-          </div>
-          <p className="text-2xl md:text-3xl text-gray-300 mb-4 font-light">
-            The framework for next generation AI applications
-          </p>
-          <p className="text-lg text-gray-400 max-w-3xl mx-auto mb-8">
-            Full-stack framework powered by TanStack Router for React and Solid.
-            Build modern applications with server functions, streaming, and type
-            safety.
-          </p>
-          <div className="flex flex-col items-center gap-4">
-            <a
-              href="/verify"
-              className="px-8 py-3 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-lg transition-colors shadow-lg shadow-cyan-500/50"
-            >
-              Data Verification
-            </a>
-            <a
-              href="https://tanstack.com/start"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-8 py-3 bg-slate-700 hover:bg-slate-600 text-white font-semibold rounded-lg transition-colors"
-            >
-              Documentation
-            </a>
-          </div>
+    <div>
+      {/* Header Section */}
+      <div className="border-b border-gray-200 dark:border-gray-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            Welcome, {session.user.name}
+          </h1>
         </div>
-      </section>
+      </div>
 
-      <section className="py-16 px-6 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/10"
-            >
-              <div className="mb-4">{feature.icon}</div>
-              <h3 className="text-xl font-semibold text-white mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-gray-400 leading-relaxed">
-                {feature.description}
-              </p>
-            </div>
-          ))}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Two Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Pending & In Progress Column */}
+          <div className="space-y-6">
+            {/* Pending Section */}
+            <Card className="gap-2">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Circle className="h-5 w-5 text-gray-500" />
+                  Pending Verification
+                  <Badge variant="secondary">
+                    {pendingJudgements.length + inProgressJudgements.length}
+                  </Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {judgementsLoading ? (
+                  <div className="flex items-center justify-center h-[200px]">
+                    <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+                  </div>
+                ) : pendingJudgements.length === 0 &&
+                  inProgressJudgements.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center h-[200px] text-center">
+                    <CheckCircle2 className="h-12 w-12 text-green-500 mb-3" />
+                    <p className="text-gray-600 dark:text-gray-400">
+                      No pending judgements!
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-500">
+                      You've completed all your assigned verifications.
+                    </p>
+                  </div>
+                ) : (
+                  <ScrollArea className="h-[calc(100vh-19rem)] pr-2">
+                    <div className="space-y-2">
+                      {inProgressJudgements.map((judgement) => (
+                        <JudgementCard
+                          key={judgement.id}
+                          judgement={judgement}
+                          status="in_progress"
+                        />
+                      ))}
+                      {pendingJudgements.map((judgement) => (
+                        <JudgementCard
+                          key={judgement.id}
+                          judgement={judgement}
+                          status="pending"
+                        />
+                      ))}
+                    </div>
+                  </ScrollArea>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Verified Column */}
+          <div>
+            <Card className="gap-2">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <CheckCircle2 className="h-5 w-5 text-green-500" />
+                  Verified Judgements
+                  <Badge
+                    variant="secondary"
+                    className="bg-green-100 text-green-700"
+                  >
+                    {verifiedJudgements.length}
+                  </Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {judgementsLoading ? (
+                  <div className="flex items-center justify-center h-[200px]">
+                    <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
+                  </div>
+                ) : verifiedJudgements.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center h-[200px] text-center">
+                    <AlertCircle className="h-12 w-12 text-gray-400 mb-3" />
+                    <p className="text-gray-600 dark:text-gray-400">
+                      No verified judgements yet
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-500">
+                      Start verifying to see your completed work here.
+                    </p>
+                  </div>
+                ) : (
+                  <ScrollArea className="h-[calc(100vh-19rem)] pr-2">
+                    <div className="space-y-2">
+                      {verifiedJudgements.map((judgement) => (
+                        <JudgementCard
+                          key={judgement.id}
+                          judgement={judgement}
+                          status="verified"
+                        />
+                      ))}
+                    </div>
+                  </ScrollArea>
+                )}
+              </CardContent>
+            </Card>
+          </div>
         </div>
-      </section>
+      </div>
+    </div>
+  )
+}
+
+function JudgementCard({
+  judgement,
+  status,
+}: {
+  judgement: UserJudgement
+  status: 'pending' | 'in_progress' | 'verified'
+}) {
+  const statusConfig = {
+    pending: {
+      badge: <Badge variant="outline">Pending</Badge>,
+      buttonText: 'Start Verification',
+      buttonVariant: 'default' as const,
+    },
+    in_progress: {
+      badge: (
+        <Badge className="bg-amber-100 text-amber-700 hover:bg-amber-100">
+          In Progress
+        </Badge>
+      ),
+      buttonText: 'Continue',
+      buttonVariant: 'default' as const,
+    },
+    verified: {
+      badge: (
+        <Badge className="bg-green-100 text-green-700 hover:bg-green-100">
+          Verified
+        </Badge>
+      ),
+      buttonText: 'Review',
+      buttonVariant: 'outline' as const,
+    },
+  }
+
+  const config = statusConfig[status]
+
+  return (
+    <div className="flex items-center justify-between p-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-gray-300 dark:hover:border-gray-600 transition-colors">
+      <div className="flex-1 min-w-0 mr-4">
+        <div className="flex items-center gap-2 mb-1">
+          <FileText className="h-4 w-4 text-gray-400 flex-shrink-0" />
+          <p className="font-medium text-gray-900 dark:text-white truncate">
+            {judgement.trial || judgement.filename}
+          </p>
+        </div>
+        <div className="ml-1 flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 text-xs">
+          {judgement.appeal && <span>Appeal: {judgement.appeal}</span>}
+          {judgement.corrigendum && <span>Corrigendum</span>}
+        </div>
+        {judgement.verifiedAt && (
+          <p className="text-xs text-gray-400 mt-1">
+            Verified: {new Date(judgement.verifiedAt).toLocaleDateString()}
+          </p>
+        )}
+      </div>
+      <div className="flex items-center gap-2 flex-shrink-0">
+        {config.badge}
+        <Link to="/verify/$filename" params={{ filename: judgement.filename }}>
+          <Button size="sm" variant={config.buttonVariant}>
+            {config.buttonText}
+          </Button>
+        </Link>
+      </div>
     </div>
   )
 }

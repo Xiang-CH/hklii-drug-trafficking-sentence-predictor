@@ -1,6 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ObjectId } from 'mongodb'
-import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { authMiddleware } from '@/middleware/auth'
 
@@ -21,10 +20,6 @@ export type JudgementListItem = {
 }
 
 const PAGE_SIZE = 20
-
-function normalizeString(value: string | null) {
-  return value?.trim() ? value.trim() : null
-}
 
 export const Route = createFileRoute('/api/judgements/$')({
   server: {

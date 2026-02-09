@@ -12,7 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminIndexRouteImport } from './routes/admin/index'
-import { Route as VerifyDemoRouteImport } from './routes/verify/demo'
+import { Route as VerifyFilenameRouteImport } from './routes/verify/$filename'
 import { Route as AdminUsersRouteImport } from './routes/admin/users'
 import { Route as AdminJudgementsIndexRouteImport } from './routes/admin/judgements/index'
 import { Route as AdminAssignmentIndexRouteImport } from './routes/admin/assignment/index'
@@ -37,9 +37,9 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const VerifyDemoRoute = VerifyDemoRouteImport.update({
-  id: '/verify/demo',
-  path: '/verify/demo',
+const VerifyFilenameRoute = VerifyFilenameRouteImport.update({
+  id: '/verify/$filename',
+  path: '/verify/$filename',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
@@ -87,7 +87,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/admin/users': typeof AdminUsersRoute
-  '/verify/demo': typeof VerifyDemoRoute
+  '/verify/$filename': typeof VerifyFilenameRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/judgements/$filename': typeof AdminJudgementsFilenameRoute
   '/api/assignment/$': typeof ApiAssignmentSplatRoute
@@ -101,7 +101,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/admin/users': typeof AdminUsersRoute
-  '/verify/demo': typeof VerifyDemoRoute
+  '/verify/$filename': typeof VerifyFilenameRoute
   '/admin': typeof AdminIndexRoute
   '/admin/judgements/$filename': typeof AdminJudgementsFilenameRoute
   '/api/assignment/$': typeof ApiAssignmentSplatRoute
@@ -116,7 +116,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/admin/users': typeof AdminUsersRoute
-  '/verify/demo': typeof VerifyDemoRoute
+  '/verify/$filename': typeof VerifyFilenameRoute
   '/admin/': typeof AdminIndexRoute
   '/admin/judgements/$filename': typeof AdminJudgementsFilenameRoute
   '/api/assignment/$': typeof ApiAssignmentSplatRoute
@@ -132,7 +132,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/admin/users'
-    | '/verify/demo'
+    | '/verify/$filename'
     | '/admin/'
     | '/admin/judgements/$filename'
     | '/api/assignment/$'
@@ -146,7 +146,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/admin/users'
-    | '/verify/demo'
+    | '/verify/$filename'
     | '/admin'
     | '/admin/judgements/$filename'
     | '/api/assignment/$'
@@ -160,7 +160,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/admin/users'
-    | '/verify/demo'
+    | '/verify/$filename'
     | '/admin/'
     | '/admin/judgements/$filename'
     | '/api/assignment/$'
@@ -175,7 +175,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
   AdminUsersRoute: typeof AdminUsersRoute
-  VerifyDemoRoute: typeof VerifyDemoRoute
+  VerifyFilenameRoute: typeof VerifyFilenameRoute
   AdminIndexRoute: typeof AdminIndexRoute
   AdminJudgementsFilenameRoute: typeof AdminJudgementsFilenameRoute
   ApiAssignmentSplatRoute: typeof ApiAssignmentSplatRoute
@@ -209,11 +209,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/verify/demo': {
-      id: '/verify/demo'
-      path: '/verify/demo'
-      fullPath: '/verify/demo'
-      preLoaderRoute: typeof VerifyDemoRouteImport
+    '/verify/$filename': {
+      id: '/verify/$filename'
+      path: '/verify/$filename'
+      fullPath: '/verify/$filename'
+      preLoaderRoute: typeof VerifyFilenameRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/users': {
@@ -279,7 +279,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
   AdminUsersRoute: AdminUsersRoute,
-  VerifyDemoRoute: VerifyDemoRoute,
+  VerifyFilenameRoute: VerifyFilenameRoute,
   AdminIndexRoute: AdminIndexRoute,
   AdminJudgementsFilenameRoute: AdminJudgementsFilenameRoute,
   ApiAssignmentSplatRoute: ApiAssignmentSplatRoute,
