@@ -17,16 +17,8 @@ import { authClient } from '@/lib/auth-client'
 
 export const Route = createFileRoute('/')({
   component: UserDashboard,
-  loader: async ({ context }) => {
-    // Prefetch data on server
-    const queryClient = context.queryClient
-
-    await Promise.all([
-      queryClient.prefetchQuery({
-        queryKey: ['user-judgements'],
-        queryFn: () => getUserAssignedJudgements(),
-      }),
-    ])
+  loader: async () => {
+    return await getUserAssignedJudgements()
   },
 })
 
@@ -36,6 +28,7 @@ function UserDashboard() {
   const { data: judgements, isLoading: judgementsLoading } = useQuery({
     queryKey: ['user-judgements'],
     queryFn: () => getUserAssignedJudgements(),
+    initialData: Route.useLoaderData(),
   })
 
   if (!session?.user) {
@@ -61,11 +54,11 @@ function UserDashboard() {
   }
 
   const pendingJudgements =
-    judgements?.filter((j) => j.status === 'pending') ?? []
+    judgements.filter((j) => j.status === 'pending')
   const inProgressJudgements =
-    judgements?.filter((j) => j.status === 'in_progress') ?? []
+    judgements.filter((j) => j.status === 'in_progress')
   const verifiedJudgements =
-    judgements?.filter((j) => j.status === 'verified') ?? []
+    judgements.filter((j) => j.status === 'verified')
 
   return (
     <div>
@@ -95,11 +88,7 @@ function UserDashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {judgementsLoading ? (
-                  <div className="flex items-center justify-center h-[200px]">
-                    <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
-                  </div>
-                ) : pendingJudgements.length === 0 &&
+                {pendingJudgements.length === 0 &&
                   inProgressJudgements.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-[200px] text-center">
                     <CheckCircle2 className="h-12 w-12 text-green-500 mb-3" />
@@ -150,11 +139,7 @@ function UserDashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {judgementsLoading ? (
-                  <div className="flex items-center justify-center h-[200px]">
-                    <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
-                  </div>
-                ) : verifiedJudgements.length === 0 ? (
+                {verifiedJudgements.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-[200px] text-center">
                     <AlertCircle className="h-12 w-12 text-gray-400 mb-3" />
                     <p className="text-gray-600 dark:text-gray-400">

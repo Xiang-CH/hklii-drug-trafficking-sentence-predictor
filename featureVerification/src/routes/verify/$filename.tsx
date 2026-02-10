@@ -44,10 +44,7 @@ function VerifyJudgementPage() {
   const [hasValidationErrors, setHasValidationErrors] = useState(false)
 
   const initial = Route.useLoaderData()
-  const {
-    data: judgement,
-    error,
-  } = useQuery({
+  const { data: judgement, error } = useQuery({
     queryKey: ['judgement-verification', filename],
     initialData: initial,
     queryFn: () => getJudgementForVerification({ data: filename }),
@@ -160,7 +157,6 @@ function VerifyJudgementPage() {
     setRemarks(newData.remarks || '')
     setExclude(newData.exclude)
   }
-
 
   if (error) {
     return (

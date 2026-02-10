@@ -16,6 +16,7 @@ import {
   Trash2,
   User,
 } from 'lucide-react'
+import { set } from 'zod'
 import type { AssignmentData, AssignmentUser } from '@/routes/api/assignment/$'
 import { requireAdminAuth } from '@/lib/auth-client'
 import { Input } from '@/components/ui/input'
@@ -47,7 +48,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Pagination } from '@/components/pagination'
-import { set } from 'zod'
 
 type AssignmentSearchParams = {
   page?: number
@@ -147,7 +147,7 @@ function AssignmentComponent() {
 
   const [searchText, setSearchText] = React.useState(search ?? '')
   const [selectedUser, setSelectedUser] = React.useState<AssignmentUser | null>(
-    null
+    null,
   )
   const [selectedJudgements, setSelectedJudgements] = React.useState<
     Set<string>

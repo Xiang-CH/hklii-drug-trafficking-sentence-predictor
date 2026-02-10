@@ -77,7 +77,7 @@ export default function Header() {
             }}
           >
             <Globe size={20} />
-            <span className="font-medium">Login</span>
+            <span className="font-medium">Account</span>
           </Link>
         </nav>
 
