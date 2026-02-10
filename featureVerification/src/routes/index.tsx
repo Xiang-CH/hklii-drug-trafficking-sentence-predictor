@@ -53,12 +53,11 @@ function UserDashboard() {
     )
   }
 
-  const pendingJudgements =
-    judgements.filter((j) => j.status === 'pending')
-  const inProgressJudgements =
-    judgements.filter((j) => j.status === 'in_progress')
-  const verifiedJudgements =
-    judgements.filter((j) => j.status === 'verified')
+  const pendingJudgements = judgements.filter((j) => j.status === 'pending')
+  const inProgressJudgements = judgements.filter(
+    (j) => j.status === 'in_progress',
+  )
+  const verifiedJudgements = judgements.filter((j) => j.status === 'verified')
 
   return (
     <div>
@@ -89,7 +88,7 @@ function UserDashboard() {
               </CardHeader>
               <CardContent>
                 {pendingJudgements.length === 0 &&
-                  inProgressJudgements.length === 0 ? (
+                inProgressJudgements.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-[200px] text-center">
                     <CheckCircle2 className="h-12 w-12 text-green-500 mb-3" />
                     <p className="text-gray-600 dark:text-gray-400">

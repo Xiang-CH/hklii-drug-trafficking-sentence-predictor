@@ -9,6 +9,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from '@tanstack/react-form'
 import type { UseMutationResult } from '@tanstack/react-query'
 import type { UserType } from '@/lib/auth'
+import type { UserAssignmentCounts } from '@/server/assignment'
 import { authClient, requireAdminAuth } from '@/lib/auth-client'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -112,12 +113,12 @@ function UsersComponent() {
 
   // Track assignment counts locally and update on mutation success
   const [localAssignmentCounts, setLocalAssignmentCounts] =
-    React.useState<Record<string, number>>(assignmentCounts)
+    React.useState<UserAssignmentCounts>(assignmentCounts)
 
   // Update local counts when loader data changes (e.g., when navigating back)
-  React.useEffect(() => {
-    setLocalAssignmentCounts(assignmentCounts)
-  }, [assignmentCounts])
+  // React.useEffect(() => {
+  //   setLocalAssignmentCounts(assignmentCounts)
+  // }, [assignmentCounts])
 
   // Refresh counts when component mounts or page changes
   React.useEffect(() => {
@@ -241,12 +242,12 @@ function UsersComponent() {
         <Table className="table-fixed">
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[17%]">Name</TableHead>
-              <TableHead className="w-[21%]">Email</TableHead>
-              <TableHead className="w-[15%]">Username</TableHead>
+              <TableHead className="w-[16%]">Name</TableHead>
+              <TableHead className="w-[19%]">Email</TableHead>
+              <TableHead className="w-[14%]">Username</TableHead>
               <TableHead className="w-[10%]">Role</TableHead>
               <TableHead className="w-[10%]">Assigned</TableHead>
-              <TableHead className="w-[12%]">Created</TableHead>
+              <TableHead className="w-[10%]">Verified</TableHead>
               <TableHead className="w-[15%]">Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -327,11 +328,17 @@ function UsersComponent() {
                       localAssignmentCounts[user.id] ? 'default' : 'secondary'
                     }
                   >
-                    {localAssignmentCounts[user.id] || 0}
+                    {localAssignmentCounts[user.id]?.assignment || 0}
                   </Badge>
                 </TableCell>
-                <TableCell className="text-muted-foreground">
-                  {new Date(user.createdAt).toLocaleDateString('en-US')}
+                <TableCell>
+                  <Badge
+                    variant={
+                      localAssignmentCounts[user.id] ? 'default' : 'secondary'
+                    }
+                  >
+                    {localAssignmentCounts[user.id]?.verification || 0}
+                  </Badge>
                 </TableCell>
                 <TableCell>
                   {editingId === user.id ? (

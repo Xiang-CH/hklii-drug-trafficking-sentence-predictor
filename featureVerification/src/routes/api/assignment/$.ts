@@ -10,6 +10,7 @@ export type AssignmentUser = {
   email: string
   username: string
   assignedCount: number
+  verifiedCount: number
 }
 
 export type AssignmentJudgement = {
@@ -66,7 +67,8 @@ export const Route = createFileRoute('/api/assignment/$')({
           name: user.name,
           email: user.email,
           username: user.username,
-          assignedCount: countMap[user._id.toHexString()] || 0,
+          assignedCount: countMap[user._id.toHexString()]?.assignment || 0,
+          verifiedCount: countMap[user._id.toHexString()]?.verification || 0,
         }))
 
         // Fetch judgements

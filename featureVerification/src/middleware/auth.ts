@@ -8,7 +8,7 @@ export const authMiddleware = createMiddleware().server(
     const headers = getRequestHeaders()
     const session = await auth.api.getSession({ headers })
 
-    const referer = request.headers.get('referer') 
+    const referer = request.headers.get('referer')
     const path = referer ? new URL(referer).pathname : '/'
     // console.log('Auth Middleware:', path)
 
