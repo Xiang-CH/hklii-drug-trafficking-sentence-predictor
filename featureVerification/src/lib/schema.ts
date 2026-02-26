@@ -881,6 +881,19 @@ export function isFieldNullable(
   return false
 }
 
+function unwrapToObject(schema: any): z.ZodObject<any> | null {
+  let cur = schema;
+
+  while (true) {
+    if (cur instanceof z.ZodObject) return cur;
+    if (cur instanceof z.ZodPipe) {
+      cur = cur.in;
+      continue;
+    }
+    return null;
+  }
+}
+
 // Function to get default value for a field based on its schema
 export function getDefaultValueForField(
   fieldName: string,
@@ -893,8 +906,9 @@ export function getDefaultValueForField(
   // check if the parent is an array and get its item type
   if (!schema && parentFieldName) {
     const parentSchema = FIELD_SCHEMAS[parentFieldName]
-    if (parentSchema instanceof z.ZodObject) {
-      const shape = parentSchema.shape
+    const parentObj = unwrapToObject(parentSchema)
+    if (parentObj instanceof z.ZodObject) {
+      const shape = parentObj.shape
       const parentFieldSchema = shape[fieldName] as z.ZodTypeAny
 
       //TODO: Problematic, some keys has no corresponding schema
