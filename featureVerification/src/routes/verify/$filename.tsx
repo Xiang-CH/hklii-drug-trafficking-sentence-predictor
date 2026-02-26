@@ -20,6 +20,8 @@ import {
   markAsVerified,
   saveVerificationProgress,
 } from '@/server/user-judgements'
+import { applyNotGivenToPayload } from '@/lib/not-given'
+import { boolean } from 'zod'
 
 export const Route = createFileRoute('/verify/$filename')({
   component: VerifyJudgementPage,
@@ -42,6 +44,8 @@ function VerifyJudgementPage() {
   const [highlightedText, setHighlightedText] = useState<string | null>(null)
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
   const [hasValidationErrors, setHasValidationErrors] = useState(false)
+
+  const [notGivenMap, setNotGivenMap] = useState<Record<string, boolean>>({})
 
   const initial = Route.useLoaderData()
   const { data: judgement, error } = useQuery({
@@ -71,27 +75,36 @@ function VerifyJudgementPage() {
           JSON.stringify(sourceData.judgement) ||
         JSON.stringify(defendantsData) !==
           JSON.stringify(sourceData.defendants) ||
-        JSON.stringify(trialsData) !== JSON.stringify(sourceData.trials)
+        JSON.stringify(trialsData) !==
+          JSON.stringify(sourceData.trials)
+        // TODO: No unsaved notification for Not Given Checkbox
+        // Object.values(notGivenMap).some(Boolean)
       setHasUnsavedChanges(hasChanges)
     }
-  }, [judgementData, defendantsData, trialsData, judgement])
+  }, [judgementData, defendantsData, trialsData, judgement, notGivenMap])
 
   // Save progress mutation
   const saveMutation = useMutation({
-    mutationFn: () =>
-      saveVerificationProgress({
+    mutationFn: () => {
+      const cleaned = applyNotGivenToPayload(
+        {
+          judgement: judgementData,
+          defendants: defendantsData,
+          trials: trialsData
+        },
+        notGivenMap
+      )
+
+      return saveVerificationProgress({
         data: {
           judgementId: judgement.id || '',
           extractedId: judgement.extractedData?.extractedId,
-          data: {
-            judgement: judgementData,
-            defendants: defendantsData,
-            trials: trialsData,
-          },
+          data: cleaned,
           remarks,
           exclude,
         },
-      }),
+      })
+    },
     onSuccess: (result) => {
       toast.success(result.message)
       setHasUnsavedChanges(false)
@@ -110,19 +123,24 @@ function VerifyJudgementPage() {
 
   // Mark as verified mutation
   const verifyMutation = useMutation({
-    mutationFn: () =>
-      markAsVerified({
+    mutationFn: () => {
+      const cleaned = applyNotGivenToPayload(
+        {
+          judgement: judgementData,
+          defendants: defendantsData,
+          trials: trialsData,
+        },
+        notGivenMap,
+      )
+      return markAsVerified({
         data: {
           judgementId: judgement.id || '',
-          data: {
-            judgement: judgementData,
-            defendants: defendantsData,
-            trials: trialsData,
-          },
+          data: cleaned,
           remarks,
           exclude,
         },
-      }),
+      })
+    },
     onSuccess: (result) => {
       toast.success(result.message)
       queryClient.invalidateQueries({ queryKey: ['user-stats'] })
@@ -314,6 +332,7 @@ function VerifyJudgementPage() {
                 }}
                 onSourceHover={setHighlightedText}
                 onDataChange={handleDataChange}
+                onNotGivenChange={setNotGivenMap}
               />
             )}
           </div>

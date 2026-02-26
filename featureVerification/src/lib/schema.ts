@@ -897,7 +897,10 @@ export function getDefaultValueForField(
       const shape = parentSchema.shape
       const parentFieldSchema = shape[fieldName] as z.ZodTypeAny
 
-      schema = unwrapSchema(parentFieldSchema)
+      //TODO: Problematic, some keys has no corresponding schema
+      if (parentFieldSchema){
+        schema = unwrapSchema(parentFieldSchema)
+      }
     }
   }
 

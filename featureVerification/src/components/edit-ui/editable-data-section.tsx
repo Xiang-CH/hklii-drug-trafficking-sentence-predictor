@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { ChevronDown, ChevronRight } from 'lucide-react'
 import { EditableDataObject } from './editable-data-object'
 
@@ -8,6 +8,8 @@ interface EditableDataSectionProps {
   onSourceHover: (text: string | null) => void
   isEditing: boolean
   onChange: (data: any) => void
+  notGivenMap: Record<string, boolean>
+  onToggleNotGiven: (path: string, next: boolean) => void
 }
 
 export function EditableDataSection({
@@ -16,8 +18,12 @@ export function EditableDataSection({
   onSourceHover,
   isEditing,
   onChange,
+  notGivenMap,
+  onToggleNotGiven
 }: EditableDataSectionProps) {
   const [isExpanded, setIsExpanded] = useState(true)
+
+  const rootPath = title.toLowerCase()
 
   return (
     <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
@@ -39,7 +45,10 @@ export function EditableDataSection({
             onSourceHover={onSourceHover}
             isEditing={isEditing}
             onChange={onChange}
-            parentField={title.toLocaleLowerCase()}
+            parentField={rootPath}
+            path={rootPath}
+            notGivenMap={notGivenMap}
+            onToggleNotGiven={onToggleNotGiven}
           />
         </div>
       )}

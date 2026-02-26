@@ -23,18 +23,29 @@ interface EditableDataViewerProps {
     },
     hasErrors: boolean,
   ) => void
+  onNotGivenChange?: (notGivenMap: Record<string, boolean>) => void
 }
 
 export default function EditableDataViewer({
   data,
   onSourceHover,
   onDataChange,
+  onNotGivenChange
 }: EditableDataViewerProps) {
   const [localData, setLocalData] = useState(data)
   const [validationErrors, setValidationErrors] = useState<
     Record<string, Array<string>>
   >({})
   const [isEditing, setIsEditing] = useState(true)
+  const [notGivenMap, setNotGivenMap] = useState<Record<string, boolean>>({})
+
+  const handleToggleNotGiven = (path: string, next: boolean) => {
+    setNotGivenMap((prev) => {
+      const updated = { ...prev, [path]: next }
+      onNotGivenChange?.(updated)
+      return updated
+    })
+  }
 
   // Update localData when prop changes
   useEffect(() => {
@@ -151,6 +162,8 @@ export default function EditableDataViewer({
           onChange={(newData) =>
             handleDataChange({ ...localData, judgement: newData })
           }
+          notGivenMap={notGivenMap}
+          onToggleNotGiven={handleToggleNotGiven}
         />
       )}
       {localData.defendants && (
@@ -162,6 +175,8 @@ export default function EditableDataViewer({
           onChange={(newData) =>
             handleDataChange({ ...localData, defendants: newData })
           }
+          notGivenMap={notGivenMap}
+          onToggleNotGiven={handleToggleNotGiven}
         />
       )}
       {localData.trials && (
@@ -173,6 +188,8 @@ export default function EditableDataViewer({
           onChange={(newData) =>
             handleDataChange({ ...localData, trials: newData })
           }
+          notGivenMap={notGivenMap}
+          onToggleNotGiven={handleToggleNotGiven}
         />
       )}
       <div className="flex items-center gap-2">

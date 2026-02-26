@@ -16,6 +16,10 @@ interface EditableDataObjectProps {
   fieldName?: string
   parentField?: string // Parent field name to determine enum context
   isComputed?: boolean // Whether this field is computed/read-only
+  path?: string
+  notGivenMap?: Record<string, boolean>
+  onToggleNotGiven?: (path: string, next: boolean)=> void
+  disabled?: boolean
 }
 
 export function EditableDataObject({
@@ -26,13 +30,44 @@ export function EditableDataObject({
   fieldName,
   parentField,
   isComputed,
+  path = fieldName ?? '',
+  notGivenMap = {},
+  onToggleNotGiven,
+  disabled = false,
 }: EditableDataObjectProps) {
   const isFieldComputed =
     isComputed || COMPUTED_FIELDS.includes(fieldName || '')
+  
+  const isDisabled = disabled || !!notGivenMap[path]
+  const canEdit = isEditing && !isFieldComputed && !isDisabled
+
+  function NotGivenToggle({
+    checked,
+    onChange,
+    disabled,
+  }: {
+    checked: boolean
+    onChange: (next: boolean) => void
+    disabled?: boolean
+  }) {
+    return (
+      <label className={`ml-2 flex items-center gap-1 text-xs ${disabled ? 'opacity-50' : ''}`}>
+        <input
+          type="checkbox"
+          checked={checked}
+          disabled={disabled}
+          onChange={(e) => onChange(e.target.checked)}
+        />
+        <span className="text-gray-500 dark:text-gray-400">Not given</span>
+      </label>
+    )
+  }
 
   function handleSetValue() {
     // For array items or nested fields, use parent context to infer schema
     const schemaKey = fieldName || parentField
+
+    console.log("Schema:" + schemaKey)
 
     if (!schemaKey) {
       onChange('')
@@ -41,6 +76,7 @@ export function EditableDataObject({
 
     // Get the default value based on the field schema
     // Pass parentField to help resolve array item types
+    // TODO: Some field name cannot be matched
     const defaultValue = getDefaultValueForField(schemaKey, parentField, true)
     onChange(defaultValue)
   }
@@ -69,7 +105,7 @@ export function EditableDataObject({
     return (
       <DateRangeField
         value={data}
-        isEditing={isEditing}
+        isEditing={isEditing && !isDisabled}
         onChange={(val) => onChange(val)}
         isComputed={isFieldComputed}
       />
@@ -85,7 +121,7 @@ export function EditableDataObject({
     return (
       <AgeRangeField
         value={data}
-        isEditing={isEditing}
+        isEditing={isEditing && !isDisabled}
         onChange={(val) => onChange(val)}
         isComputed={isFieldComputed}
       />
@@ -100,7 +136,7 @@ export function EditableDataObject({
     return (
       <EditableField
         value={data}
-        isEditing={isEditing}
+        isEditing={isEditing && !isDisabled}
         onChange={(val) => onChange(val)}
         onSourceHover={onSourceHover}
         fieldName={fieldName}
@@ -135,7 +171,7 @@ export function EditableDataObject({
               <span className="text-gray-500 dark:text-gray-400 text-sm">
                 [{index}]
               </span>
-              {isEditing && (
+              {canEdit && (
                 <button
                   onClick={() => {
                     const newData = [...data]
@@ -159,10 +195,14 @@ export function EditableDataObject({
               }}
               parentField={fieldName}
               isComputed={isFieldComputed}
+              disabled={isDisabled}
+              path={`${path}[${index}]`}
+              notGivenMap={notGivenMap}
+              onToggleNotGiven={onToggleNotGiven}
             />
           </div>
         ))}
-        {isEditing && (
+        {canEdit && (
           <button
             onClick={() => {
               // Get default value for array items
@@ -190,8 +230,23 @@ export function EditableDataObject({
           const isEntryComputed = COMPUTED_FIELDS.includes(key)
           const isArray = Array.isArray(value)
 
+          const entryPath = path ? `${path}.${key}` : key
+          const entryNotGiven = !!notGivenMap[entryPath]
+          const entryDisabled = disabled || entryNotGiven
+
           const isNullable = isFieldNullable(key, fieldName || parentField)
           const hasValue = value !== null && value !== undefined
+          const showNotGivenToggle = !isArray && !isEntryComputed
+          //TODO: DefaultValue not used because some fields has no matching schema and will cause errors
+          /**
+          let defaultValue: any
+          defaultValue = getDefaultValueForField(key, fieldName || parentField, true)
+          if ((typeof defaultValue === "object") && (Object.keys(defaultValue).length === 0)){
+            if (typeof value === 'string') defaultValue = ''
+            else if (typeof value === 'number') defaultValue = 0
+            else if (typeof value === 'boolean') defaultValue = false
+            else defaultValue = ''
+          } */
 
           return (
             <div
@@ -202,7 +257,16 @@ export function EditableDataObject({
                 <div className="text-purple-600 dark:text-purple-400 font-medium">
                   {key}:
                 </div>
-                {isEditing && isNullable && hasValue && !isEntryComputed && (
+                
+                {showNotGivenToggle && onToggleNotGiven && (
+                  <NotGivenToggle
+                    checked={entryNotGiven}
+                    disabled={!isEditing}
+                    onChange={(next) => onToggleNotGiven(entryPath, next)}
+                  />
+                )}
+
+                {isEditing && isNullable && hasValue && !isEntryComputed && !entryNotGiven && (
                   <button
                     onClick={() => {
                       onChange({ ...data, [key]: null })
@@ -228,6 +292,10 @@ export function EditableDataObject({
                     fieldName={key}
                     parentField={fieldName || parentField}
                     isComputed={isEntryComputed}
+                    path={entryPath}
+                    notGivenMap={notGivenMap}
+                    onToggleNotGiven={onToggleNotGiven}
+                    disabled={entryDisabled}
                   />
                 )}
               </div>
