@@ -1,0 +1,385 @@
+import { z } from 'zod'
+
+import {
+  AggravatingFactorDetailSchema,
+  AggravatingFactorTypeSchema,
+  ChargeDetailSchema,
+  ChargeTypeSchema,
+  CourtTypeSchema,
+  DefendantRoleSchema,
+  DistrictCourtPleaStageSchema,
+  DrugDetailSchema,
+  DrugTypeSchema,
+  FinalSentenceDetailInputSchema,
+  GuiltyPleaDetailSchema,
+  HighCourtPleaStageSchema,
+  MitigatingFactorDetailSchema,
+  MitigatingFactorTypeSchema,
+  MitigationReductionDetailSchema,
+  NotionalSentenceDetailInputSchema,
+  RoleDetailSchema,
+  SentenceAfterRoleDetailInputSchema,
+  StartingPointDetailInputSchema,
+  TrialSchema,
+} from './trial'
+import {
+  AgeAtOffenceSchema,
+  AgeAtSentencingSchema,
+  CriminalRecordDetailSchema,
+  CriminalRecordSchema,
+  CustodyStatusSchema,
+  DefendantNameDetailSchema,
+  DefendantProfileSchema,
+  DrugTreatmentDetailSchema,
+  EducationLevelDetailSchema,
+  EducationLevelSchema,
+  FamilySupportDetailSchema,
+  FamilySupportSchema,
+  GenderDetailSchema,
+  GenderSchema,
+  HKResidentStatusSchema,
+  HealthConditionSchema,
+  HealthStatusTypeSchema,
+  HouseholdCompositionDetailSchema,
+  HouseholdCompositionSchema,
+  MaritalStatusDetailSchema,
+  MaritalStatusSchema,
+  MonthlyWageDetailSchema,
+  NationalityCategorySchema,
+  NationalitySchema,
+  OccupationCategorySchema,
+  OccupationSchema,
+  ParentalStatusEnumSchema,
+  ParentalStatusSchema,
+  PositiveHabitDetailSchema,
+  PositiveHabitSchema,
+} from './defendant'
+import {
+  BenefitsReceivedDetailSchema,
+  ChargeForDefendantSchema,
+  ChargeNameSchema,
+  ChargeSchema,
+  CrossBorderDetailSchema,
+  DateDetailInputSchema,
+  ImportExportEnumSchema,
+  JudgementSchema,
+  NatureOfPlaceSchema,
+  PlaceOfOffenceInputSchema,
+  ReasonForOffenceDetailSchema,
+  ReasonForOffenceSchema,
+  RepresentativeSchema,
+  SubDistrictSchema,
+  TimeDetailInputSchema,
+  TraffickingModeEnumSchema,
+  TraffickingModeSchema,
+} from './judgment'
+import {
+  COMPUTED_FIELDS,
+  MANDATORY_NOT_GIVEN_FIELDS,
+} from './mandetory-not-given'
+import { getEnumValues, unwrapSchema } from './helper'
+import type { DefendantsSchema } from './defendant'
+import type { TrialsSchema } from './trial'
+
+export * from './trial'
+export * from './judgment'
+export * from './defendant'
+export * from './mandetory-not-given'
+export * from './helper'
+
+export const FIELD_SCHEMAS: Partial<Record<string, z.ZodTypeAny>> = {
+  trials: TrialSchema,
+  drugs: DrugDetailSchema,
+  roles: RoleDetailSchema,
+  aggravating_factors: AggravatingFactorDetailSchema,
+  mitigating_factors: MitigatingFactorDetailSchema,
+  guilty_plea: GuiltyPleaDetailSchema,
+  starting_point: StartingPointDetailInputSchema,
+  sentence_after_role: SentenceAfterRoleDetailInputSchema,
+  notional_sentence: NotionalSentenceDetailInputSchema,
+  mitigation_reduction: MitigationReductionDetailSchema,
+  final_sentence: FinalSentenceDetailInputSchema,
+  charge_type: ChargeDetailSchema,
+
+  judgement: JudgementSchema,
+  date: DateDetailInputSchema,
+  offence_date: DateDetailInputSchema,
+  time: TimeDetailInputSchema,
+  offence_time: TimeDetailInputSchema,
+  place_of_offence: PlaceOfOffenceInputSchema,
+  trafficking_mode: TraffickingModeSchema,
+  reasons_for_offence: ReasonForOffenceDetailSchema,
+  benefits_received: BenefitsReceivedDetailSchema,
+  cross_border: CrossBorderDetailSchema,
+  charges: ChargeSchema,
+  representatives: RepresentativeSchema,
+  defendants_of_charge: ChargeForDefendantSchema,
+  cases_heard: z.string().regex(/^[A-Z]+\s+\d+\/\d{4}$/),
+
+  defendants: DefendantProfileSchema,
+  defendant_name: DefendantNameDetailSchema,
+  nationality: NationalitySchema,
+  age_at_offence: AgeAtOffenceSchema,
+  age_at_sentencing: AgeAtSentencingSchema,
+  gender: GenderDetailSchema,
+  marital_status: MaritalStatusDetailSchema,
+  parental_status: ParentalStatusSchema,
+  household_composition: HouseholdCompositionDetailSchema,
+  health_conditions: HealthConditionSchema,
+  drug_treatment_participation: DrugTreatmentDetailSchema,
+  education_level: EducationLevelDetailSchema,
+  occupation: OccupationSchema,
+  monthly_wage: MonthlyWageDetailSchema,
+  criminal_records: CriminalRecordDetailSchema,
+  positive_habits_after_arrest: PositiveHabitDetailSchema,
+  family_supports: FamilySupportDetailSchema,
+}
+
+const FIELD_IS_ARRAY: Array<string> = [
+  'drugs',
+  'roles',
+  'aggravating_factors',
+  'mitigating_factors',
+  'charges',
+  'defendants',
+  'criminal_records',
+  'positive_habits_after_arrest',
+  'family_supports',
+  'reasons_for_offence',
+  'representatives',
+  'health_conditions',
+]
+
+export function isMandatoryNotGivenField(fieldName: string): boolean {
+  return MANDATORY_NOT_GIVEN_FIELDS.includes(fieldName)
+}
+
+export function isFieldNullable(
+  fieldName: string,
+  parentFieldName?: string,
+): boolean {
+  const parentSchema = parentFieldName ? FIELD_SCHEMAS[parentFieldName] : null
+
+  if (parentSchema && parentSchema instanceof z.ZodObject) {
+    const shape = parentSchema.shape
+    const fieldSchema = shape[fieldName] as z.ZodTypeAny
+
+    if (
+      fieldSchema instanceof z.ZodNullable ||
+      fieldSchema instanceof z.ZodOptional
+    ) {
+      return true
+    }
+
+    if (fieldSchema instanceof z.ZodDefault) {
+      const innerType = (fieldSchema as any)._def.innerType
+      return (
+        innerType instanceof z.ZodNullable || innerType instanceof z.ZodOptional
+      )
+    }
+  }
+
+  return false
+}
+
+function unwrapToObject(schema: any): z.ZodObject<any> | null {
+  let cur = schema
+
+  // eslint-disable-next-line
+  while (true) {
+    if (cur instanceof z.ZodObject) return cur
+    if (cur instanceof z.ZodPipe) {
+      cur = cur.in
+      continue
+    }
+    return null
+  }
+}
+
+function parseSchemaPath(path: string): Array<string | number> {
+  const out: Array<string | number> = []
+  const re = /([^[.\]]+)|\[(\d+)\]/g
+  let m: RegExpExecArray | null
+  while ((m = re.exec(path)) !== null) {
+    if (m[1]) out.push(m[1])
+    else if (m[2]) out.push(Number(m[2]))
+  }
+  return out
+}
+
+function getRootSchemaFromPathToken(token: string): z.ZodTypeAny | null {
+  if (token === 'judgement') {
+    return FIELD_SCHEMAS.judgement ?? null
+  }
+  if (token === 'defendants') {
+    const defendantSchema = FIELD_SCHEMAS.defendants
+    return defendantSchema ? z.array(defendantSchema) : null
+  }
+  if (token === 'trials') {
+    const trialSchema = FIELD_SCHEMAS.trials
+    return trialSchema ? z.array(trialSchema) : null
+  }
+  return FIELD_SCHEMAS[token] ?? null
+}
+
+export function getSchemaByPath(path: string): z.ZodTypeAny | null {
+  const tokens = parseSchemaPath(path)
+  if (tokens.length === 0) return null
+  if (typeof tokens[0] !== 'string') return null
+
+  const rootToken = tokens[0]
+  let schema: z.ZodTypeAny | null = getRootSchemaFromPathToken(rootToken)
+  if (!schema) return null
+
+  for (let i = 1; i < tokens.length; i++) {
+    if (!schema) return null
+    const token = tokens[i]
+    const unwrapped = unwrapSchema(schema)
+
+    if (typeof token === 'number') {
+      if (!(unwrapped instanceof z.ZodArray)) return null
+      schema = (unwrapped as any)._def.element ?? null
+      continue
+    }
+
+    if (unwrapped instanceof z.ZodArray && token === rootToken) {
+      continue
+    }
+
+    if (!(unwrapped instanceof z.ZodObject)) return null
+    const shape = unwrapped.shape
+    const nextSchema = shape[token] as z.ZodTypeAny | undefined
+    if (!nextSchema) return null
+    schema = nextSchema
+  }
+
+  return schema
+}
+
+export function getDefaultValueForField(
+  fieldName: string,
+  parentFieldName?: string,
+  isSetValue = false,
+): any {
+  let schema = FIELD_SCHEMAS[fieldName]
+
+  if (!schema && parentFieldName) {
+    const parentSchema = FIELD_SCHEMAS[parentFieldName]
+    const parentObj = unwrapToObject(parentSchema)
+    if (parentObj instanceof z.ZodObject) {
+      const shape = parentObj.shape
+      const parentFieldSchema = shape[fieldName] as z.ZodTypeAny
+      schema = unwrapSchema(parentFieldSchema)
+    }
+  }
+
+  if (!schema) {
+    return {}
+  }
+
+  const unwrappedSchema = unwrapSchema(schema)
+
+  if (unwrappedSchema instanceof z.ZodObject) {
+    const shape = unwrappedSchema.shape
+    const defaultValue: Record<string, any> = {}
+
+    for (const [key, fieldSchema] of Object.entries(shape)) {
+      defaultValue[key] = getDefaultValueForFieldSchema(
+        fieldSchema as z.ZodTypeAny,
+        key,
+      )
+    }
+
+    if (isSetValue && FIELD_IS_ARRAY.includes(fieldName)) {
+      return [defaultValue]
+    }
+    return defaultValue
+  }
+
+  return getDefaultValueForFieldSchema(unwrappedSchema, fieldName)
+}
+
+export function getDefaultValueForFieldSchema(
+  fieldSchema: z.ZodTypeAny,
+  fieldName?: string,
+): any {
+  if (fieldSchema instanceof z.ZodDefault) {
+    const defaultFn = (fieldSchema as any)._def.defaultValue
+    return typeof defaultFn === 'function' ? defaultFn() : defaultFn
+  }
+
+  const unwrapped = unwrapSchema(fieldSchema)
+
+  if (unwrapped instanceof z.ZodString) {
+    return ''
+  }
+  if (unwrapped instanceof z.ZodNumber) {
+    return 0
+  }
+  if (unwrapped instanceof z.ZodBoolean) {
+    return false
+  }
+  if (unwrapped instanceof z.ZodEnum) {
+    return unwrapped.options[0]
+  }
+  if (unwrapped instanceof z.ZodArray) {
+    return []
+  }
+  if (unwrapped instanceof z.ZodObject) {
+    return fieldName ? getDefaultValueForField(fieldName) : null
+  }
+  if (unwrapped instanceof z.ZodUnion) {
+    const firstOption = (unwrapped as any)._def.options[0]
+    return getDefaultValueForFieldSchema(firstOption, fieldName)
+  }
+
+  if (
+    fieldSchema instanceof z.ZodNullable ||
+    fieldSchema instanceof z.ZodOptional
+  ) {
+    return null
+  }
+
+  return null
+}
+
+export const ENUM_OPTIONS: Record<string, Array<string>> = {
+  drug_type: getEnumValues(DrugTypeSchema),
+  roles_role: getEnumValues(DefendantRoleSchema),
+  aggravating_factors_factor: getEnumValues(AggravatingFactorTypeSchema),
+  mitigating_factors_factor: getEnumValues(MitigatingFactorTypeSchema),
+  charges_type: getEnumValues(ChargeTypeSchema),
+  guilty_plea_court_type: getEnumValues(CourtTypeSchema),
+  guilty_plea_high_court_stage: getEnumValues(HighCourtPleaStageSchema),
+  guilty_plea_district_court_stage: getEnumValues(DistrictCourtPleaStageSchema),
+  charges_charge_name: getEnumValues(ChargeNameSchema),
+  place_of_offence_nature: getEnumValues(NatureOfPlaceSchema),
+  trafficking_mode_mode: getEnumValues(TraffickingModeEnumSchema),
+  defendants_of_charge_reasons_for_offence: getEnumValues(
+    ReasonForOffenceSchema,
+  ),
+  reasons_for_offence_reason: getEnumValues(ReasonForOffenceSchema),
+  cross_border_type: getEnumValues(ImportExportEnumSchema),
+  place_of_offence_subDistrict: getEnumValues(SubDistrictSchema),
+  nationality_category: getEnumValues(NationalityCategorySchema),
+  nationality_hk_resident_status: getEnumValues(HKResidentStatusSchema),
+  gender: getEnumValues(GenderSchema),
+  marital_status_status: getEnumValues(MaritalStatusSchema),
+  parental_status_status: getEnumValues(ParentalStatusEnumSchema),
+  parental_status_custody: getEnumValues(CustodyStatusSchema),
+  household_composition_composition: getEnumValues(HouseholdCompositionSchema),
+  education_level_level: getEnumValues(EducationLevelSchema),
+  occupation_occupation_category: getEnumValues(OccupationCategorySchema),
+  criminal_records_record: getEnumValues(CriminalRecordSchema),
+  health_conditions_type: getEnumValues(HealthStatusTypeSchema),
+  positive_habits_after_arrest_habit: getEnumValues(PositiveHabitSchema),
+  family_supports_support: getEnumValues(FamilySupportSchema),
+}
+
+export type DrugType = z.infer<typeof DrugTypeSchema>
+export type DefendantRole = z.infer<typeof DefendantRoleSchema>
+export type Trial = z.infer<typeof TrialSchema>
+export type Trials = z.infer<typeof TrialsSchema>
+export type Judgement = z.infer<typeof JudgementSchema>
+export type DefendantProfile = z.infer<typeof DefendantProfileSchema>
+export type Defendants = z.infer<typeof DefendantsSchema>
