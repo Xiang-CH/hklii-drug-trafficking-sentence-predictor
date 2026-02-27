@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { districtToSubDistricts, regionGroups } from '@/lib/hk-district'
+import React from 'react'
 
 interface SubdistrictSelectProps {
   value?: string
@@ -32,19 +33,19 @@ export function SubdistrictSelect({
         {Object.entries(regionGroups).map(([region, districtsList]) => (
           <div key={region}>
             {districtsList.map((district) => (
-              <>
-                <SelectGroup key={district}>
+              <React.Fragment key={`${region}-${district}`}>
+                <SelectGroup>
                   <SelectLabel>{district}</SelectLabel>
                   <div className="ml-2">
                     {districtToSubDistricts[district].map((subdistrict) => (
-                      <SelectItem key={subdistrict} value={subdistrict}>
+                      <SelectItem key={`${district}-${subdistrict}`} value={subdistrict}>
                         {subdistrict}
                       </SelectItem>
                     ))}
                   </div>
                 </SelectGroup>
                 <SelectSeparator />
-              </>
+              </React.Fragment>
             ))}
           </div>
         ))}

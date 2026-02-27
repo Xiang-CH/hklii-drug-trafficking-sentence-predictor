@@ -483,7 +483,7 @@ export const ChargeForDefendantSchema = z.object({
 })
 
 export const ChargeSchema = z.object({
-  charge_no: z.number().nullable().default(null),
+  charge_no: z.number(),
   charge_name: ChargeNameSchema,
   offence_date: DateDetailSchema.nullable().default(null),
   offence_time: TimeDetailSchema.nullable().default(null),
@@ -782,6 +782,23 @@ export const COMPUTED_FIELDS = [
   'tracing_id',
 ]
 
+export const MANDATORY_NOT_GIVEN_FIELDS = [
+  'offence_date',
+  'offence_time',
+  'place_of_offence',
+  'nature',
+  'trafficking_mode',
+  'drugs',
+  'roles',
+  'reasons_for_offence',
+  'age_at_offence',
+  'age_at_sentencing',
+  'gender',
+  'criminal_records',
+  'starting_point',
+  'final_sentence',
+]
+
 // Schema mapping for field names
 export const FIELD_SCHEMAS: Partial<Record<string, z.ZodTypeAny>> = {
   // Trial schemas
@@ -848,6 +865,10 @@ const FIELD_IS_ARRAY: Array<string> = [
   'representatives',
   'health_conditions',
 ]
+
+export function isMandatoryNotGivenField(fieldName: string): boolean {
+  return MANDATORY_NOT_GIVEN_FIELDS.includes(fieldName)
+}
 
 // Function to check if a field is nullable in the schema
 export function isFieldNullable(

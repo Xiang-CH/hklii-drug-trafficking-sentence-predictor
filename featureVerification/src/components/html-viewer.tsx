@@ -10,8 +10,7 @@ export default function HtmlViewer({ html, highlightedText }: HtmlViewerProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const highlightedRef = useRef<number | null>(null)
 
-  // Remove img tags from the HTML content to prevent loading external resources
-  html = html.replace(/<img[^>]*>/g, '')
+  const htmlContent = html.replace(/<img[^>]*>/g, '')
 
   useEffect(() => {
     if (!containerRef.current) return
@@ -49,7 +48,7 @@ export default function HtmlViewer({ html, highlightedText }: HtmlViewerProps) {
     <div
       ref={containerRef}
       className="judgment p-6 prose prose-sm max-w-none dark:prose-invert"
-      dangerouslySetInnerHTML={{ __html: html }}
+      dangerouslySetInnerHTML={{ __html: htmlContent }}
       style={{
         fontFamily: 'system-ui, -apple-system, sans-serif',
         lineHeight: '1.9',

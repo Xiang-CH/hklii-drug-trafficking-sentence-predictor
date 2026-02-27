@@ -21,7 +21,6 @@ import {
   saveVerificationProgress,
 } from '@/server/user-judgements'
 import { applyNotGivenToPayload } from '@/lib/not-given'
-import { boolean } from 'zod'
 
 export const Route = createFileRoute('/verify/$filename')({
   component: VerifyJudgementPage,
@@ -281,7 +280,8 @@ function VerifyJudgementPage() {
               disabled={
                 verifyMutation.isPending ||
                 judgement.status === 'verified' ||
-                !judgementData
+                !judgementData ||
+                hasValidationErrors
               }
               className="bg-green-600 hover:bg-green-700"
             >
@@ -333,6 +333,7 @@ function VerifyJudgementPage() {
                 onSourceHover={setHighlightedText}
                 onDataChange={handleDataChange}
                 onNotGivenChange={setNotGivenMap}
+                notGivenMap={notGivenMap}
               />
             )}
           </div>

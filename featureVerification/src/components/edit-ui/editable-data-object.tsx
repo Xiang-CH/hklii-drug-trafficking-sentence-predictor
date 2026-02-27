@@ -6,6 +6,7 @@ import {
   COMPUTED_FIELDS,
   getDefaultValueForField,
   isFieldNullable,
+  isMandatoryNotGivenField,
 } from '@/lib/schema'
 
 interface EditableDataObjectProps {
@@ -234,9 +235,10 @@ export function EditableDataObject({
           const entryNotGiven = !!notGivenMap[entryPath]
           const entryDisabled = disabled || entryNotGiven
 
-          const isNullable = isFieldNullable(key, fieldName || parentField)
+          const isNullable = isFieldNullable(key, fieldName || parentField )
           const hasValue = value !== null && value !== undefined
-          const showNotGivenToggle = !isArray && !isEntryComputed
+          const isMandatoryField = isMandatoryNotGivenField(key)
+          const showNotGivenToggle = !isEntryComputed && (isMandatoryField || isNullable)
           //TODO: DefaultValue not used because some fields has no matching schema and will cause errors
           /**
           let defaultValue: any
@@ -257,7 +259,6 @@ export function EditableDataObject({
                 <div className="text-purple-600 dark:text-purple-400 font-medium">
                   {key}:
                 </div>
-                
                 {showNotGivenToggle && onToggleNotGiven && (
                   <NotGivenToggle
                     checked={entryNotGiven}
@@ -265,7 +266,6 @@ export function EditableDataObject({
                     onChange={(next) => onToggleNotGiven(entryPath, next)}
                   />
                 )}
-
                 {isEditing && isNullable && hasValue && !isEntryComputed && !entryNotGiven && (
                   <button
                     onClick={() => {
