@@ -266,7 +266,7 @@ export const ChargeDetailSchema = z.object({
 
 export const TrialSchema = z.object({
   charge_type: ChargeDetailSchema,
-  drugs: z.array(DrugDetailSchema),
+  drugs: z.array(DrugDetailSchema).min(1),
   roles: z.array(RoleDetailSchema),
   aggravating_factors: z
     .array(AggravatingFactorDetailSchema)
@@ -786,17 +786,16 @@ export const MANDATORY_NOT_GIVEN_FIELDS = [
   'offence_date',
   'offence_time',
   'place_of_offence',
-  'nature',
   'trafficking_mode',
-  'drugs',
+  // 'drugs',
   'roles',
   'reasons_for_offence',
   'age_at_offence',
   'age_at_sentencing',
   'gender',
   'criminal_records',
-  'starting_point',
-  'final_sentence',
+  // 'starting_point',
+  // 'final_sentence',
 ]
 
 // Schema mapping for field names
@@ -903,16 +902,81 @@ export function isFieldNullable(
 }
 
 function unwrapToObject(schema: any): z.ZodObject<any> | null {
-  let cur = schema;
+  let cur = schema
 
+  // eslint-disable-next-line
   while (true) {
-    if (cur instanceof z.ZodObject) return cur;
+    if (cur instanceof z.ZodObject) return cur
     if (cur instanceof z.ZodPipe) {
-      cur = cur.in;
-      continue;
+      cur = cur.in
+      continue
     }
-    return null;
+    return null
   }
+}
+
+function parseSchemaPath(path: string): Array<string | number> {
+  const out: Array<string | number> = []
+  const re = /([^[.\]]+)|\[(\d+)\]/g
+  let m: RegExpExecArray | null
+  while ((m = re.exec(path)) !== null) {
+    if (m[1]) out.push(m[1])
+    else if (m[2]) out.push(Number(m[2]))
+  }
+  return out
+}
+
+function getRootSchemaFromPathToken(token: string): z.ZodTypeAny | null {
+  if (token === 'judgement') {
+    return FIELD_SCHEMAS.judgement ?? null
+  }
+  if (token === 'defendants') {
+    const defendantSchema = FIELD_SCHEMAS.defendants
+    return defendantSchema ? z.array(defendantSchema) : null
+  }
+  if (token === 'trials') {
+    const trialSchema = FIELD_SCHEMAS.trials
+    return trialSchema ? z.array(trialSchema) : null
+  }
+  return FIELD_SCHEMAS[token] ?? null
+}
+
+// Resolve a Zod schema from a dot/bracket path.
+// Example: trials[0].roles[0].role -> DefendantRoleSchema
+export function getSchemaByPath(path: string): z.ZodTypeAny | null {
+  const tokens = parseSchemaPath(path)
+  if (tokens.length === 0) return null
+  if (typeof tokens[0] !== 'string') return null
+
+  const rootToken = tokens[0]
+  let schema: z.ZodTypeAny | null = getRootSchemaFromPathToken(rootToken)
+  if (!schema) return null
+
+  for (let i = 1; i < tokens.length; i++) {
+    if (!schema) return null
+    const token = tokens[i]
+    const unwrapped = unwrapSchema(schema)
+
+    if (typeof token === 'number') {
+      if (!(unwrapped instanceof z.ZodArray)) return null
+      schema = (unwrapped as any)._def.element ?? null
+      continue
+    }
+
+    // Allow redundant container token, e.g. "trials.trials[0]..."
+    // while still supporting canonical "trials[0]..." paths.
+    if (unwrapped instanceof z.ZodArray && token === rootToken) {
+      continue
+    }
+
+    if (!(unwrapped instanceof z.ZodObject)) return null
+    const shape = unwrapped.shape
+    const nextSchema = shape[token] as z.ZodTypeAny | undefined
+    if (!nextSchema) return null
+    schema = nextSchema
+  }
+
+  return schema
 }
 
 // Function to get default value for a field based on its schema
@@ -932,10 +996,8 @@ export function getDefaultValueForField(
       const shape = parentObj.shape
       const parentFieldSchema = shape[fieldName] as z.ZodTypeAny
 
-      //TODO: Problematic, some keys has no corresponding schema
-      if (parentFieldSchema){
-        schema = unwrapSchema(parentFieldSchema)
-      }
+      // TODO: Problematic, some keys has no corresponding schema
+      schema = unwrapSchema(parentFieldSchema)
     }
   }
 
@@ -971,10 +1033,11 @@ export function getDefaultValueForField(
 
 // Helper to unwrap nullable, optional, default, and pipe wrappers
 function unwrapSchema(schema: z.ZodTypeAny): z.ZodTypeAny {
-  if (schema instanceof z.ZodNullable || schema instanceof z.ZodOptional) {
-    return unwrapSchema((schema as any)._def.innerType)
-  }
-  if (schema instanceof z.ZodDefault) {
+  if (
+    schema instanceof z.ZodNullable ||
+    schema instanceof z.ZodOptional ||
+    schema instanceof z.ZodDefault
+  ) {
     return unwrapSchema((schema as any)._def.innerType)
   }
   // Handle ZodPipe (created by .transform() in Zod v4)
@@ -983,20 +1046,20 @@ function unwrapSchema(schema: z.ZodTypeAny): z.ZodTypeAny {
   }
   // if (schema instanceof z.ZodArray) {
   //   // For arrays, return the element type
-  //   return unwrapSchema((schema as any)._def.type)
+  //   return schema
   // }
   return schema
 }
 
 // Helper to get default value for a specific schema type
-function getDefaultValueForFieldSchema(
+export function getDefaultValueForFieldSchema(
   fieldSchema: z.ZodTypeAny,
-  fieldName: string,
+  fieldName?: string,
 ): any {
   // Check if it has a default value
   if (fieldSchema instanceof z.ZodDefault) {
     const defaultFn = (fieldSchema as any)._def.defaultValue
-    return typeof defaultFn === 'function' ? defaultFn() : null
+    return typeof defaultFn === 'function' ? defaultFn() : defaultFn
   }
 
   // Unwrap to get the actual type
@@ -1020,7 +1083,7 @@ function getDefaultValueForFieldSchema(
   }
   if (unwrapped instanceof z.ZodObject) {
     // Recursively create default for nested objects
-    return getDefaultValueForField(fieldName)
+    return fieldName ? getDefaultValueForField(fieldName) : null
   }
   // For union types (e.g., string | array, number | array), default to the first option
   if (unwrapped instanceof z.ZodUnion) {

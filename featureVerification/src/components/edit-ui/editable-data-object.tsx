@@ -44,20 +44,17 @@ export function EditableDataObject({
 
   function NotGivenToggle({
     checked,
-    onChange,
-    disabled,
+    onToggle,
   }: {
     checked: boolean
-    onChange: (next: boolean) => void
-    disabled?: boolean
+    onToggle: (next: boolean) => void
   }) {
     return (
-      <label className={`ml-2 flex items-center gap-1 text-xs ${disabled ? 'opacity-50' : ''}`}>
+      <label className={`ml-2 flex items-center gap-1 text-xs`}>
         <input
           type="checkbox"
           checked={checked}
-          disabled={disabled}
-          onChange={(e) => onChange(e.target.checked)}
+          onChange={(e) => onToggle(e.target.checked)}
         />
         <span className="text-gray-500 dark:text-gray-400">Not given</span>
       </label>
@@ -238,8 +235,8 @@ export function EditableDataObject({
           const isNullable = isFieldNullable(key, fieldName || parentField )
           const hasValue = value !== null && value !== undefined
           const isMandatoryField = isMandatoryNotGivenField(key)
-          const showNotGivenToggle = !isEntryComputed && (isMandatoryField || isNullable)
-          //TODO: DefaultValue not used because some fields has no matching schema and will cause errors
+          const showNotGivenToggle = !isEntryComputed && isMandatoryField
+          // TODO: DefaultValue not used because some fields has no matching schema and will cause errors
           /**
           let defaultValue: any
           defaultValue = getDefaultValueForField(key, fieldName || parentField, true)
@@ -262,8 +259,7 @@ export function EditableDataObject({
                 {showNotGivenToggle && onToggleNotGiven && (
                   <NotGivenToggle
                     checked={entryNotGiven}
-                    disabled={!isEditing}
-                    onChange={(next) => onToggleNotGiven(entryPath, next)}
+                    onToggle={(next) => onToggleNotGiven(entryPath, next)}
                   />
                 )}
                 {isEditing && isNullable && hasValue && !isEntryComputed && !entryNotGiven && (

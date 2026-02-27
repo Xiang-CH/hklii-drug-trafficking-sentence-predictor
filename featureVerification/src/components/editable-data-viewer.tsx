@@ -5,8 +5,8 @@ import type * as z from 'zod'
 import { 
   DefendantsSchema, 
   JudgementSchema, 
-  TrialsSchema, 
-  MANDATORY_NOT_GIVEN_FIELDS 
+  MANDATORY_NOT_GIVEN_FIELDS, 
+  TrialsSchema 
 } from '@/lib/schema'
 
 interface EditableDataViewerProps {
@@ -128,7 +128,7 @@ export default function EditableDataViewer({
             !(Array.isArray(value) && value.length === 0)
           
           if (!hasValue && !isNotGiven) {
-            if (!errors[section]) errors[section] = []
+            // if (!errors[section]) errors[section] = []
             errors[section].push(`${key} is required, or mark as "Not Given"`)
           }
         }

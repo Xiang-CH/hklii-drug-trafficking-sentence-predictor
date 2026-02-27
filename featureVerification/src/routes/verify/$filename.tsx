@@ -20,7 +20,7 @@ import {
   markAsVerified,
   saveVerificationProgress,
 } from '@/server/user-judgements'
-import { applyNotGivenToPayload } from '@/lib/not-given'
+import { applyNotGivenToPayload, deriveNotGivenMapFromPayload } from '@/lib/not-given'
 
 export const Route = createFileRoute('/verify/$filename')({
   component: VerifyJudgementPage,
@@ -62,6 +62,13 @@ function VerifyJudgementPage() {
       setTrialsData(sourceData.trials)
       setRemarks(judgement.verifiedData?.remarks ?? '')
       setExclude(judgement.verifiedData?.exclude ?? false)
+      setNotGivenMap(
+        deriveNotGivenMapFromPayload({
+          judgement: sourceData.judgement,
+          defendants: sourceData.defendants,
+          trials: sourceData.trials,
+        }),
+      )
     }
   }, [judgement])
 
