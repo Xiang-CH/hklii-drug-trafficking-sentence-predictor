@@ -363,3 +363,48 @@ export const markAsVerified = createServerFn({
       }
     }
   })
+
+export const revertToInProgress = createServerFn({
+  method: 'POST',
+})
+  .middleware([authMiddleware])
+  .inputValidator((input: { judgementId: string }) => input)
+  .handler(async ({ context, data }) => {
+    const userId = context.session.user.id
+    const { judgementId } = data
+
+    const judgementsCollection = db.collection('judgement-html')
+    const verifiedCollection = db.collection('verified-features')
+
+    const judgement = await judgementsCollection.findOne({
+      _id: new ObjectId(judgementId),
+      $or: [{ assigned_to: new ObjectId(userId) }, { assigned_to: userId }],
+    })
+
+    if (!judgement) {
+      throw new Error('Judgement not found or not assigned to you')
+    }
+
+    const result = await verifiedCollection.updateOne(
+      { source_judgement_id: new ObjectId(judgementId) },
+      {
+        $set: {
+          is_verified: false,
+          updated_at: new Date(),
+        },
+        $unset: {
+          verified_by: '',
+          verified_at: '',
+        },
+      },
+    )
+
+    if (result.matchedCount === 0) {
+      throw new Error('No verified record found to revert')
+    }
+
+    return {
+      success: true,
+      message: 'Reverted to in progress',
+    }
+  })

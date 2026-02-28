@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   Loader2,
   Save,
+  Undo2,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
@@ -18,6 +19,7 @@ import HtmlViewer from '@/components/html-viewer'
 import {
   getJudgementForVerification,
   markAsVerified,
+  revertToInProgress,
   saveVerificationProgress,
 } from '@/server/user-judgements'
 import {
@@ -165,6 +167,25 @@ function VerifyJudgementPage() {
     },
   })
 
+  // Revert to in progress mutation
+  const revertMutation = useMutation({
+    mutationFn: () =>
+      revertToInProgress({ data: { judgementId: judgement.id || '' } }),
+    onSuccess: (result) => {
+      toast.success(result.message)
+      queryClient.invalidateQueries({ queryKey: ['user-stats'] })
+      queryClient.invalidateQueries({ queryKey: ['user-judgements'] })
+      queryClient.invalidateQueries({
+        queryKey: ['judgement-verification', filename],
+      })
+    },
+    onError: (err) => {
+      toast.error('Failed to revert', {
+        description: err instanceof Error ? err.message : 'Unknown error',
+      })
+    },
+  })
+
   // Handle data changes
   const handleDataChange = (
     newData: {
@@ -249,10 +270,27 @@ function VerifyJudgementPage() {
           </div>
           <div className="flex items-center gap-3">
             {judgement.status === 'verified' ? (
-              <Badge className="bg-green-100 text-green-700">
-                <CheckCircle2 className="h-3 w-3 mr-1" />
-                Verified
-              </Badge>
+              <>
+                <Badge className="bg-green-100 text-green-700">
+                  <CheckCircle2 className="h-3 w-3 mr-1" />
+                  Verified
+                </Badge>
+                <Button
+                  onClick={() => revertMutation.mutate()}
+                  disabled={revertMutation.isPending}
+                  variant="outline"
+                  size="sm"
+                >
+                  {revertMutation.isPending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <>
+                      <Undo2 className="h-4 w-4 mr-1" />
+                      Revert Verified
+                    </>
+                  )}
+                </Button>
+              </>
             ) : judgement.status === 'in_progress' ? (
               <Badge className="bg-amber-100 text-amber-700">In Progress</Badge>
             ) : (
