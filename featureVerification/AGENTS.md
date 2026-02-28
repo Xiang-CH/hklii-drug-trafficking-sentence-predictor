@@ -1,7 +1,7 @@
 # Agent Guidelines - Feature Verification
 
 TanStack Start + React 19 app for verifying drug sentencing data from HK court judgments.
-Stack: React 19, TanStack Router/Query, Zod, shadcn/ui, MongoDB, Better-Auth, 
+Stack: React 19, TanStack Router/Query, Zod, shadcn/ui, MongoDB, Better-Auth
 
 ## Commands
 

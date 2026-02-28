@@ -2,6 +2,7 @@ import { DateRangeField } from './date-time-field'
 import { AgeRangeField } from './age-range-field'
 import { EditableField } from './editable-field'
 import { SourceField } from './source-field'
+import { EditableSourceField } from './editable-source-field'
 import {
   COMPUTED_FIELDS,
   getDefaultValueForField,
@@ -280,7 +281,16 @@ export function EditableDataObject({
               </div>
               <div className={`${isArray ? 'ml-6 mt-1' : 'ml-2'} flex-1`}>
                 {key === 'source' && typeof value === 'string' ? (
-                  <SourceField source={value} onHover={onSourceHover} />
+                  canEdit ? (
+                    <EditableSourceField
+                      source={value}
+                      onHover={onSourceHover}
+                      onChange={(val) => onChange({ ...data, [key]: val })}
+                      isEditing={isEditing}
+                    />
+                  ) : (
+                    <SourceField source={value} onHover={onSourceHover} />
+                  )
                 ) : (
                   <EditableDataObject
                     data={value}
