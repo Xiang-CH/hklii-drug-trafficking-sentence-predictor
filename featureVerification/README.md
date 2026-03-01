@@ -19,7 +19,7 @@ AUTH_ADMIN_EMAIL="admin@admin.com" // Default admin email
 AUTH_ADMIN_PASSWORD="admin" // Default admin password
 
 # Mongo DB
-DB_MONGODB_URI=<mongodb connection string>
+DB_MONGODB_URI=<mongodb connection string> // host should be host.docker.internal if running in docker
 DB_NAME="drug-sentencing-predictor"
 ```
 
@@ -27,13 +27,14 @@ DB_NAME="drug-sentencing-predictor"
 To serve the production build of this application:
 
 ```bash
-docker build -t feature-verification .
-docker run -p 8220:3000 -p 27017:27017 feature-verification
-```
-Change 8220 to your desired port if you want to serve on a different port. 
-The application will be available at `http://localhost:8220`.
+docker compose up --build -d
 
-Change 27017 to your mongodb port if you want to serve mongodb on a different port. The application is configured to connect to mongodb at `mongodb://localhost:27017` so make sure to update the `DB_MONGODB_URI` environment variable in your `.env.local` file if you change the mongodb port.
+// If you want to stop the application:
+docker compose down
+```
+
+The application will be available at `http://localhost:8220`.
+Change port binding in `docker-compose.yml` if you want to serve it on a different port.
 
 # Building For Production
 
