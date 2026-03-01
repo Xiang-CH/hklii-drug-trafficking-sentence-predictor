@@ -41,13 +41,7 @@
         "is_hk_public_holiday": true
       },
       "offence_time": null,
-      "place_of_offence": {
-        "address": "Hong Kong",
-        "nature": "Other",
-        "subDistrict": "Mong Kok",
-        "source": "So has pleaded guilty to conspiracy to traffic in a dangerous drug, namely, cocaine with Fu, the defendant of 316/2023, and other persons unknown, between two dates, 1 and 2 October 2021 in Hong Kong.",
-        "district": "Yau Tsim Mong"
-      },
+      "place_of_offence": null,
       "cross_border": {
         "cross_border": false,
         "type": null,
@@ -70,7 +64,10 @@
           "benefits_received": {
             "received": true,
             "amount": 14840.0,
-            "source": "She also had HK$14,840 in cash"
+            "amount_type": "total",
+            "amount_type_other": null,
+            "non_monetary_benefits": null,
+            "source": "She also had HK$14,840 in cash and two mobile phones."
           }
         }
       ]
@@ -101,13 +98,7 @@
         "is_hk_public_holiday": true
       },
       "offence_time": null,
-      "place_of_offence": {
-        "address": "Hong Kong",
-        "nature": "Other",
-        "subDistrict": "Mong Kok",
-        "source": "Lam has pleaded guilty to conspiracy to traffic in a dangerous drug, namely, cocaine and cannabis in a herbal form with Fu, the defendant of 316/2023, and other persons unknown between 22 September and 3 October 2021, both dates inclusive, in Hong Kong.",
-        "district": "Yau Tsim Mong"
-      },
+      "place_of_offence": null,
       "cross_border": {
         "cross_border": false,
         "type": null,
@@ -124,7 +115,7 @@
           "reasons_for_offence": [
             {
               "reason": "Financial gain",
-              "source": "He told the police that both he and Fu met this Siu Wan who offered them both a way to make easy money. He instructed them to rent the subdivided unit and provided money to buy digital scales and plastic bags."
+              "source": "He instructed them to rent the subdivided unit and provided money to buy digital scales and plastic bags. Both these defendants did as instructed."
             }
           ],
           "benefits_received": null
@@ -147,13 +138,7 @@
         "is_hk_public_holiday": true
       },
       "offence_time": null,
-      "place_of_offence": {
-        "address": "Hong Kong",
-        "nature": "Other",
-        "subDistrict": "Mong Kok",
-        "source": "Fu now pleads guilty to conspiracy to traffic in a dangerous drug, namely, cocaine with So and Lam and other persons unknown between 1 and 2 October 2021 in Hong Kong.",
-        "district": "Yau Tsim Mong"
-      },
+      "place_of_offence": null,
       "cross_border": {
         "cross_border": false,
         "type": null,
@@ -165,12 +150,12 @@
           "defendant_id": 3,
           "trafficking_mode": {
             "mode": "Courier delivery",
-            "source": "He handed her a bag which she checked and counted, she said contained a total of 95 bags of cocaine. They drove around for a few moments whilst she counted and then he got out."
+            "source": "The defendant, Fu, instructed her to meet him at 59 Prince Edward Road West where he was to replenish her drug supply for her to make further deliveries to customers."
           },
           "reasons_for_offence": [
             {
               "reason": "Financial gain",
-              "source": "He instructed them to rent the subdivided unit and provided money to buy digital scales and plastic bags."
+              "source": "He instructed them to rent the subdivided unit and provided money to buy digital scales and plastic bags. Both these defendants did as instructed."
             }
           ],
           "benefits_received": null
@@ -205,12 +190,12 @@
           "defendant_id": 3,
           "trafficking_mode": {
             "mode": "Drug repackaging or storage",
-            "source": "They searched the premises and found 41 plastic bags containing a total of 7.2 grammes of a solid containing 6.19 grammes of cocaine and two plastic bags containing a total of 6.12 grammes of cannabis in herbal form. They also found three digital scales and 849 empty transparent resealable plastic bags."
+            "source": "After his arrest, Fu revealed a drug storage premises in Mongkok to the police. They used keys found on Fu to gain access to the premises. It was a subdivided unit with a toilet, kitchen and a bed."
           },
           "reasons_for_offence": [
             {
               "reason": "Financial gain",
-              "source": "He told the police that both he and Fu met this Siu Wan who offered them both a way to make easy money."
+              "source": "All were lured into this by the promise of easy money."
             }
           ],
           "benefits_received": null
@@ -233,5 +218,5 @@
       "name": "Fu Chun-wah"
     }
   ],
-  "tracing_id": "2b2657ae654a0f11ef94c0b130447a18"
+  "tracing_id": "d03136028bc050d86fa3914da79fdce2"
 }

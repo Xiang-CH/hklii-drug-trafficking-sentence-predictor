@@ -13,7 +13,7 @@
           "drug_type": "Methamphetamine",
           "other_drug_type": null,
           "quantity": 43.13,
-          "source": "a rucksack which contained 43.13 grammes of methamphetamine hydrochloride and various resealable plastic bags."
+          "source": "Inside the car in question, police officers found a rucksack which contained 43.13 grammes of methamphetamine hydrochloride and various resealable plastic bags."
         }
       ],
       "roles": [
@@ -68,5 +68,5 @@
       }
     }
   ],
-  "tracing_id": "6b84b536b43df4d56a726967f386c57a"
+  "tracing_id": "c30b02be5d2cf8de273c0b5ea1cc53c3"
 }

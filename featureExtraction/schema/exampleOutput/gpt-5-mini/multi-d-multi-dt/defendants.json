@@ -3,7 +3,7 @@
     {
       "defendant_id": 1,
       "defendant_name": {
-        "name": "So Hoi-yan",
+        "name": "So Hoi-yan (A1 for HCCC 317/2023)",
         "source": "So Hoi-yan (A1 for HCCC 317/2023)"
       },
       "nationality": null,
@@ -23,7 +23,7 @@
       "parental_status": null,
       "household_composition": {
         "composition": "Lives with non-family",
-        "source": "She was living with a friend from September 2021 and not at home."
+        "source": "she had moved in with a friend and her family."
       },
       "health_conditions": null,
       "drug_treatment_participation": null,
@@ -47,7 +47,7 @@
     {
       "defendant_id": 2,
       "defendant_name": {
-        "name": "Lam Tsz-man",
+        "name": "Lam Tsz-man (A2 for HCCC 317/2023)",
         "source": "Lam Tsz-man (A2 for HCCC 317/2023)"
       },
       "nationality": null,
@@ -58,14 +58,17 @@
       "age_at_sentencing": null,
       "gender": {
         "gender": "Male",
-        "source": "When questioned, he said he intended to go into those premises."
+        "source": "He was arrested and under caution admitted he had been instructed by a person named “Siu Wan” at 5.30 earlier that day to collect this cocaine from a place near Tai Wai MTR Station."
       },
       "marital_status": null,
       "parental_status": null,
       "household_composition": null,
       "health_conditions": null,
       "drug_treatment_participation": null,
-      "education_level": null,
+      "education_level": {
+        "level": "Secondary - Upper",
+        "source": "The 2nd defendant of 317/2023, Lam, was 18 at the time of these offences and still is a student in a vocational education course."
+      },
       "occupation": {
         "occupation_category": "Student",
         "occupation_name": null,
@@ -89,7 +92,7 @@
     {
       "defendant_id": 3,
       "defendant_name": {
-        "name": "Fu Chun-wah",
+        "name": "Fu Chun-wah (HCCC 316/2023)",
         "source": "Fu Chun-wah (HCCC 316/2023)"
       },
       "nationality": null,
@@ -132,5 +135,5 @@
       ]
     }
   ],
-  "tracing_id": "2b2657ae654a0f11ef94c0b130447a18"
+  "tracing_id": "d03136028bc050d86fa3914da79fdce2"
 }

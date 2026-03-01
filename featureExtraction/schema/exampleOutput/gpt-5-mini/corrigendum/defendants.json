@@ -4,29 +4,26 @@
       "defendant_id": 1,
       "defendant_name": {
         "name": "黃鈺庭",
-        "source": "黃鈺庭（第一被告人）"
+        "source": "黃鈺庭"
       },
       "nationality": null,
-      "age_at_offence": {
-        "age": 17,
-        "source": "利用年輕人犯案（第一被告人犯案時未滿18歲）"
-      },
+      "age_at_offence": null,
       "age_at_sentencing": {
         "age": 18,
-        "source": "以第一被告人而言，他現年只有18歲。"
+        "source": "他現年只有18歲。"
       },
       "gender": {
         "gender": "Male",
-        "source": "以第一被告人而言，他現年只有18歲。"
+        "source": "他現年只有18歲。"
       },
       "marital_status": null,
       "parental_status": null,
       "household_composition": null,
       "health_conditions": [
         {
-          "name": "Use of ketamine",
+          "name": "使用氯胺酮",
           "type": "Drug addiction",
-          "source": "辯方解釋，案發時第一被告人因為失業而借故外出消遣，繼而開始吸食氯胺酮。"
+          "source": "案發時第一被告人因為失業而借故外出消遣，繼而開始吸食氯胺酮。"
         }
       ],
       "drug_treatment_participation": null,
@@ -46,7 +43,7 @@
       "criminal_records": [
         {
           "record": "None",
-          "source": "兩位被告人均無定罪紀錄。"
+          "source": "整體而言，兩位被告人均無定罪紀錄。"
         }
       ],
       "positive_habits_after_arrest": null,
@@ -56,14 +53,14 @@
       "defendant_id": 2,
       "defendant_name": {
         "name": "蘇偉強",
-        "source": "蘇偉強（第二被告人）"
+        "source": "蘇偉強"
       },
       "nationality": null,
       "age_at_offence": null,
       "age_at_sentencing": null,
       "gender": {
         "gender": "Male",
-        "source": "第二被告人在其後進行的警誡會面中表示："
+        "source": "在警誡下，第二被告人說他會就介紹工作給第一被告人而“從中抽水”。"
       },
       "marital_status": null,
       "parental_status": null,
@@ -76,17 +73,17 @@
       "criminal_records": [
         {
           "record": "None",
-          "source": "兩位被告人均無定罪紀錄。"
+          "source": "整體而言，兩位被告人均無定罪紀錄。"
         }
       ],
       "positive_habits_after_arrest": null,
       "family_supports": [
         {
           "support": "Letters of support from family",
-          "source": "基於他的求情內容，特別是其家人及朋友對他的正面評價及支持，本席酌情減刑3個月。"
+          "source": "特別是其家人及朋友對他的正面評價及支持，本席酌情減刑3個月至57個月。"
         }
       ]
     }
   ],
-  "tracing_id": "8d5fb54f9fcc2f71f323e398d3f262fb"
+  "tracing_id": "4ea14be6f9ea6d39ef5e6813ca3dc25e"
 }

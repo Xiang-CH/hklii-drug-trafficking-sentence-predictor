@@ -4,7 +4,7 @@
       "defendant_id": 1,
       "defendant_name": {
         "name": "劉子健",
-        "source": "劉子健"
+        "source": "訴\n\n劉子健"
       },
       "nationality": null,
       "age_at_offence": null,
@@ -14,7 +14,7 @@
       },
       "gender": {
         "gender": "Male",
-        "source": "他首次上去C室時，盧亦有一同上去一次，之後他便自行上去C室."
+        "source": "被告其姊姊亦指他是好老公、好爸爸"
       },
       "marital_status": {
         "status": "Married",
@@ -22,7 +22,7 @@
       },
       "parental_status": {
         "status": "Parent",
-        "custody": null,
+        "custody": "Parent with custody",
         "source": "已婚，育有兩子一女"
       },
       "household_composition": null,
@@ -46,8 +46,12 @@
       ],
       "positive_habits_after_arrest": [
         {
-          "habit": "Participation in rehabilitation/self-improvement",
+          "habit": "Working",
           "source": "在被囚期間亦主動協助懲教員處理一切大小事務."
+        },
+        {
+          "habit": "Participation in rehabilitation/self-improvement",
+          "source": "牧師的信件亦指，被告沒有自怨自艾，沒有逃避，沒有推卸責任，以學習去面對自己，決心改過，承諾以後堅定信仰，好好照顧家人"
         }
       ],
       "family_supports": [
@@ -58,5 +62,5 @@
       ]
     }
   ],
-  "tracing_id": "f12d24eb2a0b176fffea09410802a329"
+  "tracing_id": "1a9b7c6bdfc772127ba43647e5408117"
 }

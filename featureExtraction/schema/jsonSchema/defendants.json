@@ -210,16 +210,20 @@
                     ],
                     "default": null
                 },
-                "health_status": {
+                "health_conditions": {
                     "anyOf": [
                         {
-                            "$ref": "#/$defs/HealthStatus"
+                            "items": {
+                                "$ref": "#/$defs/HealthCondition"
+                            },
+                            "type": "array"
                         },
                         {
                             "type": "null"
                         }
                     ],
-                    "default": null
+                    "description": "List of health conditions found in the judgment",
+                    "title": "Health Conditions"
                 },
                 "drug_treatment_participation": {
                     "anyOf": [
@@ -314,7 +318,8 @@
             },
             "required": [
                 "defendant_id",
-                "defendant_name"
+                "defendant_name",
+                "health_conditions"
             ],
             "title": "DefendantProfile",
             "type": "object"
@@ -437,25 +442,7 @@
             "title": "HKResidentStatus",
             "type": "string"
         },
-        "HealthStatus": {
-            "additionalProperties": false,
-            "properties": {
-                "conditions": {
-                    "description": "List of health status items found in the judgment",
-                    "items": {
-                        "$ref": "#/$defs/HealthStatusCondition"
-                    },
-                    "title": "Conditions",
-                    "type": "array"
-                }
-            },
-            "required": [
-                "conditions"
-            ],
-            "title": "HealthStatus",
-            "type": "object"
-        },
-        "HealthStatusCondition": {
+        "HealthCondition": {
             "additionalProperties": false,
             "properties": {
                 "name": {
@@ -478,7 +465,7 @@
                 "type",
                 "source"
             ],
-            "title": "HealthStatusCondition",
+            "title": "HealthCondition",
             "type": "object"
         },
         "HealthStatusType": {
@@ -587,7 +574,7 @@
                         }
                     ],
                     "default": null,
-                    "description": "Required if category is Hong Kong resident. To infer Hong Kong permanent resident status (b2), look for indications such as references to living in Hong Kong for seven or more years, or possession of a Hong Kong permanent identity card."
+                    "description": "Required if category is Hong Kong resident. To infer Hong Kong permanent resident status (b2), look for indications such as references to living in Hong Kong for seven or more years, or possession of a Hong Kong permanent identity card.Only choose N/A but cannot infer status."
                 },
                 "foreign_country_code": {
                     "anyOf": [

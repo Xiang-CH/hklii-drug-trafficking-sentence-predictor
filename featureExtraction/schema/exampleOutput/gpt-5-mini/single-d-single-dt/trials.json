@@ -32,31 +32,38 @@
           "source": "I am satisfied that the role of the defendant is one of storekeeper and courier."
         }
       ],
-      "aggravating_factors": null,
-      "mitigating_factors": null,
+      "aggravating_factors": [],
+      "mitigating_factors": [
+        {
+          "factor": "Other",
+          "other_factor": "Remorse and family support (letters from parents and defendant expressing remorse); background of unemployment/redundancy mentioned",
+          "reduction": null,
+          "source": "The defendant is now 23 years old and had a clear record. ... I do have a mitigation letter from the defendant’s parents who are very supportive and accept the defendant’s remorse as genuine. I have a letter from the defendant who deeply regrets committing this offence and disappointing his family. He is grateful for their continued support despite his mistake."
+        }
+      ],
       "guilty_plea": {
         "pleaded_guilty": true,
         "court_type": "High Court",
-        "high_court_stage": "Up to committal",
+        "high_court_stage": "After committal",
         "district_court_stage": null,
         "source": "The defendant pleaded guilty to one count of trafficking in dangerous drugs on 20 February 2025. He was committed to the Court of First Instance for sentence. Today he confirms his plea and admission of the Summary of Facts."
       },
       "starting_point": {
         "sentence_years": 10,
         "sentence_months": 0,
-        "source": "I am satisfied that the role of the defendant is one of storekeeper and courier. I find the mathematical starting point of 10 years’ imprisonment appropriate in this case.",
+        "source": "I calculate a total of 128.22 grammes of cocaine, which will mathematically attract a starting point of 10 years and 1 month imprisonment. I am satisfied that the role of the defendant is one of storekeeper and courier. This is a position at the bottom of the hierarchy of drug traffickers. I find the mathematical starting point of 10 years’ imprisonment appropriate in this case.",
         "total_months": 120
       },
       "sentence_after_role": {
         "sentence_years": 10,
         "sentence_months": 0,
-        "source": "I am satisfied that the role of the defendant is one of storekeeper and courier. I find the mathematical starting point of 10 years’ imprisonment appropriate in this case.",
+        "source": "I am satisfied that the role of the defendant is one of storekeeper and courier. ... I find the mathematical starting point of 10 years’ imprisonment appropriate in this case.",
         "total_months": 120
       },
       "notional_sentence": {
         "sentence_years": 10,
         "sentence_months": 0,
-        "source": "I am satisfied that the role of the defendant is one of storekeeper and courier. I find the mathematical starting point of 10 years’ imprisonment appropriate in this case.",
+        "source": "I calculate a total of 128.22 grammes of cocaine, which will mathematically attract a starting point of 10 years and 1 month imprisonment. I find the mathematical starting point of 10 years’ imprisonment appropriate in this case.",
         "total_months": 120
       },
       "mitigation_reduction": null,
@@ -71,5 +78,5 @@
       }
     }
   ],
-  "tracing_id": "ac738cdf06f49c179ce457795e5ff414"
+  "tracing_id": "211f167c065fe04ab6f6697b9e0cec1c"
 }

@@ -65,6 +65,14 @@ export const ReasonForOffenceSchema = z.enum([
   'Other',
 ])
 
+export const BenefitsReceivedTypeSchema = z.enum([
+  'per day',
+  'per month',
+  'per instance',
+  'total',
+  'other',
+])
+
 export const ImportExportEnumSchema = z.enum(['import', 'export'])
 
 export const DistrictSchema = z.enum(districts)
@@ -175,11 +183,37 @@ export const ReasonForOffenceDetailSchema = z.object({
   source: z.string(),
 })
 
-export const BenefitsReceivedDetailSchema = z.object({
-  received: z.boolean(),
-  amount: z.number().nullable().default(null),
-  source: z.string(),
-})
+export const BenefitsReceivedDetailSchema = z
+  .object({
+    received: z.boolean(),
+    amount: z.number().nullable().default(null),
+    amount_type: BenefitsReceivedTypeSchema.nullable().default(null),
+    amount_type_other: z.string().nullable().default(null),
+    non_monetary_benefits: z.string().nullable().default(null),
+    source: z.string(),
+  })
+  .refine(
+    (data) => {
+      if (data.amount !== null && data.amount_type === null) {
+        return false
+      }
+      return true
+    },
+    {
+      message: 'amount_type is required when amount is specified',
+    },
+  )
+  .refine(
+    (data) => {
+      if (data.amount_type === 'other' && data.amount_type_other === null) {
+        return false
+      }
+      return true
+    },
+    {
+      message: 'amount_type_other is required when amount_type is "other"',
+    },
+  )
 
 export const CrossBorderDetailSchema = z.object({
   cross_border: z.boolean(),

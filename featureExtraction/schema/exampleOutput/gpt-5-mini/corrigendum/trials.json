@@ -13,40 +13,38 @@
           "drug_type": "Ketamine",
           "other_drug_type": null,
           "quantity": 105.0,
-          "source": "以本案而言，第一與第二被告人均同意以上原則，但認為基於第一被告人的「招認」，本席可以以160包（共約105克）氯胺酮計算。對此，控方不表異議。"
+          "source": "本席認為最終接納以105克作為判刑的事實基礎才是合適。"
         }
       ],
       "roles": [
         {
+          "role": "Courier",
+          "source": "(a) 一個叫“So Ken”的人叫第一被告人出售和派送毒品；"
+        },
+        {
           "role": "Actual trafficker",
-          "source": "(a)  一個叫“So Ken”的人叫第一被告人出售和派送毒品;\n(j)  第一被告人以每粒港幣350元出售毒品；"
+          "source": "(j) 第一被告人以每粒港幣350元出售毒品；"
         }
       ],
       "aggravating_factors": null,
       "mitigating_factors": [
         {
-          "factor": "Young offender",
-          "other_factor": null,
-          "reduction": null,
-          "source": "以第一被告人而言，他現年只有18歲。"
-        },
-        {
           "factor": "Other",
-          "other_factor": "自白/招認（confession）",
+          "other_factor": "Confession / admission",
           "reduction": 3,
-          "source": "本席就「招認」給予第一被告人3個月的減刑（即80個月之中的3.75%）便足夠。所以將53個月下調至50個月。"
+          "source": "經小心考慮後，本席就「招認」給予第一被告人3個月的減刑（即80個月之中的3.75%）便足夠。"
         },
         {
           "factor": "Assistance - useful",
           "other_factor": null,
           "reduction": 3,
-          "source": "另外，第一被告人供出第二被告人並導致警方可把第二被告人繩之於法。即使第一被告人沒有需要出庭指證第二被告人，第一被告人的功勞算是實質性，此舉得被認許之餘，也進一步反映第一被告人的悔意和決心改過的勇氣。為此本席同意減刑3個月（同樣是3.75%）。"
+          "source": "第一被告人供出第二被告人並導致警方可把第二被告人繩之於法。為此本席同意減刑3個月（同樣是3.75%）。"
         },
         {
           "factor": "Other",
-          "other_factor": "其他求情內容",
+          "other_factor": "Additional mitigation from other pleas/letters to encourage rehabilitation",
           "reduction": 3,
-          "source": "本席就其他求情內容給予3個月進一步減刑，以鼓勵第一被告人改過自新.[1]"
+          "source": "本席就其他求情內容給予3個月進一步減刑，以鼓勵第一被告人改過自新。"
         }
       ],
       "guilty_plea": {
@@ -76,7 +74,7 @@
       },
       "mitigation_reduction": {
         "reduction_months": 9,
-        "source": "本席就「招認」給予第一被告人3個月的減刑（即80個月之中的3.75%）便足夠。所以將53個月下調至50個月.; 另外，第一被告人供出第二被告人並導致警方可把第二被告人繩之於法...為此本席同意減刑3個月（同樣是3.75%）。; 本席就其他求情內容給予3個月進一步減刑，以鼓勵第一被告人改過自新.[1]"
+        "source": "經小心考慮後，本席就「招認」給予第一被告人3個月的減刑（即80個月之中的3.75%）便足夠。所以將53個月下調至50個月。第一被告人供出第二被告人並導致警方可把第二被告人繩之於法。為此本席同意減刑3個月（同樣是3.75%）。本席就其他求情內容給予3個月進一步減刑，以鼓勵第一被告人改過自新。"
       },
       "final_sentence": {
         "sentence_years": 3,
@@ -101,13 +99,13 @@
           "drug_type": "Ketamine",
           "other_drug_type": null,
           "quantity": 105.0,
-          "source": "以本案而言，第一與第二被告人均同意以上原則，但認為基於第一被告人的「招認」，本席可以以160包（共約105克）氯胺酮計算。對此，控方不表異議。"
+          "source": "本席認為最終接納以105克作為判刑的事實基礎才是合適。"
         }
       ],
       "roles": [
         {
           "role": "Manager/organizer",
-          "source": "(e)  第二被告人知道第一被告人無業，將第一被告人介紹給葉維輝; (h)  每包氯胺酮價格港幣350元。每“送”一包，第一被告人會保留港幣80元，第二被告人會獲得港幣20元，餘數會交給葉維輝;"
+          "source": "(i) 第二被告人介紹第一被告人派送和出售毒品，因為第一被告人想賺多些錢；"
         }
       ],
       "aggravating_factors": [
@@ -115,27 +113,21 @@
           "factor": "Role of the defendant",
           "other_factor": null,
           "enhancement": 6,
-          "source": "第一與第二被告人的角色不同，本席認為合適的量刑起點應有6個月的分野。"
+          "source": "本席以86個月作為基準以反映他與第一被告人角色上的不同。"
         },
         {
           "factor": "Use of minors",
           "other_factor": null,
-          "enhancement": 8,
-          "source": "本席認為加刑起碼10%才足夠反映利用年青人的加刑因素。"
+          "enhancement": null,
+          "source": "本案明顯涉及利用年輕人犯案。本席認為加刑起碼10%才足夠反映利用年青人的加刑因素。"
         }
       ],
       "mitigating_factors": [
         {
           "factor": "Other",
-          "other_factor": "家人及朋友的正面評價及支持",
+          "other_factor": "Positive family and friend references / good character",
           "reduction": 3,
-          "source": "基於他的求情內容，特別是其家人及朋友對他的正面評價及支持，本席酌情減刑3個月至57個月。"
-        },
-        {
-          "factor": "Other",
-          "other_factor": "認罪",
-          "reduction": null,
-          "source": "就控罪二及三，兩名被告人均表示認罪。"
+          "source": "他的認罪，可把判刑下調至60個月。基於他的求情內容，特別是其家人及朋友對他的正面評價及支持，本席酌情減刑3個月至57個月。"
         }
       ],
       "guilty_plea": {
@@ -172,11 +164,11 @@
         "sentence_months": 9,
         "guilty_plea_reduction_years": 2,
         "guilty_plea_reduction_months": 6,
-        "source": "最終判第一及第二被告人，分別就控罪三服刑44及57個月即時監禁是合適的。",
+        "source": "本席仍然認為，最終判第一及第二被告人，分別就控罪三服刑44及57個月即時監禁是合適的。",
         "total_months": 57,
         "guilty_plea_reduction_total_months": 30
       }
     }
   ],
-  "tracing_id": "8d5fb54f9fcc2f71f323e398d3f262fb"
+  "tracing_id": "4ea14be6f9ea6d39ef5e6813ca3dc25e"
 }
