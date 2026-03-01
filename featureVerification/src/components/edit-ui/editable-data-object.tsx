@@ -54,6 +54,10 @@ export function EditableDataObject({
   const isDisabled = disabled || !!notGivenMap[path]
   const canEdit = isEditing && !isFieldComputed && !isDisabled
 
+  if (isDisabled) {
+    return null
+  }
+
   function NotGivenToggle({
     checked,
     onToggle,
