@@ -9,11 +9,11 @@
       "nationality": null,
       "age_at_offence": {
         "age": 36,
-        "source": "The 1st defendant is 39 years of age. He was 36 years old at the time of the offence."
+        "source": "He was 36 years old at the time of the offence."
       },
       "age_at_sentencing": {
         "age": 39,
-        "source": "The 1st defendant is 39 years of age. He was 36 years old at the time of the offence."
+        "source": "The 1st defendant is 39 years of age."
       },
       "gender": {
         "gender": "Male",
@@ -28,13 +28,7 @@
         "composition": "Lives with family",
         "source": "He was divorced and lived together with his family members."
       },
-      "health_conditions": [
-        {
-          "name": "Gambling problem",
-          "type": "Mental health",
-          "source": "Starting from 2020, he started to gamble and eventually he owed debts in the region of $300,000."
-        }
-      ],
+      "health_conditions": null,
       "drug_treatment_participation": null,
       "education_level": {
         "level": "Secondary - Lower",
@@ -57,8 +51,12 @@
       ],
       "positive_habits_after_arrest": [
         {
+          "habit": "Studying",
+          "source": "he had taken different courses to better equip himself whilst remanded in custody."
+        },
+        {
           "habit": "Participation in rehabilitation/self-improvement",
-          "source": "He also informed this court that the 1st defendant had taken different courses to better equip himself whilst remanded in custody."
+          "source": "he had taken different courses to better equip himself whilst remanded in custody."
         }
       ],
       "family_supports": null
@@ -72,11 +70,11 @@
       "nationality": null,
       "age_at_offence": {
         "age": 34,
-        "source": "In respect of the 2nd defendant, he is now 36 years of age. He was 34 years old at the time of the offence."
+        "source": "He was 34 years old at the time of the offence."
       },
       "age_at_sentencing": {
         "age": 36,
-        "source": "In respect of the 2nd defendant, he is now 36 years of age. He was 34 years old at the time of the offence."
+        "source": "In respect of the 2nd defendant, he is now 36 years of age."
       },
       "gender": {
         "gender": "Male",
@@ -90,9 +88,14 @@
       "household_composition": null,
       "health_conditions": [
         {
-          "name": "Long history of mental illness (multiple psychiatric admissions; partly related to prior drug abuse)",
+          "name": "Long history of mental illness / psychiatric condition",
           "type": "Mental health",
-          "source": "In his mitigation, counsel for the 2nd defendant Mr Clement Lau informed this court that he has a long history of mental illness. He first received psychiatric treatment at the age of 11 and there were multiple psychiatric admissions to various hospitals between year 2009 to 2022."
+          "source": "he has a long history of mental illness. He first received psychiatric treatment at the age of 11 and there were multiple psychiatric admissions to various hospitals between year 2009 to 2022."
+        },
+        {
+          "name": "History of drug abuse (contributed to psychiatric condition)",
+          "type": "Drug addiction",
+          "source": "I noted from various psychiatric reports that had been submitted by counsel that indeed part of the condition of the 2nd defendant was a result of his own drug abuse. In any event, counsel informed me that he is now clear of the drug usage."
         }
       ],
       "drug_treatment_participation": null,
@@ -121,5 +124,5 @@
       ]
     }
   ],
-  "tracing_id": "8c3fa4dfa9f2d52e0789570f40f63864"
+  "tracing_id": "467bcb03f690a619b1c5a8a83725e6ef"
 }

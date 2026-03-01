@@ -21,6 +21,44 @@
                     "description": "Amount of benefits received or to be received for trafficking in HKD, excluding the value of the drug itself. Only set to null if benefit amount is not explicitly stated.",
                     "title": "Amount"
                 },
+                "amount_type": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/BenefitsReceivedType"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Indicates how the benefit amount is specified, Must be present if amount is specified, otherwise set to null."
+                },
+                "amount_type_other": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Description of the amount type if amount_type is 'Other'",
+                    "title": "Amount Type Other"
+                },
+                "non_monetary_benefits": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "Description of any non-monetary benefits received, if mentioned in the judgment",
+                    "title": "Non Monetary Benefits"
+                },
                 "source": {
                     "description": "The exact match source text from which the benefits amount was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
@@ -33,6 +71,17 @@
             ],
             "title": "BenefitsReceivedDetail",
             "type": "object"
+        },
+        "BenefitsReceivedType": {
+            "enum": [
+                "per day",
+                "per month",
+                "per instance",
+                "total",
+                "other"
+            ],
+            "title": "BenefitsReceivedType",
+            "type": "string"
         },
         "Charge": {
             "additionalProperties": false,

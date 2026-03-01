@@ -1,23 +1,23 @@
 {
   "neutral_citation": "[2025] HKCA 943",
-  "judge_name": "Andrew Macrae VP",
+  "judge_name": "Andrew Macrae",
   "judgment_date_time": "2025-10-17T00:00:00+08:00",
   "representatives": [
     {
       "name": "Prakash L Daryanani",
-      "role": "SPP, of the Department of Justice, for the Respondent"
+      "role": "for the Respondent"
     },
     {
       "name": "Duncan Percy",
-      "role": "Instructed by SH Chan & Co, assigned by the Director of Legal Aid, for the Applicant"
+      "role": "for the Applicant"
     },
     {
       "name": "Janice KWAN",
-      "role": "SPP of Department of Justice for the Prosecution/ HKSAR"
+      "role": "for the Prosecution / HKSAR"
     },
     {
       "name": "Raymond YU",
-      "role": "Instructed by Messrs. Chan & Chan, assigned by D.L.A., for the defendant"
+      "role": "for the Defendant"
     }
   ],
   "cases_heard": [
@@ -36,14 +36,14 @@
       },
       "offence_time": {
         "time": "21:20:00+08:00",
-        "source": "at around 9:20pm",
+        "source": "At around 9:20pm",
         "time_of_day": "evening"
       },
       "place_of_offence": {
-        "address": "Room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon",
+        "address": "room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon",
         "nature": "Residential building",
         "subDistrict": "Tai Kok Tsui",
-        "source": "the defendant on 2 April 2022, at room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon",
+        "source": "on 2 April 2022, at room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon",
         "district": "Yau Tsim Mong"
       },
       "cross_border": {
@@ -53,20 +53,16 @@
       },
       "defendants_of_charge": [
         {
-          "defendant_name": "Lau Kam Hung",
+          "defendant_name": "Lau Kam Hung (劉金洪)",
           "defendant_id": 1,
           "trafficking_mode": {
             "mode": "Drug houses",
-            "source": "This was ... a rather more active, albeit on a small scale, centre for the distribution, packaging and consumption of different dangerous drugs"
+            "source": "the paraphernalia of the trafficker were found inside the premises, namely two different types of dangerous drugs contained in smaller re-sealable bags of drugs, multiple empty re-sealable plastic bags and an electronic scale... This was... a rather more active, albeit on a small scale, centre for the distribution, packaging and consumption of different dangerous drugs"
           },
           "reasons_for_offence": [
             {
               "reason": "Addiction-driven",
-              "source": "the defendant claimed that the 'pork' (colloquial term for methamphetamine) and 'weed' (colloquial term for cannabis) were for his own consumption, and he would sometimes share them with his friends."
-            },
-            {
-              "reason": "Economic hardship",
-              "source": "the difficulties he faced as a young immigrant contributed to him turning to gambling, which led to debts"
+              "source": "At the time of sentencing, the applicant was a former drug abuser aged 68"
             }
           ],
           "benefits_received": null
@@ -78,8 +74,8 @@
   "defendants": [
     {
       "id": 1,
-      "name": "Lau Kam Hung"
+      "name": "Lau Kam Hung (劉金洪)"
     }
   ],
-  "tracing_id": "c9762301d232fd22be74ca8b5752ad1a"
+  "tracing_id": "3c468e52bd8aba301b01e8906fe3e203"
 }

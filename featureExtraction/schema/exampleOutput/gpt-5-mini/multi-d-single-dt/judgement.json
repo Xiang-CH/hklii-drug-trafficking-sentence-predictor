@@ -28,7 +28,7 @@
           "2022-12-01",
           "2022-12-27"
         ],
-        "source": "on an unknown date between December 2022 and the 27th day of December 2022",
+        "source": "on an unknown date between December 2022 and the 27th day of December 2022, in a room in Yau Tong, they conspired to unlawfully traffic in cocaine.",
         "day_of_week": [
           4,
           5,
@@ -60,16 +60,12 @@
         ],
         "is_hk_public_holiday": true
       },
-      "offence_time": {
-        "time": "01:20:00+08:00",
-        "source": "at about 1.20 am on 27 December 2022",
-        "time_of_day": "night"
-      },
+      "offence_time": null,
       "place_of_offence": {
-        "address": "Room 606D, Block B, Yau Tong Industrial City, Kwun Tong",
+        "address": "Room 606D, Block B, Yau Tong Industrial City in Kwun Tong",
         "nature": "Industrial building",
-        "subDistrict": "Kwun Tong",
-        "source": "Room 606D, Block B, Yau Tong Industrial City in Kwun Tong",
+        "subDistrict": "Yau Tong",
+        "source": "at about 1.20 am on 27 December 2022, the police arrived at Room 606D, Block B, Yau Tong Industrial City in Kwun Tong as a result of a 999 call regarding a dispute.",
         "district": "Kwun Tong"
       },
       "cross_border": {
@@ -79,26 +75,26 @@
       },
       "defendants_of_charge": [
         {
-          "defendant_name": "Hui Kwai-chung, Dick",
+          "defendant_name": "Hui Kwai-chung, Dick (許貴仲)",
           "defendant_id": 1,
           "trafficking_mode": {
             "mode": "Courier delivery",
-            "source": "his role was more like a courier taking the drug from the Lei Yue Mun Plaza back to the room"
+            "source": "Counsel said his role was more like a courier taking the drug from the Lei Yue Mun Plaza back to the room."
           },
           "reasons_for_offence": [
             {
               "reason": "Economic hardship",
-              "source": "because the 1st defendant was indebted so he agreed"
+              "source": "Because the 1st defendant was indebted so he agreed. ... he owed debts in the region of $300,000. Counsel said he committed the present offence to earn quick money."
             }
           ],
           "benefits_received": null
         },
         {
-          "defendant_name": "Hong Ka-ming",
+          "defendant_name": "Hong Ka-ming (康家銘)",
           "defendant_id": 2,
           "trafficking_mode": {
-            "mode": "Drug repackaging or storage",
-            "source": "the 2nd defendant signed a tenancy agreement to rent the room ... he had rented the room and did not lock it, apparently for the purpose of allowing others to use it whenever they wanted"
+            "mode": "Drug houses",
+            "source": "the 2nd defendant signed a tenancy agreement to rent the room ... he had rented the room and did not lock it, apparently for the purpose of allowing others to use it whenever they wanted."
           },
           "reasons_for_offence": null,
           "benefits_received": null
@@ -110,12 +106,12 @@
   "defendants": [
     {
       "id": 1,
-      "name": "Hui Kwai-chung, Dick"
+      "name": "Hui Kwai-chung, Dick (許貴仲)"
     },
     {
       "id": 2,
-      "name": "Hong Ka-ming"
+      "name": "Hong Ka-ming (康家銘)"
     }
   ],
-  "tracing_id": "8c3fa4dfa9f2d52e0789570f40f63864"
+  "tracing_id": "467bcb03f690a619b1c5a8a83725e6ef"
 }

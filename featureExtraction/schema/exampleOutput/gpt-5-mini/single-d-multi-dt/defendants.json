@@ -6,37 +6,31 @@
         "name": "劉子健",
         "source": "訴\n\n劉子健"
       },
-      "nationality": {
-        "category": "Hong Kong resident",
-        "hk_resident_status": "N/A",
-        "foreign_country_code": null,
-        "infer_reason": "Presence of Hong Kong residential documents, local tenancy and local transport card usage indicate residence in Hong Kong (e.g. Mei Foo resident pass, tenancy of local units, Octopus card).",
-        "source": "被告身上亦撿獲現金港幣13,420元、一張美孚新邨一期住戶證、一部流動電話、兩條鎖匙。"
-      },
+      "nationality": null,
       "age_at_offence": null,
       "age_at_sentencing": {
         "age": 42,
-        "source": "被告現年42歲，過往在2004年5月因提供虛假資料予海關，被罰款12,000元。"
+        "source": "被告現年42歲"
       },
       "gender": {
         "gender": "Male",
-        "source": "其姊姊亦指他是好老公、好爸爸，在收押所期間已看見了他改變很多，真心悔改。"
+        "source": "被告其姊姊亦指他是好老公、好爸爸"
       },
       "marital_status": {
         "status": "Married",
-        "source": "就背景而言，被告43歲，中四學歷，已婚，育有兩子一女，..."
+        "source": "已婚，育有兩子一女"
       },
       "parental_status": {
         "status": "Parent",
-        "custody": null,
-        "source": "就背景而言，被告43歲，中四學歷，已婚，育有兩子一女，..."
+        "custody": "Parent with custody",
+        "source": "已婚，育有兩子一女"
       },
       "household_composition": null,
       "health_conditions": null,
       "drug_treatment_participation": null,
       "education_level": {
         "level": "Secondary - Upper",
-        "source": "就背景而言，被告43歲，中四學歷，已婚，育有兩子一女，..."
+        "source": "中四學歷"
       },
       "occupation": {
         "occupation_category": "Elementary occupation",
@@ -47,22 +41,26 @@
       "criminal_records": [
         {
           "record": "Other offences",
-          "source": "過往在2004年5月因提供虛假資料予海關，被罰款12,000元。"
+          "source": "過往在2004年5月因提供虛假資料予海關，被罰款12,000元."
         }
       ],
       "positive_habits_after_arrest": [
         {
+          "habit": "Working",
+          "source": "在被囚期間亦主動協助懲教員處理一切大小事務."
+        },
+        {
           "habit": "Participation in rehabilitation/self-improvement",
-          "source": "在被囚期間亦主動協助懲教員處理一切大小事務。"
+          "source": "牧師的信件亦指，被告沒有自怨自艾，沒有逃避，沒有推卸責任，以學習去面對自己，決心改過，承諾以後堅定信仰，好好照顧家人"
         }
       ],
       "family_supports": [
         {
           "support": "Letters of support from family",
-          "source": "辯方亦呈上五封求情信，可見被告有真誠悔意，望法院採納較低量刑起點。"
+          "source": "辯方亦呈上五封求情信"
         }
       ]
     }
   ],
-  "tracing_id": "cd04fe576a08014fcc997596212d6e57"
+  "tracing_id": "1a9b7c6bdfc772127ba43647e5408117"
 }

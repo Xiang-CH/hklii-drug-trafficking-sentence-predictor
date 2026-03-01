@@ -53,7 +53,7 @@
       "notional_sentence": {
         "sentence_years": 10,
         "sentence_months": 3,
-        "source": "Starting point for trafficking in 43.13 grammes of methamphetamine hydrochloride based on quantity alone will be 9 years and 3 months’ imprisonment. There is nothing in this case to indicate the defendant’s role beyond a mere courier. However, this is not the defendant’s first trafficking record. As such, an additional 1 year will be added.",
+        "source": "Starting point for trafficking in 43.13 grammes of methamphetamine hydrochloride based on quantity alone will be 9 years and 3 months’ imprisonment. However, this is not the defendant’s first trafficking record. As such, an additional 1 year will be added.",
         "total_months": 123
       },
       "mitigation_reduction": null,
@@ -68,5 +68,5 @@
       }
     }
   ],
-  "tracing_id": "d117ffe1cd39be33785c26b8233a90a3"
+  "tracing_id": "c30b02be5d2cf8de273c0b5ea1cc53c3"
 }

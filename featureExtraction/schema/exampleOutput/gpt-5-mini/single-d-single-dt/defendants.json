@@ -6,24 +6,18 @@
         "name": "Wong Man-kit",
         "source": "Wong Man-kit"
       },
-      "nationality": {
-        "category": "Hong Kong resident",
-        "hk_resident_status": "N/A",
-        "foreign_country_code": null,
-        "infer_reason": "Lives at a Hong Kong public housing address given in the particulars (Room 1140, Hong Tai House, Cheung Hong Estate, Tsing Yi) and is described as living with his parents and brother in that address.",
-        "source": "Room 1140, Hong Tai House, Cheung Hong Estate, Tsing Yi, New Territories"
-      },
+      "nationality": null,
       "age_at_offence": {
         "age": 21,
-        "source": "he was 21 years old at the time"
+        "source": "After all, he was 21 years old at the time, not a very young teenager."
       },
       "age_at_sentencing": {
         "age": 23,
-        "source": "The defendant is now 23 years old"
+        "source": "The defendant is now 23 years old and had a clear record."
       },
       "gender": {
         "gender": "Male",
-        "source": "he admitted packing and delivering drugs on instructions for monetary rewards."
+        "source": "After all, he was 21 years old at the time, not a very young teenager."
       },
       "marital_status": null,
       "parental_status": null,
@@ -58,5 +52,5 @@
       ]
     }
   ],
-  "tracing_id": "46baa001043d086265178324166b086f"
+  "tracing_id": "211f167c065fe04ab6f6697b9e0cec1c"
 }

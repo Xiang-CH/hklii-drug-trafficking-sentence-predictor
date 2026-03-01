@@ -6,15 +6,21 @@
         "name": "Wong Pui-hung",
         "source": "Wong Pui-hung"
       },
-      "nationality": null,
+      "nationality": {
+        "category": "Hong Kong resident",
+        "hk_resident_status": "N/A",
+        "foreign_country_code": null,
+        "infer_reason": "Name is Cantonese in style and no explicit nationality is stated in the record.",
+        "source": "Wong Pui-hung"
+      },
       "age_at_offence": null,
       "age_at_sentencing": {
         "age": 45,
-        "source": "The defendant is 45 and educated up to secondary school level."
+        "source": "The defendant is 45"
       },
       "gender": {
         "gender": "Male",
-        "source": "He was holding a car key at the time."
+        "source": "he was holding a car key at the time."
       },
       "marital_status": null,
       "parental_status": null,
@@ -37,16 +43,16 @@
       "criminal_records": [
         {
           "record": "Drug trafficking",
-          "source": "In particular, he has four trafficking in dangerous drugs and eight possession in dangerous drugs records."
+          "source": "He has 25 criminal convictions with multiple offences. In particular, he has four trafficking in dangerous drugs and eight possession in dangerous drugs records."
         },
         {
           "record": "Dangerous drug offences",
-          "source": "In particular, he has four trafficking in dangerous drugs and eight possession in dangerous drugs records."
+          "source": "He has 25 criminal convictions with multiple offences. In particular, he has four trafficking in dangerous drugs and eight possession in dangerous drugs records."
         }
       ],
       "positive_habits_after_arrest": null,
       "family_supports": null
     }
   ],
-  "tracing_id": "d117ffe1cd39be33785c26b8233a90a3"
+  "tracing_id": "c30b02be5d2cf8de273c0b5ea1cc53c3"
 }

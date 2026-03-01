@@ -21,7 +21,7 @@
       "charge_name": "Trafficking in dangerous drugs",
       "offence_date": {
         "date": "2023-11-30",
-        "source": "The particulars of the charge are that the defendant on 30 November 2023, at Room 1140, Hong Tai House, Cheung Hong Estate, Tsing Yi, New Territories, unlawfully trafficked in dangerous drugs, namely, 112.35 grammes of a solid containing 85.63 grammes of cocaine and 211.16 grammes of a solid containing 170.37 grammes of ketamine.",
+        "source": "on 30 November 2023",
         "day_of_week": 4,
         "is_hk_public_holiday": false
       },
@@ -30,13 +30,13 @@
         "address": "Room 1140, Hong Tai House, Cheung Hong Estate, Tsing Yi, New Territories",
         "nature": "Residential building",
         "subDistrict": "Tsing Yi",
-        "source": "The particulars of the charge are that the defendant on 30 November 2023, at Room 1140, Hong Tai House, Cheung Hong Estate, Tsing Yi, New Territories, unlawfully trafficked in dangerous drugs, namely, 112.35 grammes of a solid containing 85.63 grammes of cocaine and 211.16 grammes of a solid containing 170.37 grammes of ketamine.",
+        "source": "Room 1140, Hong Tai House, Cheung Hong Estate, Tsing Yi, New Territories",
         "district": "Kwai Tsing"
       },
       "cross_border": {
         "cross_border": false,
         "type": null,
-        "source": ""
+        "source": "No cross-border activity mentioned"
       },
       "defendants_of_charge": [
         {
@@ -44,7 +44,7 @@
           "defendant_id": 1,
           "trafficking_mode": {
             "mode": "Courier delivery",
-            "source": "The defendant was arrested and he admitted packing and delivering drugs on instructions for monetary rewards."
+            "source": "storekeeper and courier"
           },
           "reasons_for_offence": [
             {
@@ -52,16 +52,21 @@
               "source": "He could store some goods and make some deliveries for $16,000 a month."
             },
             {
+              "reason": "Economic hardship",
+              "source": "the COVID pandemic affected his employment and he was made redundant"
+            },
+            {
               "reason": "Coercion",
-              "source": "He tried to return the drugs but was told if he quit the job, he would need to repay $30,000 as compensation."
+              "source": "he was told if he quit the job, he would need to repay $30,000 as compensation"
             }
           ],
           "benefits_received": {
             "received": true,
-            "amount": 16000.0,
-            "amount_type": "per month",
+            "amount": null,
+            "amount_type": null,
             "amount_type_other": null,
-            "source": "He could store some goods and make some deliveries for $16,000 a month."
+            "non_monetary_benefits": null,
+            "source": "The defendant was arrested and he admitted packing and delivering drugs on instructions for monetary rewards."
           }
         }
       ]
@@ -74,5 +79,5 @@
       "name": "Wong Man-kit"
     }
   ],
-  "tracing_id": "46baa001043d086265178324166b086f"
+  "tracing_id": "211f167c065fe04ab6f6697b9e0cec1c"
 }

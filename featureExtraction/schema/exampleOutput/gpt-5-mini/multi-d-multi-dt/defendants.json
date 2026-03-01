@@ -3,7 +3,7 @@
     {
       "defendant_id": 1,
       "defendant_name": {
-        "name": "So Hoi-yan",
+        "name": "So Hoi-yan (A1 for HCCC 317/2023)",
         "source": "So Hoi-yan (A1 for HCCC 317/2023)"
       },
       "nationality": null,
@@ -23,7 +23,7 @@
       "parental_status": null,
       "household_composition": {
         "composition": "Lives with non-family",
-        "source": "She was living with a friend from September 2021 and not at home."
+        "source": "she had moved in with a friend and her family."
       },
       "health_conditions": null,
       "drug_treatment_participation": null,
@@ -33,7 +33,7 @@
       "criminal_records": [
         {
           "record": "Other offences",
-          "source": "In June 2018, she was given a police superintendent’s caution for the offences of common assault and theft. In November 2018, she was sentenced to 24 months’ probation for the offences of wounding with intent to do grievous bodily harm and criminal damage. That probation order was subsequently extended for a further 6 months"
+          "source": "In June 2018, she was given a police superintendent’s caution for the offences of common assault and theft. In November 2018, she was sentenced to 24 months’ probation for the offences of wounding with intent to do grievous bodily harm and criminal damage. That probation order was subsequently extended for a further 6 months which would indicate trouble from her during the probation period and a breach of that probation."
         }
       ],
       "positive_habits_after_arrest": [
@@ -47,28 +47,28 @@
     {
       "defendant_id": 2,
       "defendant_name": {
-        "name": "Lam Tsz-man",
+        "name": "Lam Tsz-man (A2 for HCCC 317/2023)",
         "source": "Lam Tsz-man (A2 for HCCC 317/2023)"
       },
       "nationality": null,
       "age_at_offence": {
         "age": 18,
-        "source": "The 2nd defendant of 317/2023, Lam, was 18 at the time of these offences"
+        "source": "The 2nd defendant of 317/2023, Lam, was 18 at the time of these offences and still is a student in a vocational education course."
       },
       "age_at_sentencing": null,
       "gender": {
         "gender": "Male",
-        "source": "The 2nd defendant of 317/2023, Lam, was 18 at the time of these offences and still is a student in a vocational education course. He had a clear record at the time of his arrest."
+        "source": "He was arrested and under caution admitted he had been instructed by a person named “Siu Wan” at 5.30 earlier that day to collect this cocaine from a place near Tai Wai MTR Station."
       },
       "marital_status": null,
       "parental_status": null,
-      "household_composition": {
-        "composition": "Lives with non-family",
-        "source": "They found a tenancy agreement dated 23 September 2021 signed by Fu and the 2nd defendant, Lam, of 317/2023."
-      },
+      "household_composition": null,
       "health_conditions": null,
       "drug_treatment_participation": null,
-      "education_level": null,
+      "education_level": {
+        "level": "Secondary - Upper",
+        "source": "The 2nd defendant of 317/2023, Lam, was 18 at the time of these offences and still is a student in a vocational education course."
+      },
       "occupation": {
         "occupation_category": "Student",
         "occupation_name": null,
@@ -92,7 +92,7 @@
     {
       "defendant_id": 3,
       "defendant_name": {
-        "name": "Fu Chun-wah",
+        "name": "Fu Chun-wah (HCCC 316/2023)",
         "source": "Fu Chun-wah (HCCC 316/2023)"
       },
       "nationality": null,
@@ -103,21 +103,21 @@
       "age_at_sentencing": null,
       "gender": {
         "gender": "Male",
-        "source": "Fu of 316/2023 was also 18 at the time of these offences. Fu was also still a student and I granted him bail to give him a chance to complete his HKDSE examinations and support his mother whilst she received chemotherapy treatment for cancer."
+        "source": "Fu was traced through his messages to her and on the following day, at about 2.50 pm on 3 October, the police, having obtained a search warrant, located and arrested Fu at home in Aberdeen."
       },
       "marital_status": null,
       "parental_status": null,
-      "household_composition": {
-        "composition": "Lives with non-family",
-        "source": "They found a tenancy agreement dated 23 September 2021 signed by Fu and the 2nd defendant, Lam, of 317/2023."
-      },
+      "household_composition": null,
       "health_conditions": null,
       "drug_treatment_participation": null,
-      "education_level": null,
+      "education_level": {
+        "level": "Secondary - Upper",
+        "source": "I granted him bail to give him a chance to complete his HKDSE examinations and support his mother whilst she received chemotherapy treatment for cancer."
+      },
       "occupation": {
         "occupation_category": "Student",
         "occupation_name": null,
-        "source": "Fu of 316/2023 was also 18 at the time of these offences. Fu was also still a student and I granted him bail to give him a chance to complete his HKDSE examinations"
+        "source": "Fu of 316/2023 was also 18 at the time of these offences. Fu was also still a student and I granted him bail to give him a chance to complete his HKDSE examinations and support his mother whilst she received chemotherapy treatment for cancer."
       },
       "monthly_wage": null,
       "criminal_records": [
@@ -135,5 +135,5 @@
       ]
     }
   ],
-  "tracing_id": "f3ec06c03040485379752781db72cd70"
+  "tracing_id": "d03136028bc050d86fa3914da79fdce2"
 }
