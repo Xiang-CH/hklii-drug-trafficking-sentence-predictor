@@ -235,6 +235,10 @@ class BenefitsReceivedDetail(BaseModel):
         default=None,
         description="Description of the amount type if amount_type is 'Other'",
     )
+    non_monetary_benefits: Optional[str] = Field(
+        default=None,
+        description="Description of any non-monetary benefits received, if mentioned in the judgment",
+    )
     source: str = source_field("benefits amount")
 
     @model_validator(mode="after")
