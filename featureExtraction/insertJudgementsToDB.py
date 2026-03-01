@@ -101,4 +101,4 @@ if __name__ == "__main__":
 
         judgements_collection.insert_many(df.to_dict("records"))
 
-        break
+        # break
