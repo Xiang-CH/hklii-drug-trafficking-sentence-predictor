@@ -6,6 +6,7 @@ import { EditableSourceField } from './editable-source-field'
 import type { UndoState } from '@/components/editable-data-viewer'
 import {
   COMPUTED_FIELDS,
+  getDefaultValueForArrayItem,
   getDefaultValueForField,
   isFieldNullable,
   isMandatoryNotGivenField,
@@ -246,7 +247,7 @@ export function EditableDataObject({
           {canEdit && (
             <button
               onClick={() => {
-                const defaultItem = getDefaultValueForField(
+                const defaultItem = getDefaultValueForArrayItem(
                   fieldName || '',
                   parentField,
                 )
@@ -281,12 +282,22 @@ export function EditableDataObject({
     return (
       <div className="space-y-2">
         {entries.map(([key, value]) => {
-          const isEntryComputed = COMPUTED_FIELDS.includes(key)
+          if (parentField == 'judgement' && key === 'defendants') {
+            return
+          }
+
+          const isEntryComputed =
+            COMPUTED_FIELDS.includes(key) &&
+            !(
+              key === 'time_of_day' &&
+              'time' in data &&
+              (data.time === null || data.time === undefined)
+            )
           const isArray = Array.isArray(value)
 
           const entryPath = path ? `${path}.${key}` : key
           const entryNotGiven = !!notGivenMap[entryPath]
-          const entryDisabled = disabled || entryNotGiven
+          const entryDisabled = false // disabled || entryNotGiven
 
           const isNullable = isFieldNullable(key, fieldName || parentField)
           const hasValue = value !== null && value !== undefined

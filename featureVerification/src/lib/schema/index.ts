@@ -56,6 +56,7 @@ import {
 } from './defendant'
 import {
   BenefitsReceivedDetailSchema,
+  BenefitsReceivedTypeSchema,
   ChargeForDefendantSchema,
   ChargeNameSchema,
   ChargeSchema,
@@ -70,13 +71,11 @@ import {
   RepresentativeSchema,
   SubDistrictSchema,
   TimeDetailInputSchema,
+  TimeOfDaySchema,
   TraffickingModeEnumSchema,
   TraffickingModeSchema,
 } from './judgment'
-import {
-  COMPUTED_FIELDS,
-  MANDATORY_NOT_GIVEN_FIELDS,
-} from './mandetory-not-given'
+import { MANDATORY_NOT_GIVEN_FIELDS } from './mandetory-not-given'
 import { getEnumValues, unwrapSchema } from './helper'
 import type { DefendantsSchema } from './defendant'
 import type { TrialsSchema } from './trial'
@@ -222,6 +221,25 @@ function getRootSchemaFromPathToken(token: string): z.ZodTypeAny | null {
   return FIELD_SCHEMAS[token] ?? null
 }
 
+function getFieldSchema(
+  fieldName: string,
+  parentFieldName?: string,
+): z.ZodTypeAny | undefined {
+  // Prefer the field definition inside the parent object when available.
+  // This avoids collisions with root schema names like `time` and `date`.
+  if (parentFieldName) {
+    const parentSchema = FIELD_SCHEMAS[parentFieldName]
+    const parentObj = unwrapToObject(parentSchema)
+    if (parentObj instanceof z.ZodObject) {
+      const shape = parentObj.shape
+      const parentFieldSchema = shape[fieldName] as z.ZodTypeAny
+      return unwrapSchema(parentFieldSchema)
+    }
+  }
+
+  return FIELD_SCHEMAS[fieldName]
+}
+
 export function getSchemaByPath(path: string): z.ZodTypeAny | null {
   const tokens = parseSchemaPath(path)
   if (tokens.length === 0) return null
@@ -261,17 +279,7 @@ export function getDefaultValueForField(
   parentFieldName?: string,
   isSetValue = false,
 ): any {
-  let schema = FIELD_SCHEMAS[fieldName]
-
-  if (!schema && parentFieldName) {
-    const parentSchema = FIELD_SCHEMAS[parentFieldName]
-    const parentObj = unwrapToObject(parentSchema)
-    if (parentObj instanceof z.ZodObject) {
-      const shape = parentObj.shape
-      const parentFieldSchema = shape[fieldName] as z.ZodTypeAny
-      schema = unwrapSchema(parentFieldSchema)
-    }
-  }
+  const schema = getFieldSchema(fieldName, parentFieldName)
 
   if (!schema) {
     return {}
@@ -297,6 +305,25 @@ export function getDefaultValueForField(
   }
 
   return getDefaultValueForFieldSchema(unwrappedSchema, fieldName)
+}
+
+export function getDefaultValueForArrayItem(
+  fieldName: string,
+  parentFieldName?: string,
+): any {
+  const schema = getFieldSchema(fieldName, parentFieldName)
+
+  if (!schema) {
+    return {}
+  }
+
+  const unwrappedSchema = unwrapSchema(schema)
+  if (!(unwrappedSchema instanceof z.ZodArray)) {
+    return getDefaultValueForField(fieldName, parentFieldName)
+  }
+
+  const itemSchema = (unwrappedSchema as any)._def.element as z.ZodTypeAny
+  return getDefaultValueForFieldSchema(itemSchema, fieldName)
 }
 
 export function getDefaultValueForFieldSchema(
@@ -358,8 +385,11 @@ export const ENUM_OPTIONS: Record<string, Array<string>> = {
   defendants_of_charge_reasons_for_offence: getEnumValues(
     ReasonForOffenceSchema,
   ),
+  benefits_received_amount_type: getEnumValues(BenefitsReceivedTypeSchema),
   reasons_for_offence_reason: getEnumValues(ReasonForOffenceSchema),
   cross_border_type: getEnumValues(ImportExportEnumSchema),
+  time_time_of_day: getEnumValues(TimeOfDaySchema),
+  offence_time_time_of_day: getEnumValues(TimeOfDaySchema),
   place_of_offence_subDistrict: getEnumValues(SubDistrictSchema),
   nationality_category: getEnumValues(NationalityCategorySchema),
   nationality_hk_resident_status: getEnumValues(HKResidentStatusSchema),

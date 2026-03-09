@@ -63,6 +63,7 @@ class TraffickingModeEnum(str, Enum):
     DRUG_STORAGE = "Drug repackaging or storage"
     MARITIME = "Maritime transport"
     FESTIVAL = "Festival or event dealing"
+    POSSESSION_FOR_TRAFFICKING = "Possession for trafficking"
     ONLINE = "Online trafficking"
     OTHER = "Other"
 
@@ -131,14 +132,16 @@ class DateDetail(BaseModel):
 class TimeDetail(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    time: time_type = Field(
+    time: Optional[time_type] = Field(
         description="The time offence in ISO 8601 format (HH:MM:SS), if no timezone is specified, it is assumed to be in UTC +8 timezone"
     )
 
     @computed_field
     @property
-    def time_of_day(self) -> str:
+    def time_of_day(self) -> Optional[str]:
         """Automatically computed time of day (morning, afternoon, evening, night)."""
+        if not self.time:
+            return None
         hour = self.time.hour
         if 6 <= hour < 12:
             return "morning"
@@ -186,6 +189,7 @@ class TraffickingMode(BaseModel):
         "'Drug repackaging or storage' (Repackaging or storing drugs in specific locations before distribution); "
         "'Maritime transport'; "
         "'Festival or event dealing' (Selling drugs at music festivals, raves, or large gatherings where drug use is prevalent); "
+        "'Possession for trafficking' (Drugs found on a person during a stop-and-search, without additional details of further distribution activity.); "
         "'Online trafficking' (Selling and distributing drugs through internet platforms), or 'Other'."
     )
     source: str = source_field("mode of drug trafficking")

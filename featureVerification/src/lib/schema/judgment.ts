@@ -75,6 +75,13 @@ export const BenefitsReceivedTypeSchema = z.enum([
 
 export const ImportExportEnumSchema = z.enum(['import', 'export'])
 
+export const TimeOfDaySchema = z.enum([
+  'morning',
+  'afternoon',
+  'evening',
+  'night',
+])
+
 export const DistrictSchema = z.enum(districts)
 
 export const SubDistrictSchema = z.enum(subDistricts)
@@ -136,28 +143,43 @@ export const DateDetailSchema = DateDetailInputSchema.transform((data) => {
 })
 
 export const TimeDetailInputSchema = z.object({
-  time: z.string().refine(
-    (val) => {
-      return /^\d{2}:\d{2}:\d{2}([+-]\d{2}:\d{2}|Z)?$/.test(val)
-    },
-    { message: 'Invalid time format (expected HH:MM:SS or HH:MM:SS+HH:MM)' },
-  ),
+  time: z
+    .string()
+    .refine(
+      (val) => {
+        return /^\d{2}:\d{2}:\d{2}([+-]\d{2}:\d{2}|Z)?$/.test(val)
+      },
+      { message: 'Invalid time format (expected HH:MM:SS or HH:MM:SS+HH:MM)' },
+    )
+    .nullable(),
+  time_of_day: TimeOfDaySchema.nullable().default(null),
   source: z.string(),
 })
 
-export const TimeDetailSchema = TimeDetailInputSchema.transform((data) => {
-  const hour = parseInt(data.time.split(':')[0])
-  let time_of_day: string
-  if (hour >= 6 && hour < 12) time_of_day = 'morning'
-  else if (hour >= 12 && hour < 18) time_of_day = 'afternoon'
-  else if (hour >= 18 && hour < 23) time_of_day = 'evening'
-  else time_of_day = 'night'
+function getTimeOfDay(time: string): z.infer<typeof TimeOfDaySchema> {
+  const hour = parseInt(time.split(':')[0])
+  if (hour >= 6 && hour < 12) return 'morning'
+  if (hour >= 12 && hour < 18) return 'afternoon'
+  if (hour >= 18 && hour < 23) return 'evening'
+  return 'night'
+}
 
-  return {
-    ...data,
-    time_of_day,
-  }
-})
+export const TimeDetailSchema = TimeDetailInputSchema.superRefine(
+  (data, ctx) => {
+    if (!data.time) {
+      return
+    }
+
+    const expectedTimeOfDay = getTimeOfDay(data.time)
+    if (data.time_of_day !== expectedTimeOfDay) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['time_of_day'],
+        message: `time_of_day must be "${expectedTimeOfDay}" when time is provided`,
+      })
+    }
+  },
+)
 
 export const PlaceOfOffenceInputSchema = z.object({
   address: z.string(),
@@ -283,8 +305,24 @@ export const JudgementInputSchema = z.object({
   charges: z.array(ChargeSchema),
 })
 
-export const JudgementSchema = JudgementInputSchema.transform((data) => ({
-  ...data,
-  court: data.neutral_citation.split(' ')[1],
-  defendants: [] as Array<typeof DefendantInfoSchema>,
-}))
+export const JudgementSchema = JudgementInputSchema.transform((data) => {
+  const defendantIdMap = new Map<string, number>()
+  let currentId = 1
+
+  for (const charge of data.charges) {
+    for (const defendant of charge.defendants_of_charge) {
+      if (!defendantIdMap.has(defendant.defendant_name)) {
+        defendantIdMap.set(defendant.defendant_name, currentId)
+        currentId += 1
+      }
+    }
+  }
+
+  return {
+    ...data,
+    court: data.neutral_citation.split(' ')[1],
+    defendants: Array.from(defendantIdMap.entries())
+      .map(([name, id]) => ({ id, name }))
+      .sort((a, b) => a.id - b.id),
+  }
+})

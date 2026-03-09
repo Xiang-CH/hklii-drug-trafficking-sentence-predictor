@@ -3,7 +3,6 @@ export const COMPUTED_FIELDS = [
   'guilty_plea_reduction_total_months',
   'day_of_week',
   'is_hk_public_holiday',
-  'time_of_day',
   'district',
   'court',
   'tracing_id',

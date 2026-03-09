@@ -177,6 +177,9 @@ export function TimeField({
   isComputed,
 }: DateTimeFieldProps) {
   const shouldShowEditControls = isEditing && !isComputed
+  const inputValue = value
+    ? `${value.split(':')[0]}:${value.split(':')[1]}`
+    : ''
 
   if (!shouldShowEditControls) {
     return (
@@ -197,8 +200,8 @@ export function TimeField({
       <InputGroupInput
         type="time"
         // step="1"
-        value={value.split(':')[0] + ':' + value.split(':')[1]}
-        onChange={(e) => onChange(e.target.value + ':00')}
+        value={inputValue}
+        onChange={(e) => onChange(e.target.value ? `${e.target.value}:00` : '')}
         className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
       />
       <InputGroupAddon>
