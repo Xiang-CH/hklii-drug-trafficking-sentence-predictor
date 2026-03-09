@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react'
 import { Edit2 } from 'lucide-react'
 import { EditableDataSection, ValidationErrorsPanel } from './edit-ui'
 import type * as z from 'zod'
+import type { EditableDataSectionKey } from './edit-ui'
 import {
   DefendantsSchema,
   JudgementSchema,
   MANDATORY_NOT_GIVEN_FIELDS,
   TrialsSchema,
 } from '@/lib/schema'
+import { deriveNotGivenMapFromPayload } from '@/lib/not-given'
 
 export type UndoOperation =
   | { type: 'clear'; path: string; previousValue: any }
@@ -25,6 +27,7 @@ interface EditableDataViewerProps {
     remarks?: string
     exclude: boolean
   }
+  defaultData: Partial<Record<EditableDataSectionKey, any>>
   onSourceHover: (text: string | null) => void
   onDataChange?: (
     data: {
@@ -36,14 +39,28 @@ interface EditableDataViewerProps {
     },
     hasErrors: boolean,
   ) => void
+  onRestoreDefault?: (
+    section: EditableDataSectionKey,
+    nextData: {
+      judgement: any
+      defendants: any
+      trials: any
+      remarks?: string
+      exclude: boolean
+    },
+    nextNotGivenMap: Record<string, boolean>,
+    hasErrors: boolean,
+  ) => void
   onNotGivenChange: (notGivenMap: Record<string, boolean>) => void
   notGivenMap: Record<string, boolean>
 }
 
 export default function EditableDataViewer({
   data,
+  defaultData,
   onSourceHover,
   onDataChange,
+  onRestoreDefault,
   onNotGivenChange,
   notGivenMap,
 }: EditableDataViewerProps) {
@@ -85,6 +102,51 @@ export default function EditableDataViewer({
     } else {
       onDataChange?.(localData, true)
     }
+  }
+
+  const handleRestoreSection = (section: EditableDataSectionKey) => {
+    const sectionDefault = defaultData[section]
+    if (sectionDefault === undefined || sectionDefault === null) return
+
+    const clonedSectionDefault =
+      typeof structuredClone === 'function'
+        ? structuredClone(sectionDefault)
+        : JSON.parse(JSON.stringify(sectionDefault))
+
+    const restoredData = {
+      ...localData,
+      [section]: clonedSectionDefault,
+    }
+
+    const nextNotGivenMap = Object.fromEntries(
+      Object.entries(notGivenMap).filter(
+        ([path]) =>
+          path !== section &&
+          !path.startsWith(`${section}.`) &&
+          !path.startsWith(`${section}[`),
+      ),
+    )
+
+    Object.assign(
+      nextNotGivenMap,
+      deriveNotGivenMapFromPayload({ [section]: clonedSectionDefault }),
+    )
+
+    onNotGivenChange(nextNotGivenMap)
+
+    const { errors, transformedData } = validateData(
+      restoredData,
+      nextNotGivenMap,
+    )
+    setLocalData(transformedData)
+
+    if (isEditing) {
+      setValidationErrors(errors)
+    }
+
+    const hasErrors = Object.values(errors).some((arr) => arr.length > 0)
+    onDataChange?.(transformedData, hasErrors)
+    onRestoreDefault?.(section, transformedData, nextNotGivenMap, hasErrors)
   }
 
   // Update localData when prop changes
@@ -248,12 +310,18 @@ export default function EditableDataViewer({
 
       {localData.judgement && (
         <EditableDataSection
+          sectionKey="judgement"
           title="Judgement"
           data={localData.judgement}
           onSourceHover={onSourceHover}
           isEditing={isEditing}
           onChange={(newData) =>
             handleDataChange({ ...localData, judgement: newData })
+          }
+          onRestoreDefault={handleRestoreSection}
+          canRestore={
+            defaultData.judgement !== undefined &&
+            defaultData.judgement !== null
           }
           notGivenMap={notGivenMap}
           onToggleNotGiven={handleToggleNotGiven}
@@ -266,12 +334,18 @@ export default function EditableDataViewer({
       )}
       {localData.defendants && (
         <EditableDataSection
+          sectionKey="defendants"
           title="Defendants"
           data={localData.defendants}
           onSourceHover={onSourceHover}
           isEditing={isEditing}
           onChange={(newData) =>
             handleDataChange({ ...localData, defendants: newData })
+          }
+          onRestoreDefault={handleRestoreSection}
+          canRestore={
+            defaultData.defendants !== undefined &&
+            defaultData.defendants !== null
           }
           notGivenMap={notGivenMap}
           onToggleNotGiven={handleToggleNotGiven}
@@ -284,12 +358,17 @@ export default function EditableDataViewer({
       )}
       {localData.trials && (
         <EditableDataSection
+          sectionKey="trials"
           title="Trials"
           data={localData.trials}
           onSourceHover={onSourceHover}
           isEditing={isEditing}
           onChange={(newData) =>
             handleDataChange({ ...localData, trials: newData })
+          }
+          onRestoreDefault={handleRestoreSection}
+          canRestore={
+            defaultData.trials !== undefined && defaultData.trials !== null
           }
           notGivenMap={notGivenMap}
           onToggleNotGiven={handleToggleNotGiven}

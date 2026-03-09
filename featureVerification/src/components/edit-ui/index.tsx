@@ -6,6 +6,7 @@ import { ValidationErrorsPanel } from './validation-error'
 import { EditableDataObject } from './editable-data-object'
 import { EditableDataSection } from './editable-data-section'
 import { EditableSourceField } from './editable-source-field'
+import type { EditableDataSectionKey } from './editable-data-section'
 
 export {
   AgeRangeField,
@@ -17,5 +18,6 @@ export {
   ValidationErrorsPanel,
   EditableDataObject,
   EditableDataSection,
+  EditableDataSectionKey,
   EditableSourceField,
 }

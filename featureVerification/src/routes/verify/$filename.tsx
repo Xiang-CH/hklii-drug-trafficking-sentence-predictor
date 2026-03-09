@@ -10,6 +10,7 @@ import {
   Undo2,
 } from 'lucide-react'
 import { toast } from 'sonner'
+import type { EditableDataSectionKey } from '@/components/edit-ui/editable-data-section'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -76,6 +77,14 @@ function VerifyJudgementPage() {
       )
     }
   }, [judgement])
+
+  const extractedDefaults = judgement.extractedData
+    ? {
+        judgement: judgement.extractedData.judgement,
+        defendants: judgement.extractedData.defendants,
+        trials: judgement.extractedData.trials,
+      }
+    : {}
 
   // Track unsaved changes
   useEffect(() => {
@@ -203,6 +212,22 @@ function VerifyJudgementPage() {
     setTrialsData(newData.trials)
     setRemarks(newData.remarks || '')
     setExclude(newData.exclude)
+  }
+
+  const handleRestoreDefault = (
+    _section: EditableDataSectionKey,
+    newData: {
+      judgement: any
+      defendants: any
+      trials: any
+      remarks?: string
+      exclude: boolean
+    },
+    nextNotGivenMap: Record<string, boolean>,
+    hasErrors: boolean,
+  ) => {
+    setNotGivenMap(nextNotGivenMap)
+    handleDataChange(newData, hasErrors)
   }
 
   if (error) {
@@ -377,8 +402,10 @@ function VerifyJudgementPage() {
                   exclude: exclude,
                   remarks: remarks,
                 }}
+                defaultData={extractedDefaults}
                 onSourceHover={setHighlightedText}
                 onDataChange={handleDataChange}
+                onRestoreDefault={handleRestoreDefault}
                 onNotGivenChange={setNotGivenMap}
                 notGivenMap={notGivenMap}
               />
