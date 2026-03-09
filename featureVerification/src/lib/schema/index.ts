@@ -161,8 +161,10 @@ export function isFieldNullable(
 ): boolean {
   const parentSchema = parentFieldName ? FIELD_SCHEMAS[parentFieldName] : null
 
-  if (parentSchema && parentSchema instanceof z.ZodObject) {
-    const shape = parentSchema.shape
+  const parentObj = parentSchema ? unwrapToObject(parentSchema) : null
+
+  if (parentObj instanceof z.ZodObject) {
+    const shape = parentObj.shape
     const fieldSchema = shape[fieldName] as z.ZodTypeAny
 
     if (

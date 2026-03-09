@@ -8,6 +8,7 @@ import {
   getDefaultValueForField,
   getDefaultValueForFieldSchema,
   getSchemaByPath,
+  isFieldNullable,
 } from './schema'
 
 describe('getSchemaByPath', () => {
@@ -22,6 +23,7 @@ describe('getSchemaByPath', () => {
     const schema = getSchemaByPath(
       'judgement.charges[0].defendants_of_charge[0].roles_facts',
     )
+    console.log(schema)
     expect(schema).toBeInstanceOf(z.ZodArray)
   })
 
@@ -86,5 +88,15 @@ describe('getDefaultValueForFieldSchema', () => {
 
     // Fallback branch
     expect(getDefaultValueForFieldSchema(z.unknown(), 'any')).toBeNull()
+  })
+})
+
+describe('isFieldNullable', () => {
+  it('unwraps transformed parent schemas such as guilty_plea', () => {
+    expect(isFieldNullable('court_type', 'guilty_plea')).toBe(true)
+    expect(isFieldNullable('high_court_stage', 'guilty_plea')).toBe(true)
+    expect(isFieldNullable('district_court_stage', 'guilty_plea')).toBe(true)
+    expect(isFieldNullable('reduction_years', 'guilty_plea')).toBe(true)
+    expect(isFieldNullable('pleaded_guilty', 'guilty_plea')).toBe(false)
   })
 })
