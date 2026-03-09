@@ -15,6 +15,7 @@ describe('deriveNotGivenMapFromPayload', () => {
             defendants_of_charge: [
               {
                 trafficking_mode: {},
+                roles_facts: [],
               },
             ],
             representatives: [],
@@ -33,7 +34,6 @@ describe('deriveNotGivenMapFromPayload', () => {
       trials: {
         trials: [
           {
-            roles: [],
             final_sentence: {
               sentence_years: 5,
               sentence_months: 0,
@@ -49,9 +49,11 @@ describe('deriveNotGivenMapFromPayload', () => {
     expect(
       map['judgement.charges[0].defendants_of_charge[0].trafficking_mode'],
     ).toBe(true)
+    expect(
+      map['judgement.charges[0].defendants_of_charge[0].roles_facts'],
+    ).toBe(true)
     expect(map['defendants.defendants[0].criminal_records']).toBe(true)
     expect(map['defendants.defendants[0].age_at_offence']).toBe(true)
-    expect(map['trials.trials[0].roles']).toBe(true)
 
     expect(map['judgement.charges[0].representatives']).toBeUndefined()
     expect(map['defendants.defendants[0].gender']).toBeUndefined()

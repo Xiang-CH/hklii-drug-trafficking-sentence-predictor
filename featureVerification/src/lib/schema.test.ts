@@ -11,15 +11,17 @@ import {
 } from './schema'
 
 describe('getSchemaByPath', () => {
-  it('returns nested enum schema for trials path', () => {
-    const schema = getSchemaByPath('trials.trials[0].roles[0].role')
-    console.log(schema)
+  it('returns nested enum schema for judgement path', () => {
+    const schema = getSchemaByPath(
+      'judgement.charges[0].defendants_of_charge[0].roles_facts[0].role',
+    )
     expect(schema).toBe(DefendantRoleSchema)
   })
 
   it('return array schema for array fields', () => {
-    const schema = getSchemaByPath('trials.trials[0].roles')
-    console.log(schema)
+    const schema = getSchemaByPath(
+      'judgement.charges[0].defendants_of_charge[0].roles_facts',
+    )
     expect(schema).toBeInstanceOf(z.ZodArray)
   })
 
@@ -41,7 +43,7 @@ describe('getSchemaByPath', () => {
   })
 
   it('returns null for invalid paths', () => {
-    expect(getSchemaByPath('trials[0].roles.role')).toBeNull()
+    expect(getSchemaByPath('judgement[0].roles_facts.role')).toBeNull()
     expect(getSchemaByPath('trials[0].not_a_field')).toBeNull()
     expect(getSchemaByPath('')).toBeNull()
   })

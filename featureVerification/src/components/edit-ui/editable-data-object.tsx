@@ -49,6 +49,13 @@ export function EditableDataObject({
   onRemoveItem,
   onUndoRemove,
 }: EditableDataObjectProps) {
+  const getFieldLabel = (name?: string) => {
+    if (name === 'roles_facts') {
+      return 'roles (facts)'
+    }
+    return name
+  }
+
   const isFieldComputed =
     isComputed || COMPUTED_FIELDS.includes(fieldName || '')
 
@@ -337,7 +344,7 @@ export function EditableDataObject({
             >
               <div className="flex items-center gap-2">
                 <div className="text-purple-600 dark:text-purple-400 font-medium">
-                  {key}:
+                  {getFieldLabel(key)}:
                 </div>
                 {showNotGivenToggle && onToggleNotGiven && (
                   <NotGivenToggle

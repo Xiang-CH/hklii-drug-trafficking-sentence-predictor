@@ -68,6 +68,17 @@ class TraffickingModeEnum(str, Enum):
     OTHER = "Other"
 
 
+class DefendantRole(str, Enum):
+    COURIER = "Courier"
+    STOREKEEPER = "Storekeeper"
+    LOOKOUT = "Lookout/scout"
+    ACTUAL_TRAFFICKER = "Actual trafficker"
+    MANAGER = "Manager/organizer"
+    OPERATOR = "Operator/financial controller"
+    INTERNATIONAL_OPERATOR = "International operator/financial controller"
+    OTHER = "Other"
+
+
 class ReasonForOffence(str, Enum):
     FINANCIAL_GAIN = "Financial gain"
     ECONOMIC_HARDSHIP = "Economic hardship"
@@ -195,6 +206,23 @@ class TraffickingMode(BaseModel):
     source: str = source_field("mode of drug trafficking")
 
 
+class RoleDetail(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    role: DefendantRole = Field(
+        description="Role of the defendant in the trafficking operation. "
+        "Courier: Transporter of drugs; "
+        "Storekeeper: Responsible for storage or warehousing; "
+        "Lookout/scout: Person monitoring for law enforcement or rivals; "
+        "Actual trafficker: Directly sells or distributes dangerous drugs to the public; "
+        "Manager/organizer: Coordinator or planner of trafficking activities; "
+        "Operator/financial controller: Making substantial gains from drug trafficking; "
+        "International operator/financial controller: Organiser or controller of a large "
+        "and lucrative commercial operation which transcends jurisdictional boundaries."
+    )
+    source: str = source_field("role")
+
+
 class ReasonForOffenceDetail(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -289,6 +317,7 @@ class ChargeForDefendant(BaseModel):
         description="Defendant ID (1-indexed), automatically assigned based on first appearance order across all charges",
     )
     trafficking_mode: Optional[TraffickingMode] = Field(default=None)
+    roles_facts: Optional[List[RoleDetail]] = Field(default=None)
     reasons_for_offence: Optional[List[ReasonForOffenceDetail]] = Field(default=None)
     benefits_received: Optional[BenefitsReceivedDetail] = Field(
         default=None,
