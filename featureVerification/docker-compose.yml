@@ -2,7 +2,7 @@ services:
   app:
     build: .
     ports:
-      - "8220:3000"
+      - '8220:3000'
     extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - 'host.docker.internal:host-gateway'
     restart: unless-stopped

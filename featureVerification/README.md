@@ -24,6 +24,7 @@ DB_NAME="drug-sentencing-predictor"
 ```
 
 # Serving For Production
+
 To serve the production build of this application:
 
 ```bash
@@ -83,7 +84,6 @@ pnpm dlx shadcn@latest add button
    ```
 
 2. Visit the [Better Auth documentation](https://www.better-auth.com) to unlock the full potential of authentication in your app.
-
 
 ## Routing
 
