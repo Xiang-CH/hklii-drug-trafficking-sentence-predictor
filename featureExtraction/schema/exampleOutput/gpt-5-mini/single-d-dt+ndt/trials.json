@@ -3,7 +3,7 @@
     {
       "charge_type": {
         "charge_no": 1,
-        "type": "Actual Trafficking",
+        "charge_name": "Trafficking in a dangerous drug",
         "defendant_name": "Wong Pui-hung",
         "defendant_id": 1,
         "source": "The defendant has pleaded guilty to one count of trafficking in a dangerous drug and one count of possession of a dangerous drug, contrary to section 4 and section 8 of the Dangerous Drugs Ordinance respectively."
@@ -14,12 +14,6 @@
           "other_drug_type": null,
           "quantity": 43.13,
           "source": "Inside the car in question, police officers found a rucksack which contained 43.13 grammes of methamphetamine hydrochloride and various resealable plastic bags."
-        }
-      ],
-      "roles": [
-        {
-          "role": "Courier",
-          "source": "There is nothing in this case to indicate the defendant’s role beyond a mere courier."
         }
       ],
       "aggravating_factors": [
@@ -36,7 +30,11 @@
         "court_type": "High Court",
         "high_court_stage": "Unknown",
         "district_court_stage": null,
-        "source": "The defendant has pleaded guilty to one count of trafficking in a dangerous drug and one count of possession of a dangerous drug, contrary to section 4 and section 8 of the Dangerous Drugs Ordinance respectively."
+        "reduction_years": null,
+        "reduction_months": null,
+        "reduction_percentage": 33,
+        "source": "After a full one-third discount for the defendant’s earliest plea, the sentence is therefore reduced to 82 months’ imprisonment.",
+        "total_reduction_months": null
       },
       "starting_point": {
         "sentence_years": 9,
@@ -60,13 +58,10 @@
       "final_sentence": {
         "sentence_years": 6,
         "sentence_months": 10,
-        "guilty_plea_reduction_years": 3,
-        "guilty_plea_reduction_months": 5,
         "source": "After a full one-third discount for the defendant’s earliest plea, the sentence is therefore reduced to 82 months’ imprisonment.",
-        "total_months": 82,
-        "guilty_plea_reduction_total_months": 41
+        "total_months": 82
       }
     }
   ],
-  "tracing_id": "c30b02be5d2cf8de273c0b5ea1cc53c3"
+  "tracing_id": "980049fd620e91706b65832b09bd39fd"
 }

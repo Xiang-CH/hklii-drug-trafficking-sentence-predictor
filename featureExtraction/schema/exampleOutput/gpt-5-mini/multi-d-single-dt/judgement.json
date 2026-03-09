@@ -5,15 +5,15 @@
   "representatives": [
     {
       "name": "Miss Lo Sum-yee Rosa",
-      "role": "SPP of the Department of Justice, for HKSAR"
+      "role": "Miss Lo Sum-yee Rosa, SPP of the Department of Justice, for HKSAR"
     },
     {
       "name": "Mr Chung Boey",
-      "role": "instructed by Eli K K Tsui & Co, assigned by DLA, for the 1st accused"
+      "role": "Mr Chung Boey, instructed by Eli K K Tsui & Co, assigned by DLA, for the 1st accused"
     },
     {
       "name": "Mr Lau Chung-man Clement",
-      "role": "instructed by Raymond C P Lo & Co, assigned by DLA, for the 2nd accused"
+      "role": "Mr Lau Chung-man Clement, instructed by Raymond C P Lo & Co, assigned by DLA, for the 2nd accused"
     }
   ],
   "cases_heard": [
@@ -24,78 +24,67 @@
       "charge_no": 1,
       "charge_name": "Conspiracy to traffic in a dangerous drug",
       "offence_date": {
-        "date": [
-          "2022-12-01",
-          "2022-12-27"
-        ],
-        "source": "on an unknown date between December 2022 and the 27th day of December 2022, in a room in Yau Tong, they conspired to unlawfully traffic in cocaine.",
-        "day_of_week": [
-          4,
-          5,
-          6,
-          7,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          1,
-          2
-        ],
-        "is_hk_public_holiday": true
+        "date": "2022-12-27",
+        "source": "at about 1.20 am on 27 December 2022, the police arrived at Room 606D, Block B, Yau Tong Industrial City in Kwun Tong",
+        "day_of_week": 2,
+        "is_hk_public_holiday": false
       },
-      "offence_time": null,
+      "offence_time": {
+        "time": "01:20:00+08:00",
+        "source": "at about 1.20 am on 27 December 2022, the police arrived at Room 606D, Block B, Yau Tong Industrial City in Kwun Tong",
+        "time_of_day": "night"
+      },
       "place_of_offence": {
-        "address": "Room 606D, Block B, Yau Tong Industrial City in Kwun Tong",
+        "address": "Room 606D, Block B, Yau Tong Industrial City, Kwun Tong",
         "nature": "Industrial building",
-        "subDistrict": "Yau Tong",
-        "source": "at about 1.20 am on 27 December 2022, the police arrived at Room 606D, Block B, Yau Tong Industrial City in Kwun Tong as a result of a 999 call regarding a dispute.",
+        "subDistrict": "Kwun Tong",
+        "source": "at about 1.20 am on 27 December 2022, the police arrived at Room 606D, Block B, Yau Tong Industrial City in Kwun Tong",
         "district": "Kwun Tong"
       },
       "cross_border": {
         "cross_border": false,
         "type": null,
-        "source": ""
+        "source": "No cross-border trafficking is mentioned in the judgment"
       },
       "defendants_of_charge": [
         {
-          "defendant_name": "Hui Kwai-chung, Dick (許貴仲)",
+          "defendant_name": "Hui Kwai-chung, Dick",
           "defendant_id": 1,
           "trafficking_mode": {
             "mode": "Courier delivery",
-            "source": "Counsel said his role was more like a courier taking the drug from the Lei Yue Mun Plaza back to the room."
+            "source": "he was mainly responsible for taking a quantity of cocaine from the Lei Yue Mun Plaza back to the room"
           },
+          "roles_facts": [
+            {
+              "role": "Courier",
+              "source": "he was mainly responsible for taking a quantity of cocaine from the Lei Yue Mun Plaza back to the room"
+            }
+          ],
           "reasons_for_offence": [
             {
               "reason": "Economic hardship",
-              "source": "Because the 1st defendant was indebted so he agreed. ... he owed debts in the region of $300,000. Counsel said he committed the present offence to earn quick money."
+              "source": "Because the 1st defendant was indebted so he agreed... he owed debts in the region of $300,000... he committed the present offence to earn quick money."
             }
           ],
           "benefits_received": null
         },
         {
-          "defendant_name": "Hong Ka-ming (康家銘)",
+          "defendant_name": "Hong Ka-ming",
           "defendant_id": 2,
           "trafficking_mode": {
-            "mode": "Drug houses",
-            "source": "the 2nd defendant signed a tenancy agreement to rent the room ... he had rented the room and did not lock it, apparently for the purpose of allowing others to use it whenever they wanted."
+            "mode": "Drug repackaging or storage",
+            "source": "the 2nd defendant signed a tenancy agreement to rent the room... the plastic recycling bag (Exhibit E2) was already there when [1st defendant] arrived"
           },
+          "roles_facts": [
+            {
+              "role": "Storekeeper",
+              "source": "he had rented the room and did not lock it, apparently for the purpose of allowing others to use it whenever they wanted"
+            },
+            {
+              "role": "Manager/organizer",
+              "source": "He made a total of 19 calls between 26 and 27 December 2022 to the 1st defendant... the only reasonable inference is that he made those calls either to give instructions to the 1st defendant or to check his progress"
+            }
+          ],
           "reasons_for_offence": null,
           "benefits_received": null
         }
@@ -106,12 +95,12 @@
   "defendants": [
     {
       "id": 1,
-      "name": "Hui Kwai-chung, Dick (許貴仲)"
+      "name": "Hui Kwai-chung, Dick"
     },
     {
       "id": 2,
-      "name": "Hong Ka-ming (康家銘)"
+      "name": "Hong Ka-ming"
     }
   ],
-  "tracing_id": "467bcb03f690a619b1c5a8a83725e6ef"
+  "tracing_id": "8358ea2ecb2681f44e538d90d715c728"
 }

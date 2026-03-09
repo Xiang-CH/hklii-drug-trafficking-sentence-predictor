@@ -4,24 +4,15 @@
       "defendant_id": 1,
       "defendant_name": {
         "name": "Wong Pui-hung",
-        "source": "Wong Pui-hung"
+        "source": "v\n\nWong Pui-hung"
       },
-      "nationality": {
-        "category": "Hong Kong resident",
-        "hk_resident_status": "N/A",
-        "foreign_country_code": null,
-        "infer_reason": "Name is Cantonese in style and no explicit nationality is stated in the record.",
-        "source": "Wong Pui-hung"
-      },
+      "nationality": null,
       "age_at_offence": null,
       "age_at_sentencing": {
         "age": 45,
-        "source": "The defendant is 45"
+        "source": "The defendant is 45 and educated up to secondary school level."
       },
-      "gender": {
-        "gender": "Male",
-        "source": "he was holding a car key at the time."
-      },
+      "gender": null,
       "marital_status": null,
       "parental_status": null,
       "household_composition": null,
@@ -40,6 +31,7 @@
         "wage": 0,
         "source": "Prior to his arrest, he was unemployed."
       },
+      "government_subsidy_recipient": null,
       "criminal_records": [
         {
           "record": "Drug trafficking",
@@ -54,5 +46,5 @@
       "family_supports": null
     }
   ],
-  "tracing_id": "c30b02be5d2cf8de273c0b5ea1cc53c3"
+  "tracing_id": "980049fd620e91706b65832b09bd39fd"
 }

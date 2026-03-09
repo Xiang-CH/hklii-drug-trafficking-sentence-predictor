@@ -73,9 +73,9 @@
                     "title": "Charge No",
                     "type": "integer"
                 },
-                "type": {
-                    "$ref": "#/$defs/ChargeType",
-                    "description": "Type of charge:\nActual Trafficking: Trafficking in a dangerous drug/dangerous drugs or \nConspiracy to Traffic: Conspiracy to traffic in a dangerous drug/dangerous drugs \n**Ignore other types of charges**"
+                "charge_name": {
+                    "$ref": "#/$defs/ChargeName",
+                    "description": "Name of the charge (offence), ignore charges not in the enumeration"
                 },
                 "defendant_name": {
                     "description": "Name of the defendant associated with this charge",
@@ -95,7 +95,7 @@
             },
             "required": [
                 "charge_no",
-                "type",
+                "charge_name",
                 "defendant_name",
                 "defendant_id",
                 "source"
@@ -103,12 +103,14 @@
             "title": "ChargeDetail",
             "type": "object"
         },
-        "ChargeType": {
+        "ChargeName": {
             "enum": [
-                "Actual Trafficking",
-                "Conspiracy to Traffic"
+                "Trafficking in a dangerous drug",
+                "Trafficking in dangerous drugs",
+                "Conspiracy to traffic in a dangerous drug",
+                "Conspiracy to traffic in dangerous drugs"
             ],
-            "title": "ChargeType",
+            "title": "ChargeName",
             "type": "string"
         },
         "CourtType": {
@@ -117,20 +119,6 @@
                 "District Court"
             ],
             "title": "CourtType",
-            "type": "string"
-        },
-        "DefendantRole": {
-            "enum": [
-                "Courier",
-                "Storekeeper",
-                "Lookout/scout",
-                "Actual trafficker",
-                "Manager/organizer",
-                "Operator/financial controller",
-                "International operator/financial controller",
-                "Other"
-            ],
-            "title": "DefendantRole",
             "type": "string"
         },
         "DistrictCourtPleaStage": {
@@ -218,32 +206,6 @@
                     "title": "Sentence Months",
                     "type": "integer"
                 },
-                "guilty_plea_reduction_years": {
-                    "anyOf": [
-                        {
-                            "type": "integer"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ],
-                    "default": null,
-                    "description": "The reduction due to the defendant's guilty plea - years component",
-                    "title": "Guilty Plea Reduction Years"
-                },
-                "guilty_plea_reduction_months": {
-                    "anyOf": [
-                        {
-                            "type": "integer"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ],
-                    "default": null,
-                    "description": "The reduction due to the defendant's guilty plea - months component (0-11)",
-                    "title": "Guilty Plea Reduction Months"
-                },
                 "source": {
                     "description": "The exact match source text from which the final sentence was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
@@ -302,6 +264,45 @@
                     "default": null,
                     "description": "Must have if court_type is District Court. Unknown: Stage unknown; Plea day: At plea day; After dates fixed: After trial dates are fixed but before the first date of trial; First day: First day of trial; During trial: During the trial."
                 },
+                "reduction_years": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The reduction in years explicitly mentioned by the judge due to guilty plea, or null if not specified",
+                    "title": "Reduction Years"
+                },
+                "reduction_months": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The reduction in months (0-11) explicitly mentioned by the judge due to guilty plea, or null if not specified",
+                    "title": "Reduction Months"
+                },
+                "reduction_percentage": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The reduction in percentage explicitly mentioned by the judge due to guilty plea, or null if not specified",
+                    "title": "Reduction Percentage"
+                },
                 "source": {
                     "description": "The exact match source text from which the guilty plea information was extracted. Do not include any additional information in the source document.",
                     "title": "Source",
@@ -359,6 +360,19 @@
                     "default": null,
                     "description": "The specific sentence reduction in months due to this mitigating factor, or null if the judge acknowledged the factor but decided not to impose reduction",
                     "title": "Reduction"
+                },
+                "reduction_percentage": {
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "The percentage (0-100) of sentence reduction due to this mitigating factor if specified, usually only applicable factor: Assistance.",
+                    "title": "Reduction Percentage"
                 },
                 "source": {
                     "description": "The exact match source text from which the mitigating factor was extracted. Do not include any additional information in the source document.",
@@ -441,26 +455,6 @@
             "title": "NotionalSentenceDetail",
             "type": "object"
         },
-        "RoleDetail": {
-            "additionalProperties": false,
-            "properties": {
-                "role": {
-                    "$ref": "#/$defs/DefendantRole",
-                    "description": "Role of the defendant in the trafficking operation. Courier: Transporter of drugs; Storekeeper: Responsible for storage or warehousing; Lookout/scout: Person monitoring for law enforcement or rivals; Actual trafficker: Directly sells or distributes dangerous drugs to the public; Manager/organizer: Coordinator or planner of trafficking activities; Operator/financial controller: Making substantial gains from drug trafficking; International operator/financial controller: Organiser or controller of a large and lucrative commercial operation which transcends jurisdictional boundaries."
-                },
-                "source": {
-                    "description": "The exact match source text from which the role was extracted. Do not include any additional information in the source document.",
-                    "title": "Source",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "role",
-                "source"
-            ],
-            "title": "RoleDetail",
-            "type": "object"
-        },
         "SentenceAfterRoleDetail": {
             "additionalProperties": false,
             "properties": {
@@ -527,14 +521,6 @@
                         "$ref": "#/$defs/DrugDetail"
                     },
                     "title": "Drugs",
-                    "type": "array"
-                },
-                "roles": {
-                    "description": "Roles of the defendant in the offence **in the current charge**",
-                    "items": {
-                        "$ref": "#/$defs/RoleDetail"
-                    },
-                    "title": "Roles",
                     "type": "array"
                 },
                 "aggravating_factors": {
@@ -606,13 +592,12 @@
                 },
                 "final_sentence": {
                     "$ref": "#/$defs/FinalSentenceDetail",
-                    "description": "Final sentence for the charge including any guilty plea reduction for the current charge"
+                    "description": "Final sentence for the charge after mitigation reduction and any guilty plea reduction for the current charge"
                 }
             },
             "required": [
                 "charge_type",
                 "drugs",
-                "roles",
                 "guilty_plea",
                 "starting_point",
                 "notional_sentence",

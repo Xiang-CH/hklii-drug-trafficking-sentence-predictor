@@ -43,17 +43,14 @@
         "wage": 0,
         "source": "He was unemployed at the time of his arrest."
       },
+      "government_subsidy_recipient": null,
       "criminal_records": [
         {
           "record": "Other offences",
-          "source": "He has a total of three criminal convictions for the offence of gambling in a gambling establishment."
+          "source": "He has a total of three criminal convictions for the offence of gambling in a gambling establishment. He had never been imprisoned for those offences."
         }
       ],
       "positive_habits_after_arrest": [
-        {
-          "habit": "Studying",
-          "source": "he had taken different courses to better equip himself whilst remanded in custody."
-        },
         {
           "habit": "Participation in rehabilitation/self-improvement",
           "source": "he had taken different courses to better equip himself whilst remanded in custody."
@@ -78,7 +75,7 @@
       },
       "gender": {
         "gender": "Male",
-        "source": "In respect of the 2nd defendant, he is now 36 years of age. He was 34 years old at the time of the offence."
+        "source": "In respect of the 2nd defendant, he is now 36 years of age."
       },
       "marital_status": {
         "status": "Single",
@@ -88,12 +85,12 @@
       "household_composition": null,
       "health_conditions": [
         {
-          "name": "Long history of mental illness / psychiatric condition",
+          "name": "Long history of mental illness (multiple psychiatric admissions)",
           "type": "Mental health",
-          "source": "he has a long history of mental illness. He first received psychiatric treatment at the age of 11 and there were multiple psychiatric admissions to various hospitals between year 2009 to 2022."
+          "source": "In his mitigation, counsel for the 2nd defendant Mr Clement Lau informed this court that he has a long history of mental illness. He first received psychiatric treatment at the age of 11 and there were multiple psychiatric admissions to various hospitals between year 2009 to 2022."
         },
         {
-          "name": "History of drug abuse (contributed to psychiatric condition)",
+          "name": "Past drug abuse",
           "type": "Drug addiction",
           "source": "I noted from various psychiatric reports that had been submitted by counsel that indeed part of the condition of the 2nd defendant was a result of his own drug abuse. In any event, counsel informed me that he is now clear of the drug usage."
         }
@@ -105,10 +102,11 @@
       },
       "occupation": {
         "occupation_category": "Service and sales worker",
-        "occupation_name": "Hairdresser",
+        "occupation_name": "hairdresser",
         "source": "He was single and worked as a hairdresser."
       },
       "monthly_wage": null,
+      "government_subsidy_recipient": null,
       "criminal_records": [
         {
           "record": "Dangerous drug offences",
@@ -124,5 +122,5 @@
       ]
     }
   ],
-  "tracing_id": "467bcb03f690a619b1c5a8a83725e6ef"
+  "tracing_id": "8358ea2ecb2681f44e538d90d715c728"
 }

@@ -5,19 +5,11 @@
   "representatives": [
     {
       "name": "Prakash L Daryanani",
-      "role": "for the Respondent"
+      "role": "SPP, of the Department of Justice, for the Respondent"
     },
     {
       "name": "Duncan Percy",
-      "role": "for the Applicant"
-    },
-    {
-      "name": "Janice KWAN",
-      "role": "for the Prosecution / HKSAR"
-    },
-    {
-      "name": "Raymond YU",
-      "role": "for the Defendant"
+      "role": "Instructed by SH Chan & Co, assigned by the Director of Legal Aid, for the Applicant"
     }
   ],
   "cases_heard": [
@@ -36,20 +28,20 @@
       },
       "offence_time": {
         "time": "21:20:00+08:00",
-        "source": "At around 9:20pm",
+        "source": "at around 9:20pm",
         "time_of_day": "evening"
       },
       "place_of_offence": {
-        "address": "room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon",
+        "address": "Room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No. 2 Hoi Ting Road, Tai Kok Tsui, Kowloon",
         "nature": "Residential building",
         "subDistrict": "Tai Kok Tsui",
-        "source": "on 2 April 2022, at room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon",
+        "source": "the defendant on 2 April 2022, at room 2110, 21st floor, Hoi Yan House, Hoi Fu Court, No.2 Hoi Ting Road, Tai Kok Tsui, Kowloon",
         "district": "Yau Tsim Mong"
       },
       "cross_border": {
         "cross_border": false,
         "type": null,
-        "source": ""
+        "source": "No cross-border activity is mentioned in the judgment."
       },
       "defendants_of_charge": [
         {
@@ -57,12 +49,18 @@
           "defendant_id": 1,
           "trafficking_mode": {
             "mode": "Drug houses",
-            "source": "the paraphernalia of the trafficker were found inside the premises, namely two different types of dangerous drugs contained in smaller re-sealable bags of drugs, multiple empty re-sealable plastic bags and an electronic scale... This was... a rather more active, albeit on a small scale, centre for the distribution, packaging and consumption of different dangerous drugs"
+            "source": "the paraphernalia of the trafficker were found inside the premises... people would come to the flat to consume or receive drugs"
           },
+          "roles_facts": [
+            {
+              "role": "Storekeeper",
+              "source": "the judge identified the applicant's role as a \"storekeeper\""
+            }
+          ],
           "reasons_for_offence": [
             {
               "reason": "Addiction-driven",
-              "source": "At the time of sentencing, the applicant was a former drug abuser aged 68"
+              "source": "it was the pain that drove the defendant to resort to dangerous drugs"
             }
           ],
           "benefits_received": null
@@ -77,5 +75,5 @@
       "name": "Lau Kam Hung (劉金洪)"
     }
   ],
-  "tracing_id": "3c468e52bd8aba301b01e8906fe3e203"
+  "tracing_id": "be95ea62d5f39020840bdcad9dee3d49"
 }

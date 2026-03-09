@@ -3,7 +3,7 @@
     {
       "defendant_id": 1,
       "defendant_name": {
-        "name": "So Hoi-yan (A1 for HCCC 317/2023)",
+        "name": "So Hoi-yan",
         "source": "So Hoi-yan (A1 for HCCC 317/2023)"
       },
       "nationality": null,
@@ -23,13 +23,14 @@
       "parental_status": null,
       "household_composition": {
         "composition": "Lives with non-family",
-        "source": "she had moved in with a friend and her family."
+        "source": "she was living with a friend from September 2021 and not at home."
       },
       "health_conditions": null,
       "drug_treatment_participation": null,
       "education_level": null,
       "occupation": null,
       "monthly_wage": null,
+      "government_subsidy_recipient": null,
       "criminal_records": [
         {
           "record": "Other offences",
@@ -47,7 +48,7 @@
     {
       "defendant_id": 2,
       "defendant_name": {
-        "name": "Lam Tsz-man (A2 for HCCC 317/2023)",
+        "name": "Lam Tsz-man",
         "source": "Lam Tsz-man (A2 for HCCC 317/2023)"
       },
       "nationality": null,
@@ -58,30 +59,33 @@
       "age_at_sentencing": null,
       "gender": {
         "gender": "Male",
-        "source": "He was arrested and under caution admitted he had been instructed by a person named “Siu Wan” at 5.30 earlier that day to collect this cocaine from a place near Tai Wai MTR Station."
+        "source": "When questioned, he said he intended to go into those premises."
       },
       "marital_status": null,
       "parental_status": null,
       "household_composition": null,
       "health_conditions": null,
       "drug_treatment_participation": null,
-      "education_level": {
-        "level": "Secondary - Upper",
-        "source": "The 2nd defendant of 317/2023, Lam, was 18 at the time of these offences and still is a student in a vocational education course."
-      },
+      "education_level": null,
       "occupation": {
         "occupation_category": "Student",
         "occupation_name": null,
         "source": "The 2nd defendant of 317/2023, Lam, was 18 at the time of these offences and still is a student in a vocational education course."
       },
       "monthly_wage": null,
+      "government_subsidy_recipient": null,
       "criminal_records": [
         {
           "record": "None",
           "source": "He had a clear record at the time of his arrest."
         }
       ],
-      "positive_habits_after_arrest": null,
+      "positive_habits_after_arrest": [
+        {
+          "habit": "Studying",
+          "source": "The 2nd defendant of 317/2023, Lam, was 18 at the time of these offences and still is a student in a vocational education course."
+        }
+      ],
       "family_supports": [
         {
           "support": "Letters of support from family",
@@ -92,7 +96,7 @@
     {
       "defendant_id": 3,
       "defendant_name": {
-        "name": "Fu Chun-wah (HCCC 316/2023)",
+        "name": "Fu Chun-wah",
         "source": "Fu Chun-wah (HCCC 316/2023)"
       },
       "nationality": null,
@@ -103,7 +107,7 @@
       "age_at_sentencing": null,
       "gender": {
         "gender": "Male",
-        "source": "Fu was traced through his messages to her and on the following day, at about 2.50 pm on 3 October, the police, having obtained a search warrant, located and arrested Fu at home in Aberdeen."
+        "source": "Fu of 316/2023 was also 18 at the time of these offences. Fu was also still a student and I granted him bail to give him a chance to complete his HKDSE examinations and support his mother whilst she received chemotherapy treatment for cancer."
       },
       "marital_status": null,
       "parental_status": null,
@@ -112,28 +116,34 @@
       "drug_treatment_participation": null,
       "education_level": {
         "level": "Secondary - Upper",
-        "source": "I granted him bail to give him a chance to complete his HKDSE examinations and support his mother whilst she received chemotherapy treatment for cancer."
+        "source": "I granted him bail to give him a chance to complete his HKDSE examinations"
       },
       "occupation": {
         "occupation_category": "Student",
         "occupation_name": null,
-        "source": "Fu of 316/2023 was also 18 at the time of these offences. Fu was also still a student and I granted him bail to give him a chance to complete his HKDSE examinations and support his mother whilst she received chemotherapy treatment for cancer."
+        "source": "Fu was also still a student and I granted him bail to give him a chance to complete his HKDSE examinations and support his mother whilst she received chemotherapy treatment for cancer."
       },
       "monthly_wage": null,
+      "government_subsidy_recipient": null,
       "criminal_records": [
         {
           "record": "None",
           "source": "He too had a clear record at the time of his arrest."
         }
       ],
-      "positive_habits_after_arrest": null,
+      "positive_habits_after_arrest": [
+        {
+          "habit": "Studying",
+          "source": "I granted him bail to give him a chance to complete his HKDSE examinations"
+        }
+      ],
       "family_supports": [
         {
           "support": "Letters of support from family",
-          "source": "I have a letter from his mother who accepts he must bear responsibility for his mistakes but sees the good in him."
+          "source": "I have a letter from his mother who accepts he must bear responsibility for his mistakes but sees the good in him. I have also a letter from a social worker."
         }
       ]
     }
   ],
-  "tracing_id": "d03136028bc050d86fa3914da79fdce2"
+  "tracing_id": "8564cc4908f43421ce8d18498eb97f54"
 }

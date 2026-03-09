@@ -270,6 +270,17 @@
                     "default": null,
                     "description": "null means not mentioned at all; use 0 if unemployed"
                 },
+                "government_subsidy_recipient": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/GovernmentSubsidyRecipient"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null
+                },
                 "criminal_records": {
                     "anyOf": [
                         {
@@ -433,9 +444,51 @@
             "title": "GenderDetail",
             "type": "object"
         },
+        "GovernmentSubsidyEnum": {
+            "enum": [
+                "CSSA",
+                "Other"
+            ],
+            "title": "GovernmentSubsidyEnum",
+            "type": "string"
+        },
+        "GovernmentSubsidyRecipient": {
+            "additionalProperties": false,
+            "properties": {
+                "scheme_type": {
+                    "$ref": "#/$defs/GovernmentSubsidyEnum",
+                    "description": "Type of the government subsidy the defendant is a recipient of (e.g., CSSA: Comprehensive Social Security Assistance, or other specific subsidy scheme)."
+                },
+                "other_scheme": {
+                    "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "default": null,
+                    "description": "If scheme_type is 'Other', specify the name of the subsidy scheme.",
+                    "title": "Other Scheme"
+                },
+                "source": {
+                    "description": "The exact match source text from which the government subsidy recipient was extracted. Do not include any additional information in the source document.",
+                    "title": "Source",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "scheme_type",
+                "source"
+            ],
+            "title": "GovernmentSubsidyRecipient",
+            "type": "object"
+        },
         "HKResidentStatus": {
             "enum": [
                 "Permanent resident",
+                "Resident",
                 "New arrival",
                 "N/A"
             ],
@@ -541,9 +594,19 @@
             "additionalProperties": false,
             "properties": {
                 "wage": {
-                    "description": "Monthly wage at time of offence in HKD, 0 if unemployed",
-                    "title": "Wage",
-                    "type": "integer"
+                    "anyOf": [
+                        {
+                            "type": "integer"
+                        },
+                        {
+                            "items": {
+                                "type": "integer"
+                            },
+                            "type": "array"
+                        }
+                    ],
+                    "description": "Monthly wage at time of offence in HKD, 0 if unemployed; If wage provided as a range, use a list with two integers indicating the lower and upper bounds of the range",
+                    "title": "Wage"
                 },
                 "source": {
                     "description": "The exact match source text from which the monthly wage was extracted. Do not include any additional information in the source document.",

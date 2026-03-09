@@ -22,25 +22,23 @@
   "charges": [
     {
       "charge_no": 1,
-      "charge_name": "Conspiracy to traffic in a dangerous drug",
+      "charge_name": "Conspiracy to traffic in dangerous drugs",
       "offence_date": {
         "date": "2024-01-30",
         "source": "案情指，2024年1月30日上午9時45分左右，警方在大埔區一帶展開反罪惡巡邏。",
         "day_of_week": 2,
         "is_hk_public_holiday": false
       },
-      "offence_time": null,
-      "place_of_offence": {
-        "address": "",
-        "nature": "Residential building",
-        "subDistrict": "Tai Po",
-        "source": "警方在大埔區一帶展開反罪惡巡邏。於同日上午10時46分左右，警員見到第一被告人離開一幢大廈，經初步查問後，警員帶第一被告人到其住所進一步調查。",
-        "district": "Tai Po"
+      "offence_time": {
+        "time": "09:45:00+08:00",
+        "source": "案情指，2024年1月30日上午9時45分左右，警方在大埔區一帶展開反罪惡巡邏。",
+        "time_of_day": "morning"
       },
+      "place_of_offence": null,
       "cross_border": {
         "cross_border": false,
         "type": null,
-        "source": "案件記錄內並無提及任何跨境或進出口活動。"
+        "source": "警方在大埔區一帶展開反罪惡巡邏。"
       },
       "defendants_of_charge": [
         {
@@ -48,25 +46,35 @@
           "defendant_id": 1,
           "trafficking_mode": {
             "mode": "Courier delivery",
-            "source": "(b) “So Ken”會致電叫第一被告人拿取氯胺酮；(i) 客人會聯絡第一被告人，雙方會協定數量及交收地點；(g) 所拿取的氯胺酮，每批有40包；(h) 第一被告人為“So Ken”“放”過毒品4次。"
+            "source": "客人會聯絡第一被告人，雙方會協定數量及交收地點；第一被告人以每粒港幣350元出售毒品；第一被告人在新龍圍公廁外面的垃圾桶拿取40包氯胺酮；第一被告人為“So Ken”“放”過毒品4次。"
           },
-          "reasons_for_offence": [
+          "roles_facts": [
             {
-              "reason": "Economic hardship",
-              "source": "辯方解釋，案發時第一被告人因為失業而借故外出消遣，繼而開始吸食氯胺酮。"
+              "role": "Courier",
+              "source": "(c) 第一被告人在新龍圍公廁外面的垃圾桶拿取40包氯胺酮；(h) 第一被告人為“So Ken”“放”過毒品4次；(i) 客人會聯絡第一被告人，雙方會協定數量及交收地點。"
             },
             {
+              "role": "Actual trafficker",
+              "source": "(j) 第一被告人以每粒港幣350元出售毒品；(e) 第一被告人以港幣14,000元的價格出售該40包氯胺酮。"
+            }
+          ],
+          "reasons_for_offence": [
+            {
               "reason": "Financial gain",
-              "source": "(e) 第一被告人以港幣14,000元的價格出售該40包氯胺酮；(j) 第一被告人以每粒港幣350元出售毒品。"
+              "source": "第一被告人以港幣14,000元的價格出售該40包氯胺酮；(f) 其中港幣10,000元交給“So Ken”，第一被告人保留港幣4,000元；(i) 客人會聯絡第一被告人，雙方會協定數量及交收地點。"
+            },
+            {
+              "reason": "Addiction-driven",
+              "source": "辯方解釋，案發時第一被告人因為失業而借故外出消遣，繼而開始吸食氯胺酮。"
             }
           ],
           "benefits_received": {
             "received": true,
             "amount": 4000.0,
-            "amount_type": "total",
+            "amount_type": "per instance",
             "amount_type_other": null,
             "non_monetary_benefits": null,
-            "source": "(f) 其中港幣10,000元交給“So Ken”，第一被告人保留港幣4,000元；"
+            "source": "(f) 其中港幣10,000元交給“So Ken”，第一被告人保留港幣4,000元；(9)(h)-(i) 每包氯胺酮價格港幣350元；每“送”一包，第一被告人會保留港幣80元。"
           }
         },
         {
@@ -74,12 +82,22 @@
           "defendant_id": 2,
           "trafficking_mode": {
             "mode": "Courier delivery",
-            "source": "(f) 2023年12月底，葉維輝聯絡第一被告人，告知他有關工作為“送”氯胺酮；(e) 第二被告人介紹第一被告人派送和出售毒品。"
+            "source": "第二被告人介紹第一被告人派送和出售毒品；第二被告人知情並就介紹工作從中抽水。"
           },
+          "roles_facts": [
+            {
+              "role": "Manager/organizer",
+              "source": "(a) 第二被告人自己的花名為“So Ken”；(e) 第二被告人知道第一被告人無業，將第一被告人介紹給葉維輝；(i) 第二被告人介紹第一被告人派送和出售毒品。"
+            },
+            {
+              "role": "Operator/financial controller",
+              "source": "第二被告人說他會就介紹工作給第一被告人而“從中抽水”；[1] 控方補充，第二被告人從第一被告人一方收過3至4次錢，每次$1,200但總數不超過$4,000。"
+            }
+          ],
           "reasons_for_offence": [
             {
               "reason": "Financial gain",
-              "source": "(h) 每“送”一包，第一被告人會保留港幣80元，第二被告人會獲得港幣20元，餘數會交給葉維輝；(8) 第二被告人說他會就介紹工作給第一被告人而“從中抽水”。"
+              "source": "第二被告人說他會就介紹工作給第一被告人而“從中抽水”；(9)(h) 每“送”一包，第二被告人會獲得港幣20元。"
             }
           ],
           "benefits_received": {
@@ -88,7 +106,7 @@
             "amount_type": "total",
             "amount_type_other": null,
             "non_monetary_benefits": null,
-            "source": "控方在較後階段補充，第二被告人從第一被告人一方收過3至4次錢，每次$1,200但總數不超過$4,000。"
+            "source": "[1] 控方在較後階段補充，第二被告人從第一被告人一方收過3至4次錢，每次$1,200但總數不超過$4,000。"
           }
         }
       ]
@@ -105,5 +123,5 @@
       "name": "蘇偉強"
     }
   ],
-  "tracing_id": "4ea14be6f9ea6d39ef5e6813ca3dc25e"
+  "tracing_id": "4492282010f815f7c5ba3cf040cf0063"
 }

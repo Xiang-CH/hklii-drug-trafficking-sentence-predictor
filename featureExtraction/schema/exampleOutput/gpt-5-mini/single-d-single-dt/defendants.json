@@ -17,7 +17,7 @@
       },
       "gender": {
         "gender": "Male",
-        "source": "After all, he was 21 years old at the time, not a very young teenager."
+        "source": "He said his family had no idea of his activities."
       },
       "marital_status": null,
       "parental_status": null,
@@ -31,12 +31,13 @@
       "occupation": {
         "occupation_category": "Unemployed",
         "occupation_name": null,
-        "source": "But at the time of his arrest, he was unemployed."
+        "source": "After finishing school, he became an elevator repair apprentice and had a full-time job, but the COVID pandemic affected his employment and he was made redundant. He did work for some time in 2022 as a construction worker. But at the time of his arrest, he was unemployed."
       },
       "monthly_wage": {
         "wage": 0,
-        "source": "But at the time of his arrest, he was unemployed."
+        "source": "After finishing school, he became an elevator repair apprentice and had a full-time job, but the COVID pandemic affected his employment and he was made redundant. He did work for some time in 2022 as a construction worker. But at the time of his arrest, he was unemployed."
       },
+      "government_subsidy_recipient": null,
       "criminal_records": [
         {
           "record": "None",
@@ -52,5 +53,5 @@
       ]
     }
   ],
-  "tracing_id": "211f167c065fe04ab6f6697b9e0cec1c"
+  "tracing_id": "292f2db22cb56a06fa6998fabb5bfede"
 }

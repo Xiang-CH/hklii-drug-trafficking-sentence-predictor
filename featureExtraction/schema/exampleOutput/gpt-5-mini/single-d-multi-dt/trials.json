@@ -3,27 +3,17 @@
     {
       "charge_type": {
         "charge_no": 1,
-        "type": "Actual Trafficking",
+        "charge_name": "Trafficking in a dangerous drug",
         "defendant_name": "劉子健",
         "defendant_id": 1,
-        "source": "控罪詳情\n      被告於2023年3月29日，連同盧健文，分別非法販運內含5.183公斤海洛英鹽酸鹽的6.638公斤混合劑（第一項控罪）與及內含70.013公斤海洛英鹽酸鹽及385克單乙酰嗎啡鹽酸鹽的86.226公斤混合劑（控罪二）。"
+        "source": "[1] 販運危險藥物（Trafficking in a dangerous drug）"
       },
       "drugs": [
         {
           "drug_type": "Heroin",
           "other_drug_type": null,
           "quantity": 5183.0,
-          "source": "控罪詳情\n      被告於2023年3月29日，連同盧健文，分別非法販運內含5.183公斤海洛英鹽酸鹽的6.638公斤混合劑（第一項控罪）"
-        }
-      ],
-      "roles": [
-        {
-          "role": "Storekeeper",
-          "source": "辯方指出，被告早在...他僅擔任倉管及運輸角色，只是受僱為他人運毒，以獲取報酬。"
-        },
-        {
-          "role": "Courier",
-          "source": "辯方指出，被告早在...他僅擔任倉管及運輸角色，只是受僱為他人運毒，以獲取報酬。"
+          "source": "內含5.183公斤海洛英鹽酸鹽的6.638公斤混合劑（第一項控罪）"
         }
       ],
       "aggravating_factors": [
@@ -37,9 +27,10 @@
       "mitigating_factors": [
         {
           "factor": "Other",
-          "other_factor": "及早認罪（在裁判法院於2024年5月13日已承認控罪）、真誠悔意、家人支持及求情信、無涉及毒品之前科（非毒品前科）",
+          "other_factor": "悔意、家人支持及無涉及毒品之前科",
           "reduction": null,
-          "source": "何大律師求情指出，被告早在2024年5月13日首次在裁判法院已承認兩項控罪及同意相關案情。辯方並呈上求情信，並指出被告已汲取深刻教訓、真誠悔意及家人支持。"
+          "reduction_percentage": null,
+          "source": "畢竟被告已盡早認罪，過往亦並無任何涉及毒品的案底。被告求情信亦指出，明言自己知錯及悔改，家人亦非常支持他改過自新。"
         }
       ],
       "guilty_plea": {
@@ -47,70 +38,58 @@
         "court_type": "High Court",
         "high_court_stage": "Up to committal",
         "district_court_stage": null,
-        "source": "被告承認兩項「販運危險藥物」罪，違反香港法例第134章《危險藥物條例》第4（1）（a）及（3）條。何大律師求情指出，被告早在2024年5月13日首次在裁判法院已承認兩項控罪及同意相關案情。"
+        "reduction_years": 5,
+        "reduction_months": null,
+        "reduction_percentage": null,
+        "source": "首項控罪可予15年監禁為量刑起點，認罪後減為10年監禁；次項控罪則以33年監禁為量刑起點，認罪後減為22年監禁。",
+        "total_reduction_months": 60
       },
       "starting_point": {
         "sentence_years": 16,
         "sentence_months": 0,
-        "source": "以此案涉及的毒品份量而言，兩項控罪分別已可予16年及35年監禁為量刑起點。",
+        "source": "因此，以此案涉及的毒品份量而言，兩項控罪分別已可予16年及35年監禁為量刑起點。",
         "total_months": 192
       },
       "sentence_after_role": {
-        "sentence_years": 16,
+        "sentence_years": 15,
         "sentence_months": 0,
-        "source": "Inferred as starting point since role adjustment not provided",
-        "total_months": 192
+        "source": "因此，考慮所有上述情節，就首項控罪可予15年監禁為量刑起點，認罪後減為10年監禁；次項控罪則以33年監禁為量刑起點，認罪後減為22年監禁。",
+        "total_months": 180
       },
       "notional_sentence": {
-        "sentence_years": 16,
+        "sentence_years": 15,
         "sentence_months": 0,
-        "source": "以此案涉及的毒品份量而言，兩項控罪分別已可予16年及35年監禁為量刑起點。",
-        "total_months": 192
+        "source": "因此，考慮所有上述情節，就首項控罪可予15年監禁為量刑起點，認罪後減為10年監禁；次項控罪則以33年監禁為量刑起點，認罪後減為22年監禁。",
+        "total_months": 180
       },
-      "mitigation_reduction": {
-        "reduction_months": 12,
-        "source": "因此，考慮所有上述情節，就首項控罪可予15年監禁為量刑起點，認罪後減為10年監禁（由先前按數量可予16年監禁的起點，法庭擇定以15年作為本案首項控罪之量刑起點）。"
-      },
+      "mitigation_reduction": null,
       "final_sentence": {
         "sentence_years": 10,
         "sentence_months": 0,
-        "guilty_plea_reduction_years": 5,
-        "guilty_plea_reduction_months": 0,
-        "source": "因此，考慮所有上述情節，就首項控罪可予15年監禁為量刑起點，認罪後減為10年監禁；...因此，被告判刑如下：第一項控罪10年監禁，第二項控罪22年監禁，兩項控罪同期執行，總共判以22年監禁。",
-        "total_months": 120,
-        "guilty_plea_reduction_total_months": 60
+        "source": "因此，被告判刑如下：第一項控罪10年監禁，第二項控罪22年監禁，兩項控罪同期執行，總共判以22年監禁。",
+        "total_months": 120
       }
     },
     {
       "charge_type": {
         "charge_no": 2,
-        "type": "Actual Trafficking",
+        "charge_name": "Trafficking in dangerous drugs",
         "defendant_name": "劉子健",
         "defendant_id": 1,
-        "source": "控罪詳情\n      被告於2023年3月29日，連同盧健文，分別非法販運內含5.183公斤海洛英鹽酸鹽的6.638公斤混合劑（第一項控罪）與及內含70.013公斤海洛英鹽酸鹽及385克單乙酰嗎啡鹽酸鹽的86.226公斤混合劑（控罪二）。"
+        "source": "[2] 販運危險藥物（Trafficking in dangerous drugs）"
       },
       "drugs": [
         {
           "drug_type": "Heroin",
           "other_drug_type": null,
           "quantity": 70013.0,
-          "source": "控罪詳情\n      被告於2023年3月29日，連同盧健文，分別非法販運...內含70.013公斤海洛英鹽酸鹽...的86.226公斤混合劑（控罪二）。"
+          "source": "內含70.013公斤海洛英鹽酸鹽及385克單乙酰嗎啡鹽酸鹽的86.226公斤混合劑（控罪二）"
         },
         {
           "drug_type": "Other",
           "other_drug_type": "單乙酰嗎啡鹽酸鹽",
           "quantity": 385.0,
-          "source": "控罪詳情\n      被告於2023年3月29日，連同盧健文，分別非法販運...及385克單乙酰嗎啡鹽酸鹽的86.226公斤混合劑（控罪二）。"
-        }
-      ],
-      "roles": [
-        {
-          "role": "Storekeeper",
-          "source": "辯方指出，被告早在...他僅擔任倉管及運輸角色，只是受僱為他人運毒，以獲取報酬。"
-        },
-        {
-          "role": "Courier",
-          "source": "辯方指出，被告早在...他僅擔任倉管及運輸角色，只是受僱為他人運毒，以獲取報酬。"
+          "source": "內含70.013公斤海洛英鹽酸鹽及385克單乙酰嗎啡鹽酸鹽的86.226公斤混合劑（控罪二）"
         }
       ],
       "aggravating_factors": [
@@ -124,9 +103,10 @@
       "mitigating_factors": [
         {
           "factor": "Other",
-          "other_factor": "及早認罪（在裁判法院於2024年5月13日已承認控罪）、真誠悔意、家人支持及求情信、無涉及毒品之前科（非毒品前科）",
+          "other_factor": "悔意、家人支持及無涉及毒品之前科",
           "reduction": null,
-          "source": "何大律師求情指出，被告早在2024年5月13日首次在裁判法院已承認兩項控罪及同意相關案情。辯方並呈上求情信，並指出被告已汲取深刻教訓、真誠悔意及家人支持。"
+          "reduction_percentage": null,
+          "source": "畢竟被告已盡早認罪，過往亦並無任何涉及毒品的案底。被告求情信亦指出，明言自己知錯及悔改，家人亦非常支持他改過自新。"
         }
       ],
       "guilty_plea": {
@@ -134,40 +114,38 @@
         "court_type": "High Court",
         "high_court_stage": "Up to committal",
         "district_court_stage": null,
-        "source": "被告承認兩項「販運危險藥物」罪，違反香港法例第134章《危險藥物條例》第4（1）（a）及（3）條。何大律師求情指出，被告早在2024年5月13日首次在裁判法院已承認兩項控罪及同意相關案情。"
+        "reduction_years": 11,
+        "reduction_months": null,
+        "reduction_percentage": null,
+        "source": "首項控罪可予15年監禁為量刑起點，認罪後減為10年監禁；次項控罪則以33年監禁為量刑起點，認罪後減為22年監禁。",
+        "total_reduction_months": 132
       },
       "starting_point": {
         "sentence_years": 35,
         "sentence_months": 0,
-        "source": "以此案涉及的毒品份量而言，兩項控罪分別已可予16年及35年監禁為量刑起點。",
+        "source": "因此，以此案涉及的毒品份量而言，兩項控罪分別已可予16年及35年監禁為量刑起點。",
         "total_months": 420
       },
       "sentence_after_role": {
-        "sentence_years": 35,
+        "sentence_years": 33,
         "sentence_months": 0,
-        "source": "Inferred as starting point since role adjustment not provided",
-        "total_months": 420
+        "source": "因此，考慮所有上述情節，就首項控罪可予15年監禁為量刑起點，認罪後減為10年監禁；次項控罪則以33年監禁為量刑起點，認罪後減為22年監禁。",
+        "total_months": 396
       },
       "notional_sentence": {
-        "sentence_years": 35,
+        "sentence_years": 33,
         "sentence_months": 0,
-        "source": "以此案涉及的毒品份量而言，兩項控罪分別已可予16年及35年監禁為量刑起點。",
-        "total_months": 420
+        "source": "因此，考慮所有上述情節，就首項控罪可予15年監禁為量刑起點，認罪後減為10年監禁；次項控罪則以33年監禁為量刑起點，認罪後減為22年監禁。",
+        "total_months": 396
       },
-      "mitigation_reduction": {
-        "reduction_months": 24,
-        "source": "因此，考慮所有上述情節，...次項控罪則以33年監禁為量刑起點（由先前按數量可予35年監禁的起點，法庭擇定以33年作為本案次項控罪之量刑起點）。"
-      },
+      "mitigation_reduction": null,
       "final_sentence": {
         "sentence_years": 22,
         "sentence_months": 0,
-        "guilty_plea_reduction_years": 11,
-        "guilty_plea_reduction_months": 0,
-        "source": "因此，考慮所有上述情節，就首項控罪可予15年監禁為量刑起點，認罪後減為10年監禁；次項控罪則以33年監禁為量刑起點，認罪後減為22年監禁。...因此，被告判刑如下：第一項控罪10年監禁，第二項控罪22年監禁，兩項控罪同期執行，總共判以22年監禁。",
-        "total_months": 264,
-        "guilty_plea_reduction_total_months": 132
+        "source": "因此，被告判刑如下：第一項控罪10年監禁，第二項控罪22年監禁，兩項控罪同期執行，總共判以22年監禁。",
+        "total_months": 264
       }
     }
   ],
-  "tracing_id": "1a9b7c6bdfc772127ba43647e5408117"
+  "tracing_id": "e359b7bfcabae21e372e28a6929ef645"
 }

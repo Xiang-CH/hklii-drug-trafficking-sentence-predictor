@@ -9,7 +9,7 @@
     },
     {
       "name": "Ms Ling Wai-kai Vickie",
-      "role": "instructed by DLA, for the accused"
+      "role": "Instructed by DLA, for the accused"
     }
   ],
   "cases_heard": [
@@ -21,22 +21,26 @@
       "charge_name": "Trafficking in dangerous drugs",
       "offence_date": {
         "date": "2023-11-30",
-        "source": "on 30 November 2023",
+        "source": "the defendant on 30 November 2023, at Room 1140, Hong Tai House, Cheung Hong Estate, Tsing Yi, New Territories, unlawfully trafficked in dangerous drugs",
         "day_of_week": 4,
         "is_hk_public_holiday": false
       },
-      "offence_time": null,
+      "offence_time": {
+        "time": "18:00:00+08:00",
+        "source": "The police ... gained entry after 6 pm on the offence date.",
+        "time_of_day": "evening"
+      },
       "place_of_offence": {
         "address": "Room 1140, Hong Tai House, Cheung Hong Estate, Tsing Yi, New Territories",
         "nature": "Residential building",
         "subDistrict": "Tsing Yi",
-        "source": "Room 1140, Hong Tai House, Cheung Hong Estate, Tsing Yi, New Territories",
+        "source": "the defendant on 30 November 2023, at Room 1140, Hong Tai House, Cheung Hong Estate, Tsing Yi, New Territories, unlawfully trafficked in dangerous drugs",
         "district": "Kwai Tsing"
       },
       "cross_border": {
         "cross_border": false,
         "type": null,
-        "source": "No cross-border activity mentioned"
+        "source": "No cross-border activity is mentioned in the judgment."
       },
       "defendants_of_charge": [
         {
@@ -44,8 +48,18 @@
           "defendant_id": 1,
           "trafficking_mode": {
             "mode": "Courier delivery",
-            "source": "storekeeper and courier"
+            "source": "He admitted packing and delivering drugs on instructions for monetary rewards."
           },
+          "roles_facts": [
+            {
+              "role": "Storekeeper",
+              "source": "I am satisfied that the role of the defendant is one of storekeeper and courier."
+            },
+            {
+              "role": "Courier",
+              "source": "I am satisfied that the role of the defendant is one of storekeeper and courier."
+            }
+          ],
           "reasons_for_offence": [
             {
               "reason": "Financial gain",
@@ -53,20 +67,24 @@
             },
             {
               "reason": "Economic hardship",
-              "source": "the COVID pandemic affected his employment and he was made redundant"
+              "source": "the COVID pandemic affected his employment and he was made redundant. ... at the time of his arrest, he was unemployed."
+            },
+            {
+              "reason": "Peer influence",
+              "source": "He was tempted by an old school friend who promised an easy job for quick and good money."
             },
             {
               "reason": "Coercion",
-              "source": "he was told if he quit the job, he would need to repay $30,000 as compensation"
+              "source": "He was told if he quit the job, he would need to repay $30,000 as compensation. Since he did not have the money, he kept the drugs and followed instructions to repack drugs into smaller packets and make deliveries."
             }
           ],
           "benefits_received": {
             "received": true,
-            "amount": null,
-            "amount_type": null,
+            "amount": 16000.0,
+            "amount_type": "per month",
             "amount_type_other": null,
             "non_monetary_benefits": null,
-            "source": "The defendant was arrested and he admitted packing and delivering drugs on instructions for monetary rewards."
+            "source": "He could store some goods and make some deliveries for $16,000 a month."
           }
         }
       ]
@@ -79,5 +97,5 @@
       "name": "Wong Man-kit"
     }
   ],
-  "tracing_id": "211f167c065fe04ab6f6697b9e0cec1c"
+  "tracing_id": "292f2db22cb56a06fa6998fabb5bfede"
 }
