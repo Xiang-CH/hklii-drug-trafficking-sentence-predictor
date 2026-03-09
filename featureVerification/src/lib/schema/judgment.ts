@@ -50,6 +50,7 @@ export const TraffickingModeEnumSchema = z.enum([
   'Drug repackaging or storage',
   'Maritime transport',
   'Festival or event dealing',
+  'Possession for trafficking',
   'Online trafficking',
   'Other',
 ])

@@ -244,7 +244,7 @@ export const ChargeDetailSchema = z.object({
 
 export const TrialSchema = z
   .object({
-    charge_name: ChargeDetailSchema,
+    charge_type: ChargeDetailSchema,
     drugs: z.array(DrugDetailSchema).min(1),
     aggravating_factors: z
       .array(AggravatingFactorDetailSchema)
