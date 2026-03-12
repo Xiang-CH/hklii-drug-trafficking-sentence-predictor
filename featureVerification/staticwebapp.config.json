@@ -7,10 +7,6 @@
     {
       "route": "/",
       "rewrite": "/api/server"
-    },
-    {
-      "route": "/_serverFn/*",
-      "rewrite": "/api/server"
     }
   ],
   "platform": {
