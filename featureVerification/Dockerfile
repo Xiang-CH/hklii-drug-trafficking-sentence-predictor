@@ -1,4 +1,4 @@
-FROM node:25-alpine
+FROM node:24-alpine
 
 WORKDIR /app
 
@@ -7,8 +7,6 @@ RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 COPY . .
 RUN pnpm build
-
-COPY .env* /app/
 
 EXPOSE 3000
 
