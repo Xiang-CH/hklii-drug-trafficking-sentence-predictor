@@ -23,7 +23,16 @@ DB_MONGODB_URI=<mongodb connection string> // host should be host.docker.interna
 DB_NAME="drug-sentencing-predictor"
 ```
 
-# Serving For Production
+# Test app locally with Azure Static Web Apps CLI
+
+To serve the production build of this application:
+
+```bash
+DEPLOY_TARGET=azure pnpm build
+npx @azure/static-web-apps-cli swa start .output/public --api .output/server
+```
+
+# Serving For Production on Docker
 
 To serve the production build of this application:
 
