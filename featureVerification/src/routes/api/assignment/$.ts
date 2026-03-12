@@ -20,6 +20,7 @@ export type AssignmentJudgement = {
   appeal?: string
   corrigendum?: string
   year?: string
+  llmProcessed: boolean
   assignedTo?: {
     id: string
     username: string
@@ -53,6 +54,9 @@ export const Route = createFileRoute('/api/assignment/$')({
             .replaceAll('[', '\\[')
             .replaceAll(']', '\\]') ?? null
         const assignedFilter = url.searchParams.get('assigned') ?? 'all'
+        const llmProcessedFilter = url.searchParams.get('llmProcessed')
+          ? url.searchParams.get('llmProcessed') === '1'
+          : 0
         const username = url.searchParams.get('username')?.trim() ?? null
 
         // Fetch users
@@ -73,6 +77,14 @@ export const Route = createFileRoute('/api/assignment/$')({
 
         // Fetch judgements
         const judgementsCollection = db.collection('judgement-html')
+        const extractedCollection = db.collection('llm-extracted-features')
+        const extractedIds = await extractedCollection.distinct(
+          'source_judgement_id',
+        )
+        const processedIds = extractedIds.map((id) =>
+          id instanceof ObjectId ? id : new ObjectId(id),
+        )
+
         const filters: Array<Record<string, unknown>> = []
 
         if (search) {
@@ -107,6 +119,10 @@ export const Route = createFileRoute('/api/assignment/$')({
           filters.push({
             $or: [{ assigned_to: { $exists: false } }, { assigned_to: null }],
           })
+        }
+
+        if (llmProcessedFilter) {
+          filters.push({ _id: { $in: processedIds } })
         }
 
         const match =
@@ -150,6 +166,9 @@ export const Route = createFileRoute('/api/assignment/$')({
           (doc) => {
             const id =
               doc._id instanceof ObjectId ? doc._id.toHexString() : `${doc._id}`
+            const docId =
+              doc._id instanceof ObjectId ? doc._id : new ObjectId(`${doc._id}`)
+            const isLlmProcessed = processedIds.some((pid) => pid.equals(docId))
             return {
               id,
               filename: doc.filename,
@@ -157,6 +176,7 @@ export const Route = createFileRoute('/api/assignment/$')({
               appeal: doc.appeal ?? undefined,
               corrigendum: doc.corrigendum ?? undefined,
               year: doc.year ?? undefined,
+              llmProcessed: isLlmProcessed,
               assignedTo: doc.assigned_to
                 ? assigneeMap[
                     doc.assigned_to instanceof ObjectId

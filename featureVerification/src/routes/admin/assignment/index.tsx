@@ -16,7 +16,6 @@ import {
   Trash2,
   User,
 } from 'lucide-react'
-import { set } from 'zod'
 import type { AssignmentData, AssignmentUser } from '@/routes/api/assignment/$'
 import { requireAdminAuth } from '@/lib/auth-client'
 import { Input } from '@/components/ui/input'
@@ -53,6 +52,7 @@ type AssignmentSearchParams = {
   page?: number
   search?: string
   assigned?: 'all' | 'assigned' | 'unassigned'
+  llmProcessed?: number
   username?: string | null
 }
 
@@ -62,12 +62,14 @@ async function getAssignmentData(params: {
   page: number
   search: string
   assigned: string
+  llmProcessed?: number
   username?: string | null
 }): Promise<AssignmentData> {
   const query = new URLSearchParams({
     page: params.page.toString(),
     search: params.search,
     assigned: params.assigned,
+    llmProcessed: params.llmProcessed?.toString() ?? '',
     username: params.username ?? '',
   })
 
@@ -116,6 +118,7 @@ export const Route = createFileRoute('/admin/assignment/')({
       search: search.search,
       assigned:
         (search.assigned as AssignmentSearchParams['assigned']) ?? 'unassigned',
+      llmProcessed: search.llmProcessed ? parseInt(search.llmProcessed) : 0,
       username: search.username,
     }
   },
@@ -126,6 +129,7 @@ export const Route = createFileRoute('/admin/assignment/')({
     page: search.page ?? 1,
     searchText: search.search ?? '',
     assigned: search.assigned ?? 'all',
+    llmProcessed: search.llmProcessed,
     // Only include username in deps when filter is "assigned" to prevent unnecessary refetches
     username: search.assigned === 'assigned' ? search.username : undefined,
   }),
@@ -134,6 +138,7 @@ export const Route = createFileRoute('/admin/assignment/')({
       page: deps.page,
       search: deps.searchText,
       assigned: deps.assigned,
+      llmProcessed: deps.llmProcessed,
       username: deps.assigned === 'assigned' ? deps.username : undefined,
     })
   },
@@ -141,7 +146,7 @@ export const Route = createFileRoute('/admin/assignment/')({
 
 function AssignmentComponent() {
   const initialData = Route.useLoaderData()
-  const { page, search, assigned, username } = Route.useSearch()
+  const { page, search, assigned, llmProcessed, username } = Route.useSearch()
   const navigate = useNavigate({ from: '/admin/assignment/' })
   const queryClient = useQueryClient()
 
@@ -177,14 +182,15 @@ function AssignmentComponent() {
     // For "all" and "unassigned", switching users should not refetch data
     queryKey:
       assigned === 'assigned'
-        ? ['assignment', page, search, assigned, username]
-        : ['assignment', page, search, assigned],
+        ? ['assignment', page, search, assigned, llmProcessed, username]
+        : ['assignment', page, search, assigned, llmProcessed],
     initialData,
     queryFn: () =>
       getAssignmentData({
         page: page ?? 1,
         search: search ?? '',
         assigned: assigned ?? 'all',
+        llmProcessed: llmProcessed,
         username: assigned === 'assigned' ? (username ?? null) : null,
       }),
   })
@@ -453,7 +459,7 @@ function AssignmentComponent() {
                     placeholder="Search judgements..."
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
-                    className="pl-9 w-64"
+                    className="pl-9"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
                         navigate({
@@ -479,13 +485,33 @@ function AssignmentComponent() {
                     })
                   }}
                 >
-                  <SelectTrigger className="w-[140px]">
+                  <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All</SelectItem>
                     <SelectItem value="assigned">Assigned</SelectItem>
                     <SelectItem value="unassigned">Unassigned</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select
+                  value={llmProcessed ? '1' : '0'}
+                  onValueChange={(value) => {
+                    navigate({
+                      search: (prev) => ({
+                        ...prev,
+                        page: 1,
+                        llmProcessed: value === '1' ? 1 : 0,
+                      }),
+                    })
+                  }}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="1">Processed</SelectItem>
+                    <SelectItem value="0">All</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -553,6 +579,15 @@ function AssignmentComponent() {
                             <span className="text-xs text-muted-foreground">
                               {judgement.year}
                             </span>
+                          )}
+                          {judgement.llmProcessed ? (
+                            <Badge variant="outline" className="text-xs">
+                              LLM Processed
+                            </Badge>
+                          ) : (
+                            <Badge variant="outline" className="text-xs">
+                              Not Processed
+                            </Badge>
                           )}
                           {judgement.assignedTo ? (
                             <Badge variant="secondary" className="text-xs">

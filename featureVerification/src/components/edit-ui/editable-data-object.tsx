@@ -382,7 +382,8 @@ export function EditableDataObject({
                 className={`flex items-center gap-2 ${showInferredToggle ? 'flex-wrap' : ''}`}
               >
                 <div className="text-purple-600 dark:text-purple-400 font-medium">
-                  {getFieldLabel(key)}{isEntryComputed? '*' : ''}:
+                  {getFieldLabel(key)}
+                  {isEntryComputed ? '*' : ''}:
                 </div>
                 {showNotGivenToggle && onToggleNotGiven && (
                   <NotGivenToggle
@@ -415,7 +416,9 @@ export function EditableDataObject({
                   />
                 )}
               </div>
-              <div className={`${isArray ? 'ml-6 mt-1' : 'ml-2'} flex-1 min-w-16`}>
+              <div
+                className={`${isArray ? 'ml-6 mt-1' : 'ml-2'} flex-1 min-w-16`}
+              >
                 {key === 'source' && typeof value === 'string' ? (
                   canEdit ? (
                     <EditableSourceField
