@@ -60,7 +60,7 @@ type UserMutationVariables =
       }
     }
 
-const USERS_PER_PAGE = 20
+const USERS_PER_PAGE = 50
 
 async function getUsers(page: number) {
   const response = await authClient.admin.listUsers({

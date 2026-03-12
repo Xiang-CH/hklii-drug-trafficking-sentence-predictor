@@ -42,6 +42,36 @@ export function Pagination({
   const createRange = (start: number, end: number) =>
     Array.from({ length: end - start + 1 }, (_, i) => start + i)
 
+  const flatThreshold = siblingCount * 2 + boundaryCount * 2 + 3
+  if (totalPages <= flatThreshold) {
+    return (
+      <PaginationComponent>
+        <PaginationContent>
+          {currentPage > 1 && (
+            <PaginationItem>
+              <PaginationPrevious onClick={() => callback(currentPage - 1)} />
+            </PaginationItem>
+          )}
+          {createRange(1, totalPages).map((page) => (
+            <PaginationItem key={page}>
+              <PaginationLink
+                isActive={page === currentPage}
+                onClick={() => callback(page)}
+              >
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          {currentPage < totalPages && (
+            <PaginationItem>
+              <PaginationNext onClick={() => callback(currentPage + 1)} />
+            </PaginationItem>
+          )}
+        </PaginationContent>
+      </PaginationComponent>
+    )
+  }
+
   const startPages = createRange(1, Math.min(boundaryCount, totalPages))
   const endPages =
     totalPages > boundaryCount
