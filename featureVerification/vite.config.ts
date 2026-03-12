@@ -18,9 +18,7 @@ const config = defineConfig({
     devtools(),
     nitro({
       preset:
-        process.env.AZURE_FUNCTIONS_ENVIRONMENT ||
-        process.env.WEBSITE_HOSTNAME ||
-        process.env.SWA_CLI
+        process.env.DEPLOY_TARGET === 'azure'
           ? './nitro/presets/azure-swa-custom.mjs'
           : 'node-server',
     }),
