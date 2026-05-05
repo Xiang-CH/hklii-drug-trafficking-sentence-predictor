@@ -120,3 +120,5 @@ count.txt
 .vinxi
 todos.json
 .pnpm-store
+
+.langgraph_api/
