@@ -20,6 +20,7 @@ const config = defineConfig({
       process.env.DEPLOY_TARGET === 'azure'
         ? {
             preset: './nitro/presets/azure-swa-custom.mjs', //'azure-swa',
+            traceDeps: ['mongodb'],
             azure: {
               config: {
                 routes: [
