@@ -14,7 +14,10 @@ from langchain_mongodb.agent_toolkit import (
     MongoDBDatabase,
     MongoDBDatabaseToolkit,
 )
+from langgraph.graph.ui import AnyUIMessage, ui_message_reducer, push_ui_message
 from src.prompt import MONGODB_AGENT_SYSTEM_PROMPT
+import re
+import uuid
 
 load_dotenv()
 
@@ -124,6 +127,7 @@ def _normalize_input(payload):
 
 class AgentState(TypedDict):
     messages: Annotated[list[Any], add_messages]
+    ui: Annotated[list[AnyUIMessage], ui_message_reducer]
 
 
 def _build_llm() -> ChatOpenAI:
@@ -142,6 +146,12 @@ def _build_toolkit(llm: ChatOpenAI) -> MongoDBDatabaseToolkit:
     )
     return MongoDBDatabaseToolkit(db=db_wrapper, llm=llm)
 
+def extract_html_code_block(text: str) -> str | None:
+    pattern = r"```(?:html)?\s*([\s\S]*?)```"
+    match = re.search(pattern, text, re.IGNORECASE)
+    if not match:
+        return None
+    return match.group(1).strip()
 
 def build_agent():
     llm = _build_llm()
@@ -160,12 +170,46 @@ def build_agent():
     def normalize_node(state: AgentState):
         normalized = _normalize_input({"messages": state.get("messages", [])})
         return {"messages": normalized.get("messages", [])}
+    
+    def output_separate(state: AgentState):
+        messages = state.get("messages", [])
+        if not messages:
+            return {}
+        
+        response = messages[-1].content
+        if not response:
+            return {}
+        
+        embedded_html = extract_html_code_block(response)
+        if not embedded_html:
+            return {}
+
+        return_message = AIMessage(
+            id=messages[-1].id,
+            content="I generated an HTML preview. Click the card to open it.",
+        )
+
+        push_ui_message(
+            "html_preview",
+            props={
+                "title": "Data Visualization Artifacts",
+                "description": "Online live HTML preview",
+                "html": embedded_html,
+            },
+            message=return_message,
+        )
+
+        return {
+            "messages": [return_message],
+        }
 
     graph.add_node("normalize", normalize_node)
     graph.add_node("agent", agent_core)
+    graph.add_node("post_extract", output_separate)
     graph.add_edge(START, "normalize")
     graph.add_edge("normalize", "agent")
-    graph.add_edge("agent", END)
+    graph.add_edge("agent", "post_extract")
+    graph.add_edge("post_extract", END)
     return graph.compile()
 
 

@@ -122,3 +122,5 @@ todos.json
 .pnpm-store
 
 .langgraph_api/
+
+dataBot/local_env_set.sh
