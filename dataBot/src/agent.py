@@ -23,7 +23,7 @@ load_dotenv()
 
 MONGODB_URI = os.getenv('DB_MONGODB_URI')
 DB_NAME = os.getenv('DB_NAME')
-TABLE_NAME = "llm-extracted-features"
+TABLE_NAME = "verified-features"
 
 BASE_URL = os.getenv('OPENAI_BASE_URL')
 API_KEY = os.getenv('OPENAI_API_KEY')
