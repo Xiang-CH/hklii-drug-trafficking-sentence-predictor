@@ -60,7 +60,8 @@ function VerifyJudgementPage() {
   } = useVerificationLock({
     judgementId: judgement.id,
     initialLockState: judgement.lockState,
-    sessionUserName: session?.user.name,
+    sessionUserName:
+      session?.user.name || session?.user.username || session?.user.email,
   })
 
   useEffect(() => {
@@ -103,6 +104,7 @@ function VerifyJudgementPage() {
         data: {
           judgementId: judgement.id || '',
           lockToken,
+          holderName: studentIdentity,
           extractedId: judgement.extractedData?.extractedId,
           data: getCleanedData(),
           remarks,
@@ -131,6 +133,7 @@ function VerifyJudgementPage() {
         data: {
           judgementId: judgement.id || '',
           lockToken,
+          holderName: studentIdentity,
           data: getCleanedData(),
           remarks,
           exclude,
@@ -159,7 +162,11 @@ function VerifyJudgementPage() {
   const revertMutation = useMutation({
     mutationFn: () =>
       revertToInProgress({
-        data: { judgementId: judgement.id || '', lockToken },
+        data: {
+          judgementId: judgement.id || '',
+          lockToken,
+          holderName: studentIdentity,
+        },
       }),
     onSuccess: (result) => {
       toast.success(result.message)

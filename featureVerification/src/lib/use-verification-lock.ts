@@ -4,6 +4,7 @@ import type { VerificationLockState } from '@/lib/verification-lock'
 import {
   acquireJudgementLock,
   releaseJudgementLock,
+  renewJudgementLock,
 } from '@/server/user-judgements'
 import { VERIFICATION_LOCK_HEARTBEAT_MS } from '@/lib/verification-lock'
 import {
@@ -29,13 +30,18 @@ export function useVerificationLock({
   })
   const [lockState, setLockState] = useState(initialLockState)
   const [isLockActionPending, setIsLockActionPending] = useState(false)
-  const bootstrapAttemptedRef = useRef<string | null>(null)
+  const releaseRequestedRef = useRef(false)
+  const restoreAttemptedRef = useRef<string | null>(null)
 
   useEffect(() => {
     setStoredStudentIdentity(studentIdentity)
   }, [studentIdentity])
 
   useEffect(() => {
+    if (releaseRequestedRef.current) {
+      return
+    }
+
     if (lockState.isHeldByMe) {
       return
     }
@@ -44,7 +50,8 @@ export function useVerificationLock({
   }, [initialLockState, lockState.isHeldByMe])
 
   useEffect(() => {
-    bootstrapAttemptedRef.current = null
+    releaseRequestedRef.current = false
+    restoreAttemptedRef.current = null
   }, [judgementId])
 
   const acquireLock = useCallback(
@@ -60,12 +67,14 @@ export function useVerificationLock({
         return null
       }
 
+      releaseRequestedRef.current = false
       setIsLockActionPending(true)
       try {
         const nextLockState = await acquireJudgementLock({
           data: {
             judgementId,
             lockToken,
+            holderName: studentIdentity.trim(),
           },
         })
         setLockState(nextLockState)
@@ -85,12 +94,37 @@ export function useVerificationLock({
     [judgementId, lockToken, studentIdentity],
   )
 
+  const renewLock = useCallback(async () => {
+    if (!judgementId) {
+      return null
+    }
+
+    if (!studentIdentity.trim()) {
+      return null
+    }
+
+    const nextLockState = await renewJudgementLock({
+      data: {
+        judgementId,
+        lockToken,
+        holderName: studentIdentity.trim(),
+      },
+    })
+
+    if (!releaseRequestedRef.current) {
+      setLockState(nextLockState)
+    }
+
+    return nextLockState
+  }, [judgementId, lockToken, studentIdentity])
+
   const releaseLock = useCallback(
     async (showError = true) => {
       if (!judgementId) {
         return null
       }
 
+      releaseRequestedRef.current = true
       setIsLockActionPending(true)
       try {
         await releaseJudgementLock({
@@ -105,6 +139,7 @@ export function useVerificationLock({
           scopeKey: initialLockState.scopeKey,
         })
       } catch (error) {
+        releaseRequestedRef.current = false
         if (showError) {
           toast.error('Failed to release lock', {
             description:
@@ -124,18 +159,32 @@ export function useVerificationLock({
       return
     }
 
+    if (!initialLockState.isLocked || lockState.isHeldByMe) {
+      return
+    }
+
     if (!studentIdentity.trim()) {
       return
     }
 
-    if (bootstrapAttemptedRef.current === judgementId) {
+    if (releaseRequestedRef.current) {
       return
     }
 
-    bootstrapAttemptedRef.current = judgementId
+    if (restoreAttemptedRef.current === judgementId) {
+      return
+    }
 
-    void acquireLock(false).catch(() => undefined)
-  }, [acquireLock, initialLockState, judgementId, studentIdentity])
+    restoreAttemptedRef.current = judgementId
+
+    void renewLock().catch(() => undefined)
+  }, [
+    initialLockState.isLocked,
+    judgementId,
+    lockState.isHeldByMe,
+    renewLock,
+    studentIdentity,
+  ])
 
   useEffect(() => {
     if (!judgementId) {
@@ -147,7 +196,11 @@ export function useVerificationLock({
     }
 
     const heartbeat = window.setInterval(() => {
-      void acquireLock(false).catch(() => {
+      void renewLock().catch(() => {
+        if (releaseRequestedRef.current) {
+          return
+        }
+
         setLockState((current) => ({
           ...current,
           isHeldByMe: false,
@@ -158,7 +211,7 @@ export function useVerificationLock({
     }, VERIFICATION_LOCK_HEARTBEAT_MS)
 
     return () => window.clearInterval(heartbeat)
-  }, [acquireLock, lockState.isHeldByMe])
+  }, [judgementId, lockState.isHeldByMe, renewLock])
 
   return {
     studentIdentity,

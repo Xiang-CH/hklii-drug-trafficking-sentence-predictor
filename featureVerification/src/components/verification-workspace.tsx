@@ -199,7 +199,7 @@ export default function VerificationWorkspace({
                     onClick={
                       lockState.isHeldByMe ? onReleaseLock : onAcquireLock
                     }
-                    disabled={!studentIdentity.trim() || isLockActionPending}
+                    disabled={isLockActionPending}
                   >
                     {isLockActionPending
                       ? 'Working...'

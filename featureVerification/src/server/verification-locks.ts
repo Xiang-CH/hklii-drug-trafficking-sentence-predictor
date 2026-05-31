@@ -189,11 +189,15 @@ export async function releaseVerificationLock({
 }: Pick<VerificationLockInput, 'judgementId' | 'lockToken'>) {
   await ensureLockIndexes()
 
-  await lockCollection().deleteOne({
+  const result = await lockCollection().deleteOne({
     source_judgement_id: new ObjectId(judgementId),
     scope_key: VERIFICATION_LOCK_SCOPE,
     lock_token: lockToken,
   })
+
+  if (result.deletedCount === 0) {
+    throw new Error('This lock is no longer held by your session')
+  }
 
   return {
     success: true,

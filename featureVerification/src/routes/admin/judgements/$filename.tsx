@@ -77,7 +77,8 @@ function JudgementDetailComponent() {
       isHeldByMe: false,
       scopeKey: 'judgement',
     },
-    sessionUserName: session?.user.name,
+    sessionUserName:
+      session?.user.name || session?.user.username || session?.user.email,
   })
 
   useEffect(() => {
@@ -120,6 +121,7 @@ function JudgementDetailComponent() {
         data: {
           judgementId: data?.id || '',
           lockToken,
+          holderName: studentIdentity,
           extractedId: data?.extractedData?.extractedId,
           data: getCleanedData(),
           remarks,
@@ -144,6 +146,7 @@ function JudgementDetailComponent() {
         data: {
           judgementId: data?.id || '',
           lockToken,
+          holderName: studentIdentity,
           data: getCleanedData(),
           remarks,
           exclude,
@@ -163,7 +166,11 @@ function JudgementDetailComponent() {
   const revertMutation = useMutation({
     mutationFn: () =>
       adminRevertToInProgress({
-        data: { judgementId: data?.id || '', lockToken },
+        data: {
+          judgementId: data?.id || '',
+          lockToken,
+          holderName: studentIdentity,
+        },
       }),
     onSuccess: (result) => {
       toast.success(result.message)
