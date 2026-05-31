@@ -4,13 +4,15 @@ import {
   useNavigate,
   useRouter,
 } from '@tanstack/react-router'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { AlertCircle, ArrowLeft } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import VerificationWorkspace from '@/components/verification-workspace'
+import { authClient } from '@/lib/auth-client'
+import { useVerificationLock } from '@/lib/use-verification-lock'
 import {
   getJudgementForVerification,
   markAsVerified,
@@ -32,6 +34,7 @@ function VerifyJudgementPage() {
   const { history } = useRouter()
   const queryClient = useQueryClient()
   const [highlightedText, setHighlightedText] = useState<string | null>(null)
+  const { data: session } = authClient.useSession()
 
   const initial = Route.useLoaderData()
   const { data: judgement, error } = useQuery({
@@ -44,6 +47,27 @@ function VerifyJudgementPage() {
     () => judgement.verifiedData || judgement.extractedData,
     [judgement.verifiedData, judgement.extractedData],
   )
+
+  const {
+    studentIdentity,
+    setStudentIdentity,
+    lockState,
+    canEdit,
+    isLockActionPending,
+    acquireLock,
+    releaseLock,
+    lockToken,
+  } = useVerificationLock({
+    judgementId: judgement.id,
+    initialLockState: judgement.lockState,
+    sessionUserName: session?.user.name,
+  })
+
+  useEffect(() => {
+    return () => {
+      void releaseLock(false).catch(() => undefined)
+    }
+  }, [releaseLock])
 
   const {
     judgementData,
@@ -78,6 +102,7 @@ function VerifyJudgementPage() {
       saveVerificationProgress({
         data: {
           judgementId: judgement.id || '',
+          lockToken,
           extractedId: judgement.extractedData?.extractedId,
           data: getCleanedData(),
           remarks,
@@ -105,6 +130,7 @@ function VerifyJudgementPage() {
       markAsVerified({
         data: {
           judgementId: judgement.id || '',
+          lockToken,
           data: getCleanedData(),
           remarks,
           exclude,
@@ -117,7 +143,11 @@ function VerifyJudgementPage() {
       queryClient.invalidateQueries({
         queryKey: ['judgement-verification', filename],
       })
-      navigate({ to: '/' })
+      void releaseLock(false)
+        .catch(() => undefined)
+        .finally(() => {
+          navigate({ to: '/' })
+        })
     },
     onError: (err) => {
       toast.error('Failed to verify', {
@@ -128,7 +158,9 @@ function VerifyJudgementPage() {
 
   const revertMutation = useMutation({
     mutationFn: () =>
-      revertToInProgress({ data: { judgementId: judgement.id || '' } }),
+      revertToInProgress({
+        data: { judgementId: judgement.id || '', lockToken },
+      }),
     onSuccess: (result) => {
       toast.success(result.message)
       queryClient.invalidateQueries({ queryKey: ['user-stats'] })
@@ -191,6 +223,17 @@ function VerifyJudgementPage() {
       onRestoreDefault={handleRestoreDefault}
       onNotGivenChange={setNotGivenMap}
       notGivenMap={notGivenMap}
+      canEdit={canEdit}
+      lockState={lockState}
+      studentIdentity={studentIdentity}
+      onStudentIdentityChange={setStudentIdentity}
+      onAcquireLock={() => {
+        void acquireLock()
+      }}
+      onReleaseLock={() => {
+        void releaseLock()
+      }}
+      isLockActionPending={isLockActionPending}
       title={judgement.trial || judgement.filename}
       appeal={judgement.appeal}
       corrigendum={judgement.corrigendum}

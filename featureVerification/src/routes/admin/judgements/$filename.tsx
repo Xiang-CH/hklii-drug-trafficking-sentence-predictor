@@ -5,11 +5,12 @@ import {
   useRouter,
 } from '@tanstack/react-router'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { toast } from 'sonner'
 import type { JudgementDetail } from '@/routes/api/judgements/$filename'
-import { requireAdminAuth } from '@/lib/auth-client'
+import { authClient, requireAdminAuth } from '@/lib/auth-client'
 import { useVerificationData } from '@/lib/verification-data'
+import { useVerificationLock } from '@/lib/use-verification-lock'
 import {
   adminMarkAsVerified,
   adminRevertToInProgress,
@@ -47,6 +48,7 @@ function JudgementDetailComponent() {
   const [highlightedText, setHighlightedText] = useState<string | null>(null)
   const { history } = useRouter()
   const queryClient = useQueryClient()
+  const { data: session } = authClient.useSession()
 
   const { data, isPending } = useQuery({
     queryKey: ['judgement', filename],
@@ -58,6 +60,31 @@ function JudgementDetailComponent() {
     () => data?.verifiedData || data?.extractedData,
     [data?.verifiedData, data?.extractedData],
   )
+
+  const {
+    studentIdentity,
+    setStudentIdentity,
+    lockState,
+    canEdit,
+    isLockActionPending,
+    acquireLock,
+    releaseLock,
+    lockToken,
+  } = useVerificationLock({
+    judgementId: data?.id || '',
+    initialLockState: data?.lockState || {
+      isLocked: false,
+      isHeldByMe: false,
+      scopeKey: 'judgement',
+    },
+    sessionUserName: session?.user.name,
+  })
+
+  useEffect(() => {
+    return () => {
+      void releaseLock(false).catch(() => undefined)
+    }
+  }, [releaseLock])
 
   const {
     judgementData,
@@ -92,6 +119,7 @@ function JudgementDetailComponent() {
       adminSaveVerificationProgress({
         data: {
           judgementId: data?.id || '',
+          lockToken,
           extractedId: data?.extractedData?.extractedId,
           data: getCleanedData(),
           remarks,
@@ -115,6 +143,7 @@ function JudgementDetailComponent() {
       adminMarkAsVerified({
         data: {
           judgementId: data?.id || '',
+          lockToken,
           data: getCleanedData(),
           remarks,
           exclude,
@@ -133,7 +162,9 @@ function JudgementDetailComponent() {
 
   const revertMutation = useMutation({
     mutationFn: () =>
-      adminRevertToInProgress({ data: { judgementId: data?.id || '' } }),
+      adminRevertToInProgress({
+        data: { judgementId: data?.id || '', lockToken },
+      }),
     onSuccess: (result) => {
       toast.success(result.message)
       queryClient.invalidateQueries({ queryKey: ['judgement', filename] })
@@ -228,6 +259,17 @@ function JudgementDetailComponent() {
           onRestoreDefault={handleRestoreDefault}
           onNotGivenChange={setNotGivenMap}
           notGivenMap={notGivenMap}
+          canEdit={canEdit}
+          lockState={lockState}
+          studentIdentity={studentIdentity}
+          onStudentIdentityChange={setStudentIdentity}
+          onAcquireLock={() => {
+            void acquireLock()
+          }}
+          onReleaseLock={() => {
+            void releaseLock()
+          }}
+          isLockActionPending={isLockActionPending}
           title={data.trial || data.filename}
           appeal={data.appeal}
           corrigendum={data.corrigendum}

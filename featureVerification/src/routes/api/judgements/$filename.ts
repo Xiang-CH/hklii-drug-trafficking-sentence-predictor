@@ -1,8 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { ObjectId } from 'mongodb'
-import { username } from 'better-auth/plugins'
+import type { VerificationLockState } from '@/lib/verification-lock'
 import { db } from '@/lib/db'
 import { authMiddleware } from '@/middleware/auth'
+import { getCurrentVerificationLock } from '@/server/verification-locks'
 
 export type JudgementDetail = {
   id: string
@@ -37,6 +38,7 @@ export type JudgementDetail = {
     remarks?: string
     exclude?: boolean
   } | null
+  lockState: VerificationLockState
 }
 
 export const Route = createFileRoute('/api/judgements/$filename')({
@@ -100,6 +102,9 @@ export const Route = createFileRoute('/api/judgements/$filename')({
             ? 'verified'
             : 'in_progress'
           : 'pending'
+        const lockState = await getCurrentVerificationLock(
+          doc._id instanceof ObjectId ? doc._id.toHexString() : String(doc._id),
+        )
 
         // Return the judgement data
         return Response.json({
@@ -157,6 +162,7 @@ export const Route = createFileRoute('/api/judgements/$filename')({
                 verifierUsername: verifier?.username || undefined,
               }
             : null,
+          lockState,
         } satisfies JudgementDetail)
       },
     },
