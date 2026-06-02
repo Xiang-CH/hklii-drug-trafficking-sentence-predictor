@@ -4,13 +4,13 @@ import { useArtifact } from "@/components/thread/artifact";
 type HtmlPreviewProps = {
   title?: string;
   description?: string;
-  html: string;
+  html?: string;
 };
 
 export function HtmlPreviewArtifact({
   title = "HTML Preview",
   description = "Generated HTML content",
-  html,
+  html = "",
 }: HtmlPreviewProps) {
   const [Artifact, { open, setOpen }] = useArtifact();
 

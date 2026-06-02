@@ -26,8 +26,6 @@ function CustomComponent({
 }) {
   const artifact = useArtifact();
   const { values } = useStreamContext();
-  console.log(values.ui);
-  console.log(message.id);
   const customComponents = values.ui?.filter(
     (ui) => ui.metadata?.message_id === message.id,
   );
