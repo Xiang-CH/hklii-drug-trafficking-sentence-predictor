@@ -7,13 +7,15 @@ import {
   Undo2,
 } from 'lucide-react'
 import { useState } from 'react'
-import { Dialog, DialogContent, DialogTrigger } from './ui/dialog'
+import { Dialog, DialogContent } from './ui/dialog'
 import type { ReactNode } from 'react'
 import type { EditableDataSectionKey } from '@/components/edit-ui/editable-data-section'
+import type { VerificationLockState } from '@/lib/verification-lock'
 import EditableDataViewer from '@/components/editable-data-viewer'
 import HtmlViewer from '@/components/html-viewer'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 
 type VerificationWorkspaceData = {
@@ -44,6 +46,13 @@ interface VerificationWorkspaceProps {
   ) => void
   onNotGivenChange: (notGivenMap: Record<string, boolean>) => void
   notGivenMap: Record<string, boolean>
+  canEdit: boolean
+  lockState: VerificationLockState
+  studentIdentity: string
+  onStudentIdentityChange: (value: string) => void
+  onAcquireLock: () => void
+  onReleaseLock: () => void
+  isLockActionPending: boolean
 
   title?: string
   appeal?: string
@@ -68,6 +77,13 @@ export default function VerificationWorkspace({
   onRestoreDefault,
   onNotGivenChange,
   notGivenMap,
+  canEdit,
+  lockState,
+  studentIdentity,
+  onStudentIdentityChange,
+  onAcquireLock,
+  onReleaseLock,
+  isLockActionPending,
   title,
   appeal,
   corrigendum,
@@ -94,6 +110,10 @@ export default function VerificationWorkspace({
     setShowUnsavedDialog(false)
     onBack()
   }
+
+  const expiresAtText = lockState.expiresAt
+    ? new Date(lockState.expiresAt).toLocaleTimeString()
+    : null
 
   return (
     <div className="flex h-[calc(100vh-4rem)] flex-col bg-gray-50 dark:bg-gray-900">
@@ -162,6 +182,37 @@ export default function VerificationWorkspace({
           </div>
           <div className="flex items-center gap-3">
             {extraInfo}
+            {!lockState.isLocked || lockState.isHeldByMe ? (
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-2">
+                  <Input
+                    value={studentIdentity}
+                    onChange={(event) =>
+                      onStudentIdentityChange(event.target.value)
+                    }
+                    placeholder="Student identity"
+                    className="h-8 w-44 bg-white dark:bg-gray-800"
+                  />
+                  <Button
+                    variant={lockState.isHeldByMe ? 'outline' : 'default'}
+                    size="sm"
+                    onClick={
+                      lockState.isHeldByMe ? onReleaseLock : onAcquireLock
+                    }
+                    disabled={isLockActionPending}
+                  >
+                    {isLockActionPending
+                      ? 'Working...'
+                      : lockState.isHeldByMe
+                        ? 'Release lock'
+                        : 'Acquire lock'}
+                  </Button>
+                </div>
+                <p className="text-[11px] text-gray-500 dark:text-gray-400">
+                  Enter a name or ID to track this edit lock
+                </p>
+              </div>
+            ) : null}
             {status === 'verified' ? (
               <Badge className="bg-green-100 text-green-700">
                 <CheckCircle2 className="mr-1 h-3 w-3" />
@@ -177,10 +228,29 @@ export default function VerificationWorkspace({
                 Unsaved Changes
               </Badge>
             )}
+            {lockState.isLocked && (
+              <Badge
+                variant={lockState.isHeldByMe ? 'default' : 'secondary'}
+                className={
+                  lockState.isHeldByMe
+                    ? 'bg-purple-100 text-purple-700'
+                    : 'bg-amber-100 text-amber-700'
+                }
+              >
+                {lockState.isHeldByMe
+                  ? 'Edit lock held'
+                  : `Locked by ${lockState.lockedByName || 'another student'}`}
+              </Badge>
+            )}
+            {lockState.isLocked && expiresAtText && (
+              <span className="text-[11px] text-gray-500 dark:text-gray-400">
+                Expires at {expiresAtText}
+              </span>
+            )}
             {revertAction && (
               <Button
                 onClick={() => revertAction.mutate()}
-                disabled={revertAction.isPending}
+                disabled={revertAction.isPending || !canEdit}
                 variant="outline"
                 size="sm"
               >
@@ -196,7 +266,7 @@ export default function VerificationWorkspace({
             )}
             <Button
               onClick={() => saveAction.mutate()}
-              disabled={saveAction.isPending || hasValidationErrors}
+              disabled={saveAction.isPending || hasValidationErrors || !canEdit}
               variant="outline"
             >
               {saveAction.isPending ? (
@@ -217,7 +287,8 @@ export default function VerificationWorkspace({
                 verifyAction.isPending ||
                 status === 'verified' ||
                 !data.judgement ||
-                hasValidationErrors
+                hasValidationErrors ||
+                !canEdit
               }
               className="bg-green-600 hover:bg-green-700"
             >
@@ -264,6 +335,7 @@ export default function VerificationWorkspace({
                 onRestoreDefault={onRestoreDefault}
                 onNotGivenChange={onNotGivenChange}
                 notGivenMap={notGivenMap}
+                canEdit={canEdit}
               />
             )}
           </div>

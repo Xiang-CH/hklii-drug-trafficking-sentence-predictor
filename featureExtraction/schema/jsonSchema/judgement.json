@@ -450,9 +450,13 @@
         "ReasonForOffenceDetail": {
             "additionalProperties": false,
             "properties": {
-                "reason": {
-                    "$ref": "#/$defs/ReasonForOffence",
-                    "description": "Reasons for committing the offence. Financial gain: To obtain money, valuables, or other material benefit primarily for profit or improvement of lifestyle, and not mainly driven by financial difficulties or economic pressure; Economic hardship: Motivated primarily by financial difficulties facing the offender, such as debt, unemployment, inability to meet basic living expenses, or other economic pressures; Coercion: Compelled to commit the offence due to threats, intimidation, or pressure from criminal groups or other parties; Deception: Misled or deceived about the nature or consequences of the activity, leading to involvement in the offence; Addiction-driven: To support the individual's substance abuse or addiction, such as funding personal drug use; Peer influence: Influenced by social pressure or encouragement from peers or associates; Helping other people: Committed with the voluntary intent to assist or benefit another person (e.g., providing resources, support, or fulfilling a request), where this assistance is not driven by the offender's own financial need, coercion, deception, addiction, or peer pressure, and without expectation of material gain; "
+                "reasons": {
+                    "description": "Reasons for committing the offence. Financial gain: To obtain money, valuables, or other material benefit primarily for profit or improvement of lifestyle, and not mainly driven by financial difficulties or economic pressure; Economic hardship: Motivated primarily by financial difficulties facing the offender, such as debt, unemployment, inability to meet basic living expenses, or other economic pressures; Coercion: Compelled to commit the offence due to threats, intimidation, or pressure from criminal groups or other parties; Deception: Misled or deceived about the nature or consequences of the activity, leading to involvement in the offence; Addiction-driven: To support the individual's substance abuse or addiction, such as funding personal drug use; Peer influence: Influenced by social pressure or encouragement from peers or associates; Helping other people: Committed with the voluntary intent to assist or benefit another person (e.g., providing resources, support, or fulfilling a request), where this assistance is not driven by the offender's own financial need, coercion, deception, addiction, or peer pressure, and without expectation of material gain; ",
+                    "items": {
+                        "$ref": "#/$defs/ReasonForOffence"
+                    },
+                    "title": "Reasons",
+                    "type": "array"
                 },
                 "source": {
                     "description": "The exact match source text from which the reasons for committing the offence was extracted. Do not include any additional information in the source document.",
@@ -461,7 +465,7 @@
                 }
             },
             "required": [
-                "reason",
+                "reasons",
                 "source"
             ],
             "title": "ReasonForOffenceDetail",

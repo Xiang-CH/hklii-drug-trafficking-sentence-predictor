@@ -1,5 +1,5 @@
 import { URL, fileURLToPath } from 'node:url'
-import { defineConfig, type PluginOption } from 'vite'
+import { defineConfig } from 'vite'
 import { devtools } from '@tanstack/devtools-vite'
 import { tanstackStart } from '@tanstack/react-start/plugin/vite'
 import viteReact from '@vitejs/plugin-react'
@@ -7,6 +7,7 @@ import viteTsConfigPaths from 'vite-tsconfig-paths'
 
 import tailwindcss from '@tailwindcss/vite'
 import { nitro } from 'nitro/vite'
+import type { PluginOption } from 'vite'
 
 const config = defineConfig({
   resolve: {
@@ -19,7 +20,7 @@ const config = defineConfig({
     nitro(
       process.env.DEPLOY_TARGET === 'azure'
         ? {
-            preset: './nitro/presets/azure-swa-custom.mjs', //'azure-swa',
+            preset: './nitro/presets/azure-swa-custom.mjs', // 'azure-swa',
             traceDeps: ['mongodb'],
             azure: {
               config: {

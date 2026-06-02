@@ -124,3 +124,4 @@ todos.json
 .langgraph_api/
 
 dataBot/local_env_set.sh
+.sisyphus/

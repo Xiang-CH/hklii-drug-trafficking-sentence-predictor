@@ -1,6 +1,12 @@
 import { createServerFn } from '@tanstack/react-start'
 import { ObjectId } from 'mongodb'
 import { db } from '@/lib/db'
+import {
+  acquireVerificationLock,
+  getCurrentVerificationLock,
+  releaseVerificationLock,
+  renewVerificationLock,
+} from '@/server/verification-locks'
 import { authMiddleware } from '@/middleware/auth'
 
 export type UserJudgement = {
@@ -44,6 +50,32 @@ const judgementListProjection = {
   appeal: 1,
   corrigendum: 1,
   year: 1,
+}
+
+async function getAssignedJudgement(
+  judgementsCollection: ReturnType<typeof db.collection>,
+  userId: string,
+  judgementId: string,
+) {
+  return await judgementsCollection.findOne({
+    _id: new ObjectId(judgementId),
+    $or: [{ assigned_to: new ObjectId(userId) }, { assigned_to: userId }],
+  })
+}
+
+async function getJudgementForLock(
+  judgementsCollection: ReturnType<typeof db.collection>,
+  userId: string,
+  judgementId: string,
+  isAdmin: boolean,
+) {
+  if (isAdmin) {
+    return await judgementsCollection.findOne({
+      _id: new ObjectId(judgementId),
+    })
+  }
+
+  return await getAssignedJudgement(judgementsCollection, userId, judgementId)
 }
 
 // Helper function to get status from verified-features collection
@@ -156,6 +188,9 @@ export const getJudgementForVerification = createServerFn({
       verifiedCollection,
       doc._id,
     )
+    const lockState = await getCurrentVerificationLock(
+      doc._id instanceof ObjectId ? doc._id.toHexString() : `${doc._id}`,
+    )
 
     // Get verified feature data if it exists
     let verifiedData = null
@@ -198,7 +233,100 @@ export const getJudgementForVerification = createServerFn({
           } satisfies VerifiedFeatureData)
         : null,
       status,
+      lockState,
     }
+  })
+
+export const acquireJudgementLock = createServerFn({
+  method: 'POST',
+})
+  .middleware([authMiddleware])
+  .inputValidator(
+    (input: { judgementId: string; lockToken: string; holderName: string }) =>
+      input,
+  )
+  .handler(async ({ context, data }) => {
+    const userId = context.session.user.id
+    const holderUsername = context.session.user.username ?? null
+    const judgementsCollection = db.collection('judgement-html')
+
+    const judgement = await getJudgementForLock(
+      judgementsCollection,
+      userId,
+      data.judgementId,
+      context.session.user.role === 'admin',
+    )
+
+    if (!judgement) {
+      throw new Error('Judgement not found or not assigned to you')
+    }
+
+    return await acquireVerificationLock({
+      judgementId: data.judgementId,
+      userId,
+      holderName: data.holderName,
+      holderUsername,
+      lockToken: data.lockToken,
+    })
+  })
+
+export const renewJudgementLock = createServerFn({
+  method: 'POST',
+})
+  .middleware([authMiddleware])
+  .inputValidator(
+    (input: { judgementId: string; lockToken: string; holderName: string }) =>
+      input,
+  )
+  .handler(async ({ context, data }) => {
+    const userId = context.session.user.id
+    const holderUsername = context.session.user.username ?? null
+    const judgementsCollection = db.collection('judgement-html')
+
+    const judgement = await getJudgementForLock(
+      judgementsCollection,
+      userId,
+      data.judgementId,
+      context.session.user.role === 'admin',
+    )
+
+    if (!judgement) {
+      throw new Error('Judgement not found or not assigned to you')
+    }
+
+    return await renewVerificationLock({
+      judgementId: data.judgementId,
+      userId,
+      holderName: data.holderName,
+      holderUsername,
+      lockToken: data.lockToken,
+    })
+  })
+
+export const releaseJudgementLock = createServerFn({
+  method: 'POST',
+})
+  .middleware([authMiddleware])
+  .inputValidator((input: { judgementId: string; lockToken: string }) => input)
+  .handler(async ({ context, data }) => {
+    const userId = context.session.user.id
+    const judgementsCollection = db.collection('judgement-html')
+
+    const judgement = await getJudgementForLock(
+      judgementsCollection,
+      userId,
+      data.judgementId,
+      context.session.user.role === 'admin',
+    )
+
+    if (!judgement) {
+      throw new Error('Judgement not found or not assigned to you')
+    }
+
+    return await releaseVerificationLock({
+      judgementId: data.judgementId,
+      lockToken: data.lockToken,
+    })
   })
 
 export const saveVerificationProgress = createServerFn({
@@ -208,7 +336,9 @@ export const saveVerificationProgress = createServerFn({
   .inputValidator(
     (input: {
       judgementId: string
+      lockToken: string
       extractedId?: string
+      holderName: string
       data: {
         judgement: unknown
         defendants: unknown
@@ -220,7 +350,14 @@ export const saveVerificationProgress = createServerFn({
   )
   .handler(async ({ context, data }) => {
     const userId = context.session.user.id
-    const { judgementId, extractedId, data: verificationData } = data
+    const {
+      judgementId,
+      lockToken,
+      extractedId,
+      holderName,
+      data: verificationData,
+    } = data
+    const holderUsername = context.session.user.username ?? null
 
     const judgementsCollection = db.collection('judgement-html')
     const verifiedCollection = db.collection('verified-features')
@@ -234,6 +371,14 @@ export const saveVerificationProgress = createServerFn({
     if (!judgement) {
       throw new Error('Judgement not found or not assigned to you')
     }
+
+    await renewVerificationLock({
+      judgementId,
+      lockToken,
+      holderName,
+      holderUsername,
+      userId,
+    })
 
     // Check if a verified feature already exists
     const existingDoc = await verifiedCollection.findOne({
@@ -296,6 +441,7 @@ export const markAsVerified = createServerFn({
   .inputValidator(
     (input: {
       judgementId: string
+      lockToken: string
       data: {
         judgement: unknown
         defendants: unknown
@@ -303,11 +449,13 @@ export const markAsVerified = createServerFn({
       }
       remarks?: string
       exclude: boolean
+      holderName: string
     }) => input,
   )
   .handler(async ({ context, data }) => {
     const userId = context.session.user.id
-    const { judgementId, data: verificationData } = data
+    const { judgementId, lockToken, holderName, data: verificationData } = data
+    const holderUsername = context.session.user.username ?? null
 
     const judgementsCollection = db.collection('judgement-html')
     const verifiedCollection = db.collection('verified-features')
@@ -321,6 +469,14 @@ export const markAsVerified = createServerFn({
     if (!judgement) {
       throw new Error('Judgement not found or not assigned to you')
     }
+
+    await renewVerificationLock({
+      judgementId,
+      lockToken,
+      holderName,
+      holderUsername,
+      userId,
+    })
 
     // Check if a verified feature already exists
     const existingDoc = await verifiedCollection.findOne({
@@ -382,10 +538,14 @@ export const revertToInProgress = createServerFn({
   method: 'POST',
 })
   .middleware([authMiddleware])
-  .inputValidator((input: { judgementId: string }) => input)
+  .inputValidator(
+    (input: { judgementId: string; lockToken: string; holderName: string }) =>
+      input,
+  )
   .handler(async ({ context, data }) => {
     const userId = context.session.user.id
-    const { judgementId } = data
+    const { judgementId, lockToken, holderName } = data
+    const holderUsername = context.session.user.username ?? null
 
     const judgementsCollection = db.collection('judgement-html')
     const verifiedCollection = db.collection('verified-features')
@@ -398,6 +558,14 @@ export const revertToInProgress = createServerFn({
     if (!judgement) {
       throw new Error('Judgement not found or not assigned to you')
     }
+
+    await renewVerificationLock({
+      judgementId,
+      lockToken,
+      holderName,
+      holderUsername,
+      userId,
+    })
 
     const result = await verifiedCollection.updateOne(
       { source_judgement_id: new ObjectId(judgementId) },
@@ -436,6 +604,7 @@ export const adminSaveVerificationProgress = createServerFn({
   .inputValidator(
     (input: {
       judgementId: string
+      lockToken: string
       extractedId?: string
       data: {
         judgement: unknown
@@ -444,14 +613,30 @@ export const adminSaveVerificationProgress = createServerFn({
       }
       remarks?: string
       exclude: boolean
+      holderName: string
     }) => input,
   )
   .handler(async ({ context, data }) => {
     requireAdmin(context.session)
     const userId = context.session.user.id
-    const { judgementId, extractedId, data: verificationData } = data
+    const {
+      judgementId,
+      lockToken,
+      extractedId,
+      holderName,
+      data: verificationData,
+    } = data
+    const holderUsername = context.session.user.username ?? null
 
     const verifiedCollection = db.collection('verified-features')
+
+    await renewVerificationLock({
+      judgementId,
+      lockToken,
+      holderName,
+      holderUsername,
+      userId,
+    })
 
     const existingDoc = await verifiedCollection.findOne({
       source_judgement_id: new ObjectId(judgementId),
@@ -511,6 +696,7 @@ export const adminMarkAsVerified = createServerFn({
   .inputValidator(
     (input: {
       judgementId: string
+      lockToken: string
       data: {
         judgement: unknown
         defendants: unknown
@@ -518,14 +704,24 @@ export const adminMarkAsVerified = createServerFn({
       }
       remarks?: string
       exclude: boolean
+      holderName: string
     }) => input,
   )
   .handler(async ({ context, data }) => {
     requireAdmin(context.session)
     const userId = context.session.user.id
-    const { judgementId, data: verificationData } = data
+    const { judgementId, lockToken, holderName, data: verificationData } = data
+    const holderUsername = context.session.user.username ?? null
 
     const verifiedCollection = db.collection('verified-features')
+
+    await renewVerificationLock({
+      judgementId,
+      lockToken,
+      holderName,
+      holderUsername,
+      userId,
+    })
 
     const existingDoc = await verifiedCollection.findOne({
       source_judgement_id: new ObjectId(judgementId),
@@ -584,12 +780,25 @@ export const adminRevertToInProgress = createServerFn({
   method: 'POST',
 })
   .middleware([authMiddleware])
-  .inputValidator((input: { judgementId: string }) => input)
+  .inputValidator(
+    (input: { judgementId: string; lockToken: string; holderName: string }) =>
+      input,
+  )
   .handler(async ({ context, data }) => {
     requireAdmin(context.session)
-    const { judgementId } = data
+    const { judgementId, lockToken, holderName } = data
+    const userId = context.session.user.id
+    const holderUsername = context.session.user.username ?? null
 
     const verifiedCollection = db.collection('verified-features')
+
+    await renewVerificationLock({
+      judgementId,
+      lockToken,
+      holderName,
+      holderUsername,
+      userId,
+    })
 
     const result = await verifiedCollection.updateOne(
       { source_judgement_id: new ObjectId(judgementId) },

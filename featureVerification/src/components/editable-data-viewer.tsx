@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { Edit2 } from 'lucide-react'
 import { EditableDataSection, ValidationErrorsPanel } from './edit-ui'
 import type * as z from 'zod'
 import type { EditableDataSectionKey } from './edit-ui'
@@ -53,6 +52,7 @@ interface EditableDataViewerProps {
   ) => void
   onNotGivenChange: (notGivenMap: Record<string, boolean>) => void
   notGivenMap: Record<string, boolean>
+  canEdit: boolean
 }
 
 export default function EditableDataViewer({
@@ -63,12 +63,12 @@ export default function EditableDataViewer({
   onRestoreDefault,
   onNotGivenChange,
   notGivenMap,
+  canEdit,
 }: EditableDataViewerProps) {
   const [localData, setLocalData] = useState(data)
   const [validationErrors, setValidationErrors] = useState<
     Record<string, Array<string>>
   >({})
-  const [isEditing, setIsEditing] = useState(true)
   const [lastCleared, setLastCleared] = useState<UndoState>({
     operation: null,
   })
@@ -94,7 +94,7 @@ export default function EditableDataViewer({
     onNotGivenChange(updated)
     // Pass the updated notGivenMap to validation
     const { errors } = validateData(localData, updated)
-    if (isEditing) {
+    if (canEdit) {
       setValidationErrors(errors)
     }
     if (Object.values(errors).every((arr) => arr.length === 0)) {
@@ -140,7 +140,7 @@ export default function EditableDataViewer({
     )
     setLocalData(transformedData)
 
-    if (isEditing) {
+    if (canEdit) {
       setValidationErrors(errors)
     }
 
@@ -209,14 +209,14 @@ export default function EditableDataViewer({
 
     // Mandatory field validation
     const checkMandatoryFields = (
-      data: any,
+      currentData: any,
       basePath: string,
       section: 'judgement' | 'defendants' | 'trials',
     ) => {
-      if (!data || typeof data !== 'object') return
-      for (const key of Object.keys(data)) {
+      if (!currentData || typeof currentData !== 'object') return
+      for (const key of Object.keys(currentData)) {
         const currentPath = basePath ? `${basePath}.${key}` : key
-        const value = data[key]
+        const value = currentData[key]
 
         if (MANDATORY_NOT_GIVEN_FIELDS.includes(key)) {
           // console.log("not given map", currentNotGivenMap)
@@ -262,7 +262,7 @@ export default function EditableDataViewer({
     setLocalData(transformedData)
 
     // Real-time validation when editing
-    if (isEditing) {
+    if (canEdit) {
       setValidationErrors(errors)
     }
 
@@ -273,13 +273,16 @@ export default function EditableDataViewer({
     }
   }
 
-  // Validate when entering edit mode
-  const handleStartEditing = () => {
-    setIsEditing(true)
+  useEffect(() => {
+    if (!canEdit) {
+      setValidationErrors({})
+      return
+    }
+
     const { errors, transformedData } = validateData(localData)
-    setLocalData(transformedData) // Update computed fields when entering edit mode
+    setLocalData(transformedData)
     setValidationErrors(errors)
-  }
+  }, [canEdit])
 
   return (
     <div className="space-y-4 text-sm">
@@ -291,22 +294,16 @@ export default function EditableDataViewer({
           <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
             * = computed field (auto-updated)
           </p>
-        </div>
-        <div className="flex gap-2">
-          {!isEditing && (
-            <button
-              onClick={handleStartEditing}
-              className="px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded text-sm flex items-center gap-2"
-            >
-              <Edit2 className="w-4 h-4" />
-              Edit
-            </button>
+          {!canEdit && (
+            <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">
+              Read only until you acquire the edit lock
+            </p>
           )}
         </div>
       </div>
 
       {/* Display validation errors */}
-      <ValidationErrorsPanel validationErrors={validationErrors} />
+      {canEdit && <ValidationErrorsPanel validationErrors={validationErrors} />}
 
       {localData.judgement && (
         <EditableDataSection
@@ -314,7 +311,7 @@ export default function EditableDataViewer({
           title="Judgement"
           data={localData.judgement}
           onSourceHover={onSourceHover}
-          isEditing={isEditing}
+          isEditing={canEdit}
           onChange={(newData) =>
             handleDataChange({ ...localData, judgement: newData })
           }
@@ -338,7 +335,7 @@ export default function EditableDataViewer({
           title="Defendants"
           data={localData.defendants}
           onSourceHover={onSourceHover}
-          isEditing={isEditing}
+          isEditing={canEdit}
           onChange={(newData) =>
             handleDataChange({ ...localData, defendants: newData })
           }
@@ -362,7 +359,7 @@ export default function EditableDataViewer({
           title="Trials"
           data={localData.trials}
           onSourceHover={onSourceHover}
-          isEditing={isEditing}
+          isEditing={canEdit}
           onChange={(newData) =>
             handleDataChange({ ...localData, trials: newData })
           }
@@ -387,7 +384,7 @@ export default function EditableDataViewer({
           onChange={(e) =>
             handleDataChange({ ...localData, exclude: e.target.checked })
           }
-          disabled={!isEditing}
+          disabled={!canEdit}
         />
       </div>
       <p className="font-semibold">Remarks:</p>
@@ -397,7 +394,7 @@ export default function EditableDataViewer({
         onChange={(e) =>
           handleDataChange({ ...localData, remarks: e.target.value })
         }
-        disabled={!isEditing}
+        disabled={!canEdit}
         placeholder="Add any remarks or notes about this case here..."
       />
     </div>
