@@ -159,6 +159,187 @@ describe('predictor API', () => {
 		)
 	})
 
+	it('defaults to the notional-weighted starting point', async () => {
+		const response = await post({
+			...baseRequest,
+			drugs: [
+				{ type: 'Cocaine', quantity: 500 },
+				{ type: 'Methamphetamine', quantity: 10 },
+			],
+		})
+		const body = await response.json()
+
+		expect(response.status).toBe(200)
+		expect(body.startingPointMode).toBe('notional-weighted')
+		expect(body.startingPointBreakdown).toBeNull()
+		expect(body.startingPointMonths).toBe(192.73)
+	})
+
+	it('holds the starting point at the most serious drug in multi-drug-floor mode', async () => {
+		const response = await post({
+			...baseRequest,
+			startingPointMode: 'multi-drug-floor',
+			drugs: [
+				{ type: 'Cocaine', quantity: 10 },
+				{ type: 'Methamphetamine', quantity: 10 },
+			],
+		})
+		const body = await response.json()
+
+		expect(response.status).toBe(200)
+		expect(body.startingPointMode).toBe('multi-drug-floor')
+		expect(body.startingPointMonths).toBe(84)
+		expect(body.startingPointYears).toBe(7)
+		expect(body.startingPointBreakdown).toMatchObject({
+			mode: 'multi-drug-floor',
+			baselineMonths: 84,
+			provisionalMonths: 80.5,
+			upliftMonths: 0,
+		})
+		expect(body.startingPointBreakdown.groups).toHaveLength(2)
+		expect(body.startingPointBreakdown.groups[0]).toMatchObject({
+			guidelineGroup: 'methamphetamine',
+			family: 'Methamphetamine',
+			drugTypes: ['Methamphetamine'],
+			quantity: 10,
+			startingPointMonths: 84,
+		})
+	})
+
+	it('adds the multi-drug uplift when the combined sentence clears the baseline', async () => {
+		const response = await post({
+			...baseRequest,
+			startingPointMode: 'multi-drug-floor',
+			drugs: [
+				{ type: 'Cocaine', quantity: 500 },
+				{ type: 'Methamphetamine', quantity: 10 },
+			],
+		})
+		const body = await response.json()
+
+		expect(response.status).toBe(200)
+		expect(body.startingPointMonths).toBe(192.73)
+		expect(body.startingPointBreakdown).toMatchObject({
+			baselineMonths: 192,
+			provisionalMonths: 192.73,
+			upliftMonths: 0.73,
+		})
+	})
+
+	it('keeps the rounded breakdown consistent with the starting point', async () => {
+		// A sub-gram second drug lifts the raw starting point by ~0.002 months.
+		// Rounding the raw uplift on its own would report 0 while the starting
+		// point sits 0.01 above the baseline.
+		const combos = [
+			[
+				{ type: 'Cocaine', quantity: 2500 },
+				{ type: 'Ketamine', quantity: 0.5 },
+			],
+			[
+				{ type: 'Cocaine', quantity: 10 },
+				{ type: 'Methamphetamine', quantity: 10 },
+			],
+			[
+				{ type: 'Cocaine', quantity: 500 },
+				{ type: 'Methamphetamine', quantity: 10 },
+			],
+			[
+				{ type: 'Heroin', quantity: 1200 },
+				{ type: 'Cannabis/THC', quantity: 8000 },
+			],
+			[
+				{ type: 'Midazolam', quantity: 2500 },
+				{ type: 'Nimetazepam', quantity: 400 },
+			],
+		]
+
+		for (const drugs of combos) {
+			const response = await post({
+				...baseRequest,
+				startingPointMode: 'multi-drug-floor',
+				drugs,
+			})
+			const body = await response.json()
+			const breakdown = body.startingPointBreakdown
+
+			expect(response.status).toBe(200)
+			expect(
+				breakdown.baselineMonths + breakdown.upliftMonths,
+			).toBeCloseTo(body.startingPointMonths, 6)
+			expect(breakdown.upliftMonths >= 0).toBe(true)
+			// A zero uplift is exactly the case where the baseline binds.
+			expect(breakdown.upliftMonths === 0).toBe(
+				breakdown.baselineMonths === body.startingPointMonths,
+			)
+		}
+	})
+
+	it('reports a sub-cent uplift instead of rounding it to zero', async () => {
+		const response = await post({
+			...baseRequest,
+			startingPointMode: 'multi-drug-floor',
+			drugs: [
+				{ type: 'Cocaine', quantity: 2500 },
+				{ type: 'Ketamine', quantity: 0.5 },
+			],
+		})
+		const body = await response.json()
+
+		expect(response.status).toBe(200)
+		expect(body.startingPointBreakdown.baselineMonths).toBe(253.71)
+		expect(body.startingPointBreakdown.upliftMonths).toBe(0.01)
+		expect(body.startingPointMonths).toBe(253.72)
+	})
+
+	it('aggregates drugs that share a guideline group in multi-drug-floor mode', async () => {
+		const response = await post({
+			...baseRequest,
+			startingPointMode: 'multi-drug-floor',
+			drugs: [
+				{ type: 'Cocaine', quantity: 300 },
+				{ type: 'Heroin', quantity: 300 },
+			],
+		})
+		const body = await response.json()
+
+		expect(response.status).toBe(200)
+		expect(body.startingPointBreakdown.groups).toEqual([
+			{
+				guidelineGroup: 'cocaine-heroin',
+				family: 'Cocaine',
+				drugTypes: ['Cocaine', 'Heroin'],
+				quantity: 600,
+				startingPointMonths: 196.8,
+			},
+		])
+	})
+
+	it('leaves a single-drug prediction unchanged in multi-drug-floor mode', async () => {
+		const floorResponse = await post({
+			...baseRequest,
+			startingPointMode: 'multi-drug-floor',
+		})
+		const weightedResponse = await post(baseRequest)
+		const floor = await floorResponse.json()
+		const weighted = await weightedResponse.json()
+
+		expect(floor.startingPointMonths).toBe(60)
+		expect(floor.finalSentenceMonths).toBe(weighted.finalSentenceMonths)
+		expect(floor.adjustments).toEqual(weighted.adjustments)
+	})
+
+	it('rejects an unknown starting point mode', async () => {
+		const response = await post({
+			...baseRequest,
+			startingPointMode: 'highest-drug',
+		})
+
+		expect(response.status).toBe(400)
+		expect(await response.json()).toMatchObject({
+			error: 'VALIDATION_ERROR',
+		})
+	})
+
 	// it('supports Midazolam powder and rejects the tablet variant', async () => {
 	// 	const powderResponse = await post({
 	// 		...baseRequest,
@@ -206,6 +387,21 @@ describe('predictor API', () => {
 			}),
 		]),
 		)
+	})
+
+	it('accepts the starting point mode on the similar-cases endpoint', async () => {
+		const response = await post(
+			{
+				...baseRequest,
+				startingPointMode: 'multi-drug-floor',
+			},
+			'/api/similar-cases',
+		)
+		const body = await response.json()
+
+		expect(response.status).toBe(200)
+		expect(Array.isArray(body)).toBe(true)
+		expect(body.length).toBeGreaterThan(0)
 	})
 
 	it('returns JSON validation errors', async () => {

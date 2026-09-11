@@ -31,6 +31,36 @@ export function drugFamilyFor(
 	return drugFamilyMap[type] ?? null
 }
 
+// Guideline groups. Families inside a group are sentenced on the same tariff
+// table, so their quantities are aggregated before the quantity-based sentence
+// is read off the table. Cocaine and heroin share one table, and ketamine,
+// ecstasy and nimetazepam share another; both equivalences are inherited from
+// the legacy model, where predict_heroin() delegates to predict_cocaine()
+// and predict_nimetazepam()/predict_ecstasy() delegate to predict_ketamine().
+const guidelineGroupByFamily: Record<string, string> = {
+	Cocaine: 'cocaine-heroin',
+	Heroin: 'cocaine-heroin',
+	Ketamine: 'ketamine-ecstasy-nimetazepam',
+	Ecstasy: 'ketamine-ecstasy-nimetazepam',
+	Nimetazepam: 'ketamine-ecstasy-nimetazepam',
+	Methamphetamine: 'methamphetamine',
+	Cannabis: 'cannabis',
+	'Midazolam-powder': 'midazolam-powder',
+}
+
+// The family whose bucket table represents its group's shared guideline.
+const guidelineGroupFamily: Record<string, string> = {
+	'cocaine-heroin': 'Cocaine',
+	'ketamine-ecstasy-nimetazepam': 'Ketamine',
+	methamphetamine: 'Methamphetamine',
+	cannabis: 'Cannabis',
+	'midazolam-powder': 'Midazolam-powder',
+}
+
+export function guidelineGroupForFamily(family: string): string {
+	return guidelineGroupByFamily[family] ?? family
+}
+
 // Guideline buckets. Quantity bounds in grams, sentence bounds in months.
 // kinds:
 //   bounded          - quantity range and sentence range both finite
@@ -156,15 +186,14 @@ function interpolate(
 	return bucket.lowS
 }
 
-export function predictStartingPointMonths(
-	type: string,
+export function predictFamilyMonths(
+	family: string,
 	quantity: number,
 ): number | null {
-	const family = drugFamilyFor(type)
-	if (family === null) {
+	const entry = guidelineBuckets[family]
+	if (entry === undefined) {
 		return null
 	}
-	const entry = guidelineBuckets[family]
 	let previousHighS: number | null = null
 	for (const bucket of entry.buckets) {
 		if (bucket.highQ !== null) {
@@ -179,6 +208,17 @@ export function predictStartingPointMonths(
 		}
 	}
 	return null
+}
+
+export function predictStartingPointMonths(
+	type: string,
+	quantity: number,
+): number | null {
+	const family = drugFamilyFor(type)
+	if (family === null) {
+		return null
+	}
+	return predictFamilyMonths(family, quantity)
 }
 
 export type GuidelineDrugInput = {
@@ -209,4 +249,89 @@ export function predictNotionalWeightedMonths(
 		startingPoint += sentenceAtTotal * (drug.quantity / total)
 	}
 	return startingPoint
+}
+
+export type GuidelineGroupSentence = {
+	group: string
+	family: string
+	drugTypes: Array<string>
+	quantity: number
+	months: number
+}
+
+export type MultiDrugFloorStartingPoint = {
+	baselineMonths: number
+	provisionalMonths: number
+	upliftMonths: number
+	startingPointMonths: number
+	groups: Array<GuidelineGroupSentence>
+}
+
+// Multi-drug floor method. Drugs sharing a guideline are aggregated into one
+// group and sentenced on their shared table; the most serious group forms a
+// baseline that additional drugs may only maintain or increase:
+//
+//   baseline    = max over guideline groups of the group's sentence
+//   provisional = notional-quantity sentence over all drugs (existing logic)
+//   uplift      = max(0, provisional - baseline)
+//   result      = baseline + uplift
+//
+// When the provisional sentence does not clear the baseline the additional
+// drugs contribute no quantity uplift, and are left to be reflected through the
+// separate "Multiple Drugs" aggravating factor instead.
+export function predictMultiDrugFloorStartingPoint(
+	drugs: ReadonlyArray<GuidelineDrugInput>,
+): MultiDrugFloorStartingPoint | null {
+	const provisionalMonths = predictNotionalWeightedMonths(drugs)
+	if (provisionalMonths === null) {
+		return null
+	}
+
+	const grouped = new Map<string, GuidelineGroupSentence>()
+	for (const drug of drugs) {
+		const family = drugFamilyFor(drug.type)
+		if (family === null) {
+			return null
+		}
+		const group = guidelineGroupForFamily(family)
+		const existing = grouped.get(group)
+		if (existing === undefined) {
+			grouped.set(group, {
+				group,
+				family: guidelineGroupFamily[group] ?? family,
+				drugTypes: [drug.type],
+				quantity: drug.quantity,
+				months: 0,
+			})
+			continue
+		}
+		existing.quantity += drug.quantity
+		if (!existing.drugTypes.includes(drug.type)) {
+			existing.drugTypes.push(drug.type)
+		}
+	}
+
+	const groups: Array<GuidelineGroupSentence> = []
+	let baselineMonths = 0
+	for (const entry of grouped.values()) {
+		const months = predictFamilyMonths(entry.family, entry.quantity)
+		if (months === null) {
+			return null
+		}
+		groups.push({ ...entry, months })
+		baselineMonths = Math.max(baselineMonths, months)
+	}
+	groups.sort(
+		(left, right) =>
+			right.months - left.months || left.group.localeCompare(right.group),
+	)
+
+	const upliftMonths = Math.max(0, provisionalMonths - baselineMonths)
+	return {
+		baselineMonths,
+		provisionalMonths,
+		upliftMonths,
+		startingPointMonths: baselineMonths + upliftMonths,
+		groups,
+	}
 }

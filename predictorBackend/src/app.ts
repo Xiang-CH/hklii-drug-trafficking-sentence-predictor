@@ -9,7 +9,7 @@ import {
 	UnsupportedPredictionError,
 } from './predictor.js'
 import { pickSimilarCases } from './similarCases.js'
-import { PredictionRequestSchema } from './schema.js'
+import { PredictionRequestSchema, StartingPointModeSchema } from './schema.js'
 
 function validationResponse(
 	error: { issues: Array<{ path: Array<PropertyKey>; message: string }> },
@@ -51,9 +51,37 @@ const PredictionAdjustmentSchema = z
 	})
 	.openapi('PredictionAdjustment')
 
+const StartingPointGroupSchema = z
+	.object({
+		guidelineGroup: z.string(),
+		family: z.string(),
+		drugTypes: z.array(z.string()),
+		quantity: z.number(),
+		startingPointMonths: z.number(),
+	})
+	.openapi('StartingPointGroup')
+
+// The breakdown is null for notional-weighted predictions, so the schema is
+// nullable. In the OpenAPI 3.0 document this has to live inside the named
+// component: a usage site renders as a bare `$ref` that cannot carry
+// `nullable`, so `.nullable()` applied there would publish the field as an
+// always-present object.
+const StartingPointBreakdownSchema = z
+	.object({
+		mode: z.literal('multi-drug-floor'),
+		baselineMonths: z.number(),
+		provisionalMonths: z.number(),
+		upliftMonths: z.number(),
+		groups: z.array(StartingPointGroupSchema),
+	})
+	.nullable()
+	.openapi('StartingPointBreakdown')
+
 const PredictionResponseSchema = z
 	.object({
 		status: z.literal('supported'),
+		startingPointMode: StartingPointModeSchema,
+		startingPointBreakdown: StartingPointBreakdownSchema,
 		startingPointMonths: z.number(),
 		startingPointYears: z.number(),
 		adjustments: z.array(PredictionAdjustmentSchema),

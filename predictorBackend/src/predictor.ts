@@ -1,5 +1,6 @@
 import type { PredictionRequest } from './schema.js'
 import {
+	predictMultiDrugFloorStartingPoint,
 	predictNotionalWeightedMonths,
 } from './guidelineModel.js'
 
@@ -19,8 +20,26 @@ export type PredictionAdjustment = {
 	years: number
 }
 
+export type StartingPointGroup = {
+	guidelineGroup: string
+	family: string
+	drugTypes: Array<string>
+	quantity: number
+	startingPointMonths: number
+}
+
+export type StartingPointBreakdown = {
+	mode: 'multi-drug-floor'
+	baselineMonths: number
+	provisionalMonths: number
+	upliftMonths: number
+	groups: Array<StartingPointGroup>
+}
+
 export type PredictionResponse = {
 	status: 'supported'
+	startingPointMode: PredictionRequest['startingPointMode']
+	startingPointBreakdown: StartingPointBreakdown | null
 	startingPointMonths: number
 	startingPointYears: number
 	adjustments: Array<PredictionAdjustment>
@@ -86,20 +105,71 @@ function round(value: number): number {
 	return Math.round((value + Number.EPSILON) * 100) / 100
 }
 
-function getStartingPoint(input: PredictionRequest): number {
-	const startingPoint = predictNotionalWeightedMonths(input.drugs)
-	if (startingPoint === null) {
-		throw new UnsupportedPredictionError(
-			'A prediction is not available for one of the submitted drugs',
-		)
+type StartingPointResolution = {
+	months: number
+	mode: PredictionRequest['startingPointMode']
+	breakdown: StartingPointBreakdown | null
+}
+
+// Selects the drug-based starting point for the requested mode. Both modes
+// return the same value for a single drug or for drugs that share one
+// guideline group; they differ when additional guideline groups are present.
+// Returns null when a submitted drug has no guideline, so that callers which do
+// not predict a sentence (the similar-case recommender) can degrade instead of
+// throwing.
+export function resolveStartingPointInput(
+	input: PredictionRequest,
+): StartingPointResolution | null {
+	if (input.startingPointMode === 'multi-drug-floor') {
+		const floor = predictMultiDrugFloorStartingPoint(input.drugs)
+		if (floor === null) {
+			return null
+		}
+		const baselineMonths = round(floor.baselineMonths)
+		const startingPointMonths = round(floor.startingPointMonths)
+		return {
+			months: floor.startingPointMonths,
+			mode: 'multi-drug-floor',
+			breakdown: {
+				mode: 'multi-drug-floor',
+				baselineMonths,
+				provisionalMonths: round(floor.provisionalMonths),
+				// Reported as the difference between the two rounded headline
+				// values rather than rounded on its own, so that the published
+				// identity baselineMonths + upliftMonths = startingPointMonths
+				// holds on the response, and so that a zero uplift always means
+				// the baseline was the binding sentence. Rounding the raw uplift
+				// independently could show 0 while startingPointMonths sits
+				// 0.01 above baselineMonths.
+				upliftMonths: round(startingPointMonths - baselineMonths),
+				groups: floor.groups.map((group) => ({
+					guidelineGroup: group.group,
+					family: group.family,
+					drugTypes: group.drugTypes,
+					quantity: group.quantity,
+					startingPointMonths: round(group.months),
+				})),
+			},
+		}
 	}
-	return startingPoint
+
+	const months = predictNotionalWeightedMonths(input.drugs)
+	if (months === null) {
+		return null
+	}
+	return { months, mode: 'notional-weighted', breakdown: null }
 }
 
 export function predictSentence(
 	input: PredictionRequest,
 ): PredictionResponse {
-	const startingPoint = getStartingPoint(input)
+	const startingPointResolution = resolveStartingPointInput(input)
+	if (startingPointResolution === null) {
+		throw new UnsupportedPredictionError(
+			'A prediction is not available for one of the submitted drugs',
+		)
+	}
+	const startingPoint = startingPointResolution.months
 	const adjustments: Array<PredictionAdjustment> = []
 
 	const roleIncreases: Array<{
@@ -241,6 +311,8 @@ export function predictSentence(
 	const finalSentenceMonths = Math.max(0, reductionBaseMonths - totalReductionMonths)
 	return {
 		status: 'supported',
+		startingPointMode: startingPointResolution.mode,
+		startingPointBreakdown: startingPointResolution.breakdown,
 		startingPointMonths: round(startingPoint),
 		startingPointYears: round(startingPoint / 12),
 		adjustments,
