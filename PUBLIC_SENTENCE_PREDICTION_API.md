@@ -110,7 +110,7 @@ startingPoint     = baselineMonths + upliftMonths
 
 The response reports these values rounded to two decimal places, with `upliftMonths` derived from the rounded `startingPointMonths` and `baselineMonths` rather than rounded on its own. `baselineMonths + upliftMonths` therefore gives back `startingPointMonths` at the published precision, and an uplift of `0` always means the baseline was the binding sentence.
 
-When `upliftMonths` is `0`, the additional drugs added nothing through the quantity formula and their presence is reflected only through the `Multiple Drugs` aggravating factor, which the caller must still select explicitly. For a single drug, or for drugs that all fall inside one guideline group, both modes return the same starting point.
+An `upliftMonths` of `0` means the provisional notional-quantity sentence did not exceed `baselineMonths`; it does not mean the additional drugs were ignored. Drugs that share a guideline group are aggregated before the shared table is read, so adding `Heroin` to a `Cocaine` charge raises the shared cocaine/heroin baseline even though the uplift stays `0`. When the extra drugs fall into other guideline groups and the baseline binds, their presence is reflected only through the `Multiple Drugs` aggravating factor, which the caller must still select explicitly. For a single drug, or for drugs that all fall inside one guideline group, both modes return the same starting point.
 
 ## Defendant roles
 
@@ -174,6 +174,8 @@ Status: `200 OK`
 ```json
 {
   "status": "supported",
+  "startingPointMode": "notional-weighted",
+  "startingPointBreakdown": null,
   "startingPointMonths": 60,
   "startingPointYears": 5,
   "adjustments": [
@@ -210,7 +212,7 @@ Status: `200 OK`
 | `startingPointBreakdown` | Present for `multi-drug-floor`, `null` otherwise. |
 | `startingPointBreakdown.baselineMonths` | Sentence for the most serious single drug or guideline group. |
 | `startingPointBreakdown.provisionalMonths` | Notional-quantity sentence over all drugs. |
-| `startingPointBreakdown.upliftMonths` | `max(0, provisionalMonths − baselineMonths)`. |
+| `startingPointBreakdown.upliftMonths` | `max(0, provisionalMonths − baselineMonths)`. `0` means the baseline was the binding sentence. |
 | `startingPointBreakdown.groups` | One entry per guideline group, most serious first, with `guidelineGroup`, `family`, `drugTypes`, `quantity`, and `startingPointMonths`. |
 | `startingPointMonths` | Starting point in months. |
 | `startingPointYears` | Starting point in years. |
