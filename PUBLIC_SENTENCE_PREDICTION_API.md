@@ -59,8 +59,9 @@ Accept: application/json
 | `guiltyPlea` | No | One guilty-plea option, or `null` when unknown. |
 | `aggravatingFactors` | No | Aggravating-factor list. |
 | `mitigatingFactors` | No | Mitigating-factor list. |
+| `startingPointMode` | No | `notional-weighted` (default) or `multi-drug-floor`. |
 
-If omitted, `additionalCircumstances`, `aggravatingFactors`, and `mitigatingFactors` are treated as empty lists, and `guiltyPlea` defaults to `null`.
+If omitted, `additionalCircumstances`, `aggravatingFactors`, and `mitigatingFactors` are treated as empty lists, `guiltyPlea` defaults to `null`, and `startingPointMode` defaults to `notional-weighted`.
 
 ## Drug types
 
@@ -97,6 +98,19 @@ No `variant` field is required for other drug types. -->
 The drug-based starting point uses the bucketed sentencing-guideline interpolation. Each drug family has a series of quantity bands (in grams) with a sentence range; a quantity is mapped to its band and interpolated linearly across the band's sentence range. Open-ended top bands predict the band floor, and the "at the sentencer's discretion" band predicts the previous band's ceiling.
 
 For a request with several drugs the starting point uses the notional-quantity method: for each drug, take the sentence the *total* quantity would attract in that drug's family, weight it by that drug's share of the total quantity, and sum the contributions. The `Multiple Drugs` aggravating factor is only applied when explicitly included in `aggravatingFactors`; it is never selected automatically.
+
+Setting `startingPointMode` to `multi-drug-floor` instead requires the starting point to clear the most serious single drug or guideline group, so that additional drugs can only maintain or increase it. Drugs sentenced on the same tariff table are aggregated first: `Cocaine` with `Heroin`, and `Ketamine` with `Ecstasy` and `Nimetazepam` (`Fluorodeschloroketamine` uses the Ketamine table). The response then includes a `startingPointBreakdown` with the baseline, the provisional notional-quantity sentence, and the uplift applied:
+
+```text
+baselineMonths    = max over guideline groups of the group's sentence
+provisionalMonths = notional-quantity sentence over all drugs
+upliftMonths      = max(0, provisionalMonths − baselineMonths)
+startingPoint     = baselineMonths + upliftMonths
+```
+
+The response reports these values rounded to two decimal places, with `upliftMonths` derived from the rounded `startingPointMonths` and `baselineMonths` rather than rounded on its own. `baselineMonths + upliftMonths` therefore gives back `startingPointMonths` at the published precision, and an uplift of `0` always means the baseline was the binding sentence.
+
+An `upliftMonths` of `0` means the provisional notional-quantity sentence did not exceed `baselineMonths`; it does not mean the additional drugs were ignored. Drugs that share a guideline group are aggregated before the shared table is read, so adding `Heroin` to a `Cocaine` charge raises the shared cocaine/heroin baseline even though the uplift stays `0`. When the extra drugs fall into other guideline groups and the baseline binds, their presence is reflected only through the `Multiple Drugs` aggravating factor, which the caller must still select explicitly. For a single drug, or for drugs that all fall inside one guideline group, both modes return the same starting point.
 
 ## Defendant roles
 
@@ -160,6 +174,8 @@ Status: `200 OK`
 ```json
 {
   "status": "supported",
+  "startingPointMode": "notional-weighted",
+  "startingPointBreakdown": null,
   "startingPointMonths": 60,
   "startingPointYears": 5,
   "adjustments": [
@@ -192,6 +208,12 @@ Status: `200 OK`
 | Field | Description |
 | --- | --- |
 | `status` | `supported` when a prediction is returned. |
+| `startingPointMode` | Starting point method used: `notional-weighted` or `multi-drug-floor`. |
+| `startingPointBreakdown` | Present for `multi-drug-floor`, `null` otherwise. |
+| `startingPointBreakdown.baselineMonths` | Sentence for the most serious single drug or guideline group. |
+| `startingPointBreakdown.provisionalMonths` | Notional-quantity sentence over all drugs. |
+| `startingPointBreakdown.upliftMonths` | `max(0, provisionalMonths − baselineMonths)`. `0` means the baseline was the binding sentence. |
+| `startingPointBreakdown.groups` | One entry per guideline group, most serious first, with `guidelineGroup`, `family`, `drugTypes`, `quantity`, and `startingPointMonths`. |
 | `startingPointMonths` | Starting point in months. |
 | `startingPointYears` | Starting point in years. |
 | `adjustments` | Adjustments for selected roles and factors. |
@@ -268,7 +290,7 @@ The response is a JSON array of case objects.
 | `url` | Link to the English or Chinese version of the judgment. |
 | `score` | Similarity to the submitted facts, between 0 and 1. |
 
-The `score` is a weighted combination: `0.8 × drug-profile similarity + 0.2 × starting-point similarity`. The drug-profile component compares the quantity of every requested drug family against the case (a missing drug family scores zero) and is diluted by any additional drug family present in the case but not requested. The starting-point component compares the two sentencing starting points.
+The `score` is a weighted combination: `0.8 × drug-profile similarity + 0.2 × starting-point similarity`. The drug-profile component compares the quantity of every requested drug family against the case (a missing drug family scores zero) and is diluted by any additional drug family present in the case but not requested. The starting-point component compares the two sentencing starting points, using the method selected by `startingPointMode`; choosing a different mode therefore changes the scores and can reorder the returned cases or push borderline cases below the `0.6` cutoff.
 
 Cases must contain every requested drug family to be returned.
 

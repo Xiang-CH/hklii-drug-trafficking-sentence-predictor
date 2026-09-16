@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs'
 import type { PredictionRequest } from './schema.js'
-import { predictNotionalWeightedMonths } from './guidelineModel.js'
+import { resolveStartingPointInput } from './predictor.js'
 
 export type SimilarCase = {
 	neutralCitation: string
@@ -240,7 +240,8 @@ export function pickSimilarCases(
 	input: PredictionRequest,
 	count = 10,
 ): Array<SimilarCase> {
-	const inputStartingPoint = predictNotionalWeightedMonths(input.drugs)
+	const inputStartingPoint =
+		resolveStartingPointInput(input)?.months ?? null
 	if (inputStartingPoint === null) {
 		return []
 	}

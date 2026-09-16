@@ -34,6 +34,20 @@ export const GuiltyPleaSchema = z.enum([
 	'Plead guilty (during the trial)',
 ])
 
+// 'notional-weighted' is the original starting point: for each drug, take the
+// sentence the total quantity would attract in that drug's family, weight it by
+// the drug's share of the total quantity, and sum.
+// 'multi-drug-floor' additionally requires the starting point to clear the most
+// serious single drug / guideline group; see predictMultiDrugFloorStartingPoint.
+export const STARTING_POINT_MODES = [
+	'notional-weighted',
+	'multi-drug-floor',
+] as const
+
+export type StartingPointMode = (typeof STARTING_POINT_MODES)[number]
+
+export const StartingPointModeSchema = z.enum(STARTING_POINT_MODES)
+
 export const AggravatingFactorSchema = z.enum([
 	'Multiple Drugs',
 	'Persistent offender',
@@ -107,6 +121,7 @@ export const PredictionRequestSchema = z
 		guiltyPlea: GuiltyPleaSchema.nullable().optional().default(null),
 		aggravatingFactors: z.array(AggravatingFactorSchema).default([]),
 		mitigatingFactors: z.array(MitigatingFactorSchema).default([]),
+		startingPointMode: StartingPointModeSchema.default('notional-weighted'),
 	})
 	.strict()
 	.superRefine((request, context) => {

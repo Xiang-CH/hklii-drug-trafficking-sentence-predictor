@@ -69,8 +69,9 @@ Accept: application/json
 | `guiltyPlea` | string or `null` | No | One guilty-plea option, or `null` when the plea is unknown. `null` applies no plea reduction. |
 | `aggravatingFactors` | array | No | Selected aggravating factors. |
 | `mitigatingFactors` | array | No | Selected mitigating factors. |
+| `startingPointMode` | string | No | `notional-weighted` (default) or `multi-drug-floor`. Selects the drug-based starting point method. |
 
-If omitted, `additionalCircumstances`, `aggravatingFactors`, and `mitigatingFactors` default to empty arrays, and `guiltyPlea` defaults to `null`. Duplicate values in any array are invalid.
+If omitted, `additionalCircumstances`, `aggravatingFactors`, and `mitigatingFactors` default to empty arrays, `guiltyPlea` defaults to `null`, and `startingPointMode` defaults to `notional-weighted`. Duplicate values in any array are invalid.
 
 ## Drug types
 
@@ -251,7 +252,46 @@ The calculation must be performed in this order:
 
 Adjustments are non-compounding within each stage: role increases are each computed against the unchanged starting point and summed once; aggravating increases are each computed against the unchanged post-role sentence and summed once; reductions are each computed against the unchanged notional sentence and summed once. No adjustment is applied to the result of another adjustment within the same stage, so the order of adjustments in a stage does not change the result. The stages are sequential, so aggravating increases do build on the post-role sentence, and reductions build on the notional sentence.
 
-The starting point uses the bucketed sentencing-guideline interpolation. Each drug family has a series of quantity bands with a sentence range; a quantity is mapped to its band and interpolated linearly across the band's sentence range (`t = u`). Open-ended top bands predict the band floor, and the "at the sentencer's discretion" band predicts the previous band's ceiling. For a request with several drugs the starting point uses the notional-quantity method: for each drug, take the sentence the *total* quantity would attract in that drug's family, weight it by that drug's share of the total quantity, and sum the contributions.
+The starting point uses the bucketed sentencing-guideline interpolation. Each drug family has a series of quantity bands with a sentence range; a quantity is mapped to its band and interpolated linearly across the band's sentence range (`t = u`). Open-ended top bands predict the band floor, and the "at the sentencer's discretion" band predicts the previous band's ceiling.
+
+Two starting-point methods are available, selected by `startingPointMode`.
+
+### `notional-weighted` (default)
+
+For a request with several drugs, the starting point uses the notional-quantity method: for each drug, take the sentence the *total* quantity would attract in that drug's family, weight it by that drug's share of the total quantity, and sum the contributions.
+
+```text
+startingPoint = Σ drugSentence(drugType, totalQuantity) × (drugQuantity / totalQuantity)
+```
+
+### `multi-drug-floor`
+
+Some guideline families are sentenced on the same tariff table, so their quantities are aggregated before the table is read:
+
+| Guideline group | Drug types |
+| --- | --- |
+| `cocaine-heroin` | `Cocaine`, `Heroin` |
+| `ketamine-ecstasy-nimetazepam` | `Ketamine`, `Ecstasy`, `Nimetazepam` (and `Fluorodeschloroketamine`, which uses the Ketamine table) |
+| `methamphetamine` | `Methamphetamine` |
+| `cannabis` | `Cannabis/THC` |
+| `midazolam-powder` | `Midazolam` |
+
+The method then requires the starting point to clear the most serious guideline group, so additional drugs can only maintain or increase it:
+
+```text
+baselineMonths    = max over guideline groups of drugSentence(groupFamily, groupQuantity)
+provisionalMonths = notional-weighted sentence over all drugs
+upliftMonths      = max(0, provisionalMonths − baselineMonths)
+startingPoint     = baselineMonths + upliftMonths
+```
+
+The response reports these values rounded to two decimal places. `upliftMonths` is derived from the rounded `startingPointMonths` and `baselineMonths` rather than rounded on its own, so `baselineMonths + upliftMonths` gives back `startingPointMonths` at the published precision, and an uplift of `0` always means the baseline was the binding sentence.
+
+When `provisionalMonths` does not clear the baseline, `upliftMonths` is `0`. This does not mean the additional drugs were ignored: drugs that share a guideline group are aggregated before the shared table is read, so adding `Heroin` to a `Cocaine` charge raises the `cocaine-heroin` baseline even though the uplift stays `0`. Extra drugs that fall into other guideline groups are then reflected only through the separate `Multiple Drugs` aggravating factor, which the caller selects explicitly; the API never adds it automatically.
+
+For a single drug, or for drugs that all fall inside one guideline group, this method returns the same starting point as `notional-weighted`.
+
+The selected mode is echoed in `startingPointMode`, and `multi-drug-floor` additionally returns a `startingPointBreakdown` describing the baseline, the provisional sentence, the uplift, and each guideline group.
 
 The base used by each adjustment must be returned so that consumers can reproduce the calculation.
 
@@ -274,6 +314,8 @@ For a reduction, `months` is returned as a positive magnitude and `direction` is
 ```json
 {
   "status": "supported",
+  "startingPointMode": "notional-weighted",
+  "startingPointBreakdown": null,
   "startingPointMonths": 60,
   "startingPointYears": 5,
   "adjustments": [
@@ -324,6 +366,18 @@ For a reduction, `months` is returned as a positive magnitude and `direction` is
 | Field | Type | Description |
 | --- | --- | --- |
 | `status` | string | `supported` for a completed prediction. |
+| `startingPointMode` | string | The starting point method that produced this prediction: `notional-weighted` or `multi-drug-floor`. |
+| `startingPointBreakdown` | object or `null` | Present for `multi-drug-floor`, `null` for `notional-weighted`. |
+| `startingPointBreakdown.mode` | string | Always `multi-drug-floor`. |
+| `startingPointBreakdown.baselineMonths` | number | Sentence for the most serious single drug or guideline group. |
+| `startingPointBreakdown.provisionalMonths` | number | Notional-weighted sentence over all drugs. |
+| `startingPointBreakdown.upliftMonths` | number | `max(0, provisionalMonths − baselineMonths)`, derived from the rounded `startingPointMonths` and `baselineMonths`. Zero means the provisional sentence did not exceed the baseline. |
+| `startingPointBreakdown.groups` | array | One entry per guideline group, most serious first. |
+| `startingPointBreakdown.groups[].guidelineGroup` | string | Guideline group key, such as `cocaine-heroin`. |
+| `startingPointBreakdown.groups[].family` | string | Family whose tariff table was used for the group. |
+| `startingPointBreakdown.groups[].drugTypes` | array | Submitted drug types aggregated into the group. |
+| `startingPointBreakdown.groups[].quantity` | number | Aggregated quantity in grams. |
+| `startingPointBreakdown.groups[].startingPointMonths` | number | Sentence the group's quantity attracts. |
 | `startingPointMonths` | number | Drug-based starting point. |
 | `startingPointYears` | number | Starting point divided by 12. |
 | `adjustments` | array | One entry for every applied role, factor, or plea adjustment. |
@@ -336,6 +390,44 @@ For a reduction, `months` is returned as a positive magnitude and `direction` is
 | `adjustments[].years` | number | Absolute adjustment amount divided by 12. |
 | `finalSentenceMonths` | number | Final predicted sentence in months. |
 | `finalSentenceYears` | number | Final predicted sentence divided by 12. |
+
+### `multi-drug-floor` example
+
+A request for 10 g of cocaine and 10 g of methamphetamine. The notional-weighted sentence is 80.5 months, which is below the 84-month methamphetamine sentence, so the baseline binds and no uplift applies.
+
+```json
+{
+  "status": "supported",
+  "startingPointMode": "multi-drug-floor",
+  "startingPointBreakdown": {
+    "mode": "multi-drug-floor",
+    "baselineMonths": 84,
+    "provisionalMonths": 80.5,
+    "upliftMonths": 0,
+    "groups": [
+      {
+        "guidelineGroup": "methamphetamine",
+        "family": "Methamphetamine",
+        "drugTypes": ["Methamphetamine"],
+        "quantity": 10,
+        "startingPointMonths": 84
+      },
+      {
+        "guidelineGroup": "cocaine-heroin",
+        "family": "Cocaine",
+        "drugTypes": ["Cocaine"],
+        "quantity": 10,
+        "startingPointMonths": 60
+      }
+    ]
+  },
+  "startingPointMonths": 84,
+  "startingPointYears": 7,
+  "adjustments": [],
+  "finalSentenceMonths": 84,
+  "finalSentenceYears": 7
+}
+```
 
 The server should retain calculation precision internally. The response may round display values, but it should use a documented policy, such as two decimal places for months and years.
 
